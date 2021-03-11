@@ -1,2 +1,2 @@
-# ReactJS-Project
+# ReactJS Project
 Repository for ReactJS course project.
