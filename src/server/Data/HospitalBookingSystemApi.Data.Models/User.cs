@@ -10,11 +10,12 @@ namespace HospitalBookingSystemApi.Data.Models
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity, IEntityTypeConfiguration<ApplicationUser>
+    public class User : IdentityUser, IAuditInfo, IDeletableEntity, IEntityTypeConfiguration<User>
     {
-        public ApplicationUser()
+        public User()
         {
             this.Id = Guid.NewGuid().ToString();
+
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
@@ -36,24 +37,24 @@ namespace HospitalBookingSystemApi.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public void Configure(EntityTypeBuilder<ApplicationUser> appUser)
+        public void Configure(EntityTypeBuilder<User> user)
         {
-            appUser
+            user
+                .HasMany(e => e.Roles)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            user
                 .HasMany(e => e.Claims)
                 .WithOne()
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            appUser
+            user
                 .HasMany(e => e.Logins)
-                .WithOne()
-                .HasForeignKey(e => e.UserId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            appUser
-                .HasMany(e => e.Roles)
                 .WithOne()
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()

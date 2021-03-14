@@ -12,7 +12,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class HospitalBookingSystemDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class HospitalBookingSystemDbContext : IdentityDbContext<User, ApplicationRole, string>
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
             typeof(HospitalBookingSystemDbContext).GetMethod(
