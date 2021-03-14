@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data\HospitalBookingSystemApi.Data.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Data\HospitalBookingSystemApi.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj" />
+    <ProjectReference Include="..\HospitalBookingSystemApi.Api.Models\HospitalBookingSystemApi.Api.Models.csproj" />
+  </ItemGroup>
+
+</Project>
