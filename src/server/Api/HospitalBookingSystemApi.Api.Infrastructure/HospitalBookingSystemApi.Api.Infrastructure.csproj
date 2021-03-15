@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data\HospitalBookingSystemApi.Data.csproj" />
     <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Data\HospitalBookingSystemApi.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services\HospitalBookingSystemApi.Services.csproj" />
     <ProjectReference Include="..\HospitalBookingSystemApi.Api.Models\HospitalBookingSystemApi.Api.Models.csproj" />
   </ItemGroup>
 

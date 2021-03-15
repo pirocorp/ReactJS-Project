@@ -16,5 +16,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data.Models\HospitalBookingSystemApi.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj" />
+  </ItemGroup>
 
 </Project>

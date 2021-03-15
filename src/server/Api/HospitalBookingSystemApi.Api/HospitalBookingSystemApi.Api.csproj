@@ -25,11 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data\HospitalBookingSystemApi.Data.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services\HospitalBookingSystemApi.Services.csproj" />
     <ProjectReference Include="..\HospitalBookingSystemApi.Api.Infrastructure\HospitalBookingSystemApi.Api.Infrastructure.csproj" />
   </ItemGroup>
 

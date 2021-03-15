@@ -1,4 +1,4 @@
-﻿namespace HospitalBookingSystemApi.Api.Infrastructure
+﻿namespace HospitalBookingSystemApi.Services
 {
     public class JwtSettings
     {

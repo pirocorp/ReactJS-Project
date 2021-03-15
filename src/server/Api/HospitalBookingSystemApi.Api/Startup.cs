@@ -1,10 +1,12 @@
 ﻿namespace HospitalBookingSystemApi.Api
 {
-    using HospitalBookingSystemApi.Api.Infrastructure;
+    using Common;
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
     using HospitalBookingSystemApi.Data;
     using HospitalBookingSystemApi.Data.Common;
     using HospitalBookingSystemApi.Data.Models;
+    using HospitalBookingSystemApi.Services;
+    using HospitalBookingSystemApi.Services.Implementations;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -26,6 +28,7 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddCors();
             services.AddDbContext<HospitalBookingSystemDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
@@ -42,7 +45,7 @@
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalBookingSystemApi.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = GlobalConstants.SystemName, Version = "v1" });
             });
 
             services.AddSingleton(this.configuration);
@@ -50,6 +53,13 @@
             // Data
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
             services.AddAutoMapper();
+
+            services.AddTransient<IJwtService, JwtService>();
+
+            services.AddDomainServices();
+
+            // Routing
+            services.AddLowercaseRouting();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -70,6 +80,11 @@
 
             app.UseRouting();
 
+            // global cors policy
+            // app.UseCors(x => x
+            //    .AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
 

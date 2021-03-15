@@ -2,7 +2,7 @@
 {
     public static class GlobalConstants
     {
-        public const string SystemName = "HospitalBookingSystemApi";
+        public const string SystemName = "Hospital Booking System Api";
 
         public const string AdministratorRoleName = "Administrator";
 
