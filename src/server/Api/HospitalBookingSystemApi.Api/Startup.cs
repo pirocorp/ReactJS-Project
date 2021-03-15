@@ -37,8 +37,6 @@
                 .AddEntityFrameworkStores<HospitalBookingSystemDbContext>()
                 .AddDefaultTokenProviders(); // just adds the default providers to generate tokens for a password reset, 2-factor authentication, change email, and change telephone.
 
-            services.Configure<JwtSettings>(this.configuration.GetSection("Jwt"));
-
             services.AddAuthorization();
             services.AddAuthentication(this.configuration.GetSection("Jwt").Get<JwtSettings>());
 

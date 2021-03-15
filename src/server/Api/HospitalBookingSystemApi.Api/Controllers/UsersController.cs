@@ -84,11 +84,20 @@
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             if (this.User.Identity?.IsAuthenticated ?? false)
             {
-                return this.Ok("Authenticated");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var roles = await this.userManager.GetRolesAsync(user);
+
+                var result = new
+                {
+                    Authenticated = "Authenticated",
+                    Roles = string.Join(", ", roles),
+                };
+
+                return this.Ok(result);
             }
 
             return this.Ok("Anonymous");
