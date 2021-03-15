@@ -19,6 +19,8 @@ namespace HospitalBookingSystemApi.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+
+            this.Patients = new HashSet<Patient>();
         }
 
         // Audit info
@@ -36,6 +38,8 @@ namespace HospitalBookingSystemApi.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
 
         public void Configure(EntityTypeBuilder<User> user)
         {

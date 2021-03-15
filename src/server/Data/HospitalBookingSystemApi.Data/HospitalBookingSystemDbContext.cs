@@ -24,6 +24,24 @@
         {
         }
 
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<AppointmentStatus> AppointmentStatuses { get; set; }
+
+        public DbSet<Doctor> Doctors { get; set; }
+
+        public DbSet<DoctorShift> DoctorsShifts { get; set; }
+
+        public DbSet<DoctorSpecialization> DoctorsSpecializations { get; set; }
+
+        public DbSet<Patient> Patients { get; set; }
+
+        public DbSet<Shift> Shifts { get; set; }
+
+        public DbSet<Slot> Slots { get; set; }
+
+        public DbSet<Specialization> Specializations { get; set; }
+
         /// <see cref="SaveChanges(bool)"/>
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -114,7 +132,7 @@
         /// </summary>
         /// <param name="builder">ModelBuilder.</param>
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
-            => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            => builder.ApplyConfigurationsFromAssembly(typeof(User).Assembly);
 
         /// <summary>
         /// Modifies CreatedOn ModifiedOn properties if entity implements IAuditInfo.
