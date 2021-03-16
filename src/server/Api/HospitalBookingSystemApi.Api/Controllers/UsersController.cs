@@ -4,12 +4,14 @@
     using System.Threading.Tasks;
 
     using AutoMapper;
-    using Common;
     using HospitalBookingSystemApi.Api.Models;
-    using HospitalBookingSystemApi.Api.Models.Users;
+    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data.Models;
     using HospitalBookingSystemApi.Services;
+    using HospitalBookingSystemApi.Services.Data;
+    using HospitalBookingSystemApi.Services.Data.Models.Users;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -18,19 +20,32 @@
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly IMapper mapper;
-        private readonly IJwtService jwtService;
+        private readonly IUserService userService;
 
         public UsersController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IMapper mapper,
-            IJwtService jwtService)
+            IUserService userService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.mapper = mapper;
-            this.jwtService = jwtService;
+            this.userService = userService;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Get()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var roles = await this.userManager.GetRolesAsync(user);
+
+            var result = new
+            {
+                Authenticated = "Authenticated",
+                Roles = string.Join(", ", roles),
+            };
+
+            return this.Ok(result);
         }
 
         [HttpPost("login")]
@@ -51,7 +66,7 @@
                 return this.BadRequest(error);
             }
 
-            var response = await this.GenerateJwtToken(model.Username);
+            var response = await this.userService.GenerateJwtTokenAsync(model.Username);
 
             return this.Ok(response);
         }
@@ -59,61 +74,32 @@
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterModel model)
         {
-            var user = new User()
+            if (await this.userService.UsernameAlreadyExists(model.Username)
+                || await this.userService.EmailAlreadyExists(model.Email))
             {
-                UserName = model.Username,
-                Email = model.Email,
-            };
-
-            var userCreatedResult = await this.userManager.CreateAsync(user, model.Password);
-
-            if (userCreatedResult.Succeeded)
-            {
-                await this.userManager.AddToRoleAsync(user, GlobalConstants.RolesNames.Patient);
-
-                var response = await this.GenerateJwtToken(model.Username);
-
-                return this.Ok(response);
-            }
-
-            var error = new ApiErrorModel()
-            {
-                Code = nameof(this.Register),
-                Description = $"{userCreatedResult.Errors.First().Code} {userCreatedResult.Errors.First().Description}",
-            };
-
-            return this.BadRequest(error);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            if (this.User.Identity?.IsAuthenticated ?? false)
-            {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var roles = await this.userManager.GetRolesAsync(user);
-
-                var result = new
+                var error = new ApiErrorModel()
                 {
-                    Authenticated = "Authenticated",
-                    Roles = string.Join(", ", roles),
+                    Code = nameof(this.Register),
+                    Description = ApiConstants.Errors.UsernameOrEmailInUse,
                 };
 
-                return this.Ok(result);
+                return this.BadRequest(error);
             }
 
-            return this.Ok("Anonymous");
-        }
+            var response = await this.userService.RegisterAsync(model, GlobalConstants.RolesNames.Patient);
 
-        private async Task<UserResponseModel> GenerateJwtToken(string username)
-        {
-            var user = await this.userManager.Users.SingleOrDefaultAsync(u => u.UserName.Equals(username));
+            if (!response.Result.Succeeded)
+            {
+                var error = new ApiErrorModel()
+                {
+                    Code = nameof(this.Register),
+                    Description = $"{response.Result.Errors.First().Code} {response.Result.Errors.First().Description}",
+                };
 
-            var roles = await this.userManager.GetRolesAsync(user);
-            var response = this.mapper.Map<UserResponseModel>(user);
-            response.Token = this.jwtService.GenerateJwt(user, roles);
+                return this.BadRequest(error);
+            }
 
-            return response;
+            return this.Ok(response);
         }
     }
 }

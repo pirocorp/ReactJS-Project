@@ -88,7 +88,7 @@
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
-            this.ConfigureUserIdentityRelations(builder);
+            AppliesEntitiesConfigurations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
 
@@ -131,7 +131,7 @@
         /// Applies all entity configurations which implements IEntityTypeConfiguration.
         /// </summary>
         /// <param name="builder">ModelBuilder.</param>
-        private void ConfigureUserIdentityRelations(ModelBuilder builder)
+        private static void AppliesEntitiesConfigurations(ModelBuilder builder)
             => builder.ApplyConfigurationsFromAssembly(typeof(User).Assembly);
 
         /// <summary>

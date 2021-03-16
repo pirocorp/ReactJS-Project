@@ -1,4 +1,4 @@
-﻿namespace HospitalBookingSystemApi.Api.Models.Users
+﻿namespace HospitalBookingSystemApi.Services.Data.Models.Users
 {
     using AutoMapper;
     using HospitalBookingSystemApi.Data.Models;

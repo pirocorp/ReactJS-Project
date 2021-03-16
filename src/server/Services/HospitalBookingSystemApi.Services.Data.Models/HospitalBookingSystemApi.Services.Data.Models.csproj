@@ -17,10 +17,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data\HospitalBookingSystemApi.Data.csproj" />
-    <ProjectReference Include="..\HospitalBookingSystemApi.Services.Data.Models\HospitalBookingSystemApi.Services.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data.Models\HospitalBookingSystemApi.Data.Models.csproj" />
     <ProjectReference Include="..\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj" />
-    <ProjectReference Include="..\HospitalBookingSystemApi.Services\HospitalBookingSystemApi.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,33 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Data", "Data\HospitalBookingSystemApi.Data\HospitalBookingSystemApi.Data.csproj", "{F60EAB47-1916-47D1-AF41-8D2F30832414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Data", "Data\HospitalBookingSystemApi.Data\HospitalBookingSystemApi.Data.csproj", "{F60EAB47-1916-47D1-AF41-8D2F30832414}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3039C73F-8AA8-4F5A-B349-27DA6D827642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Data.Common", "Data\HospitalBookingSystemApi.Data.Common\HospitalBookingSystemApi.Data.Common.csproj", "{1FB61BB9-B84A-4176-9707-8039727FE66C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Data.Common", "Data\HospitalBookingSystemApi.Data.Common\HospitalBookingSystemApi.Data.Common.csproj", "{1FB61BB9-B84A-4176-9707-8039727FE66C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Data.Models", "Data\HospitalBookingSystemApi.Data.Models\HospitalBookingSystemApi.Data.Models.csproj", "{D807083D-213B-4B3E-865D-166B2AB07A07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Data.Models", "Data\HospitalBookingSystemApi.Data.Models\HospitalBookingSystemApi.Data.Models.csproj", "{D807083D-213B-4B3E-865D-166B2AB07A07}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{756868D7-3C80-44EB-A0F2-7611C65739A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Services", "Services\HospitalBookingSystemApi.Services\HospitalBookingSystemApi.Services.csproj", "{1748B5E0-1814-4D03-87BB-C7A59D13BA08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Services", "Services\HospitalBookingSystemApi.Services\HospitalBookingSystemApi.Services.csproj", "{1748B5E0-1814-4D03-87BB-C7A59D13BA08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Services.Data", "Services\HospitalBookingSystemApi.Services.Data\HospitalBookingSystemApi.Services.Data.csproj", "{C5593473-455A-4883-8FBB-98D13E5D9B04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Services.Data", "Services\HospitalBookingSystemApi.Services.Data\HospitalBookingSystemApi.Services.Data.csproj", "{C5593473-455A-4883-8FBB-98D13E5D9B04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Services.Mapping", "Services\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj", "{5416BC94-52AB-47D6-9B79-06930E9A8C79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Services.Mapping", "Services\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj", "{5416BC94-52AB-47D6-9B79-06930E9A8C79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Services.Messaging", "Services\HospitalBookingSystemApi.Services.Messaging\HospitalBookingSystemApi.Services.Messaging.csproj", "{809C3E7E-31C3-4AF6-9267-BA6F2061648C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Services.Messaging", "Services\HospitalBookingSystemApi.Services.Messaging\HospitalBookingSystemApi.Services.Messaging.csproj", "{809C3E7E-31C3-4AF6-9267-BA6F2061648C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{935E2D91-081B-4A42-A56B-9925C31A51C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Api.Models", "Api\HospitalBookingSystemApi.Api.Models\HospitalBookingSystemApi.Api.Models.csproj", "{16B3F9E6-847C-4340-93CE-D521DA7346A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Api.Models", "Api\HospitalBookingSystemApi.Api.Models\HospitalBookingSystemApi.Api.Models.csproj", "{16B3F9E6-847C-4340-93CE-D521DA7346A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Api.Infrastructure", "Api\HospitalBookingSystemApi.Api.Infrastructure\HospitalBookingSystemApi.Api.Infrastructure.csproj", "{FF29738C-C117-4DB5-B102-30F2BBFBF905}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Api.Infrastructure", "Api\HospitalBookingSystemApi.Api.Infrastructure\HospitalBookingSystemApi.Api.Infrastructure.csproj", "{FF29738C-C117-4DB5-B102-30F2BBFBF905}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Api", "Api\HospitalBookingSystemApi.Api\HospitalBookingSystemApi.Api.csproj", "{1B529101-51B2-4FC4-A1C4-B26BEF908A9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Api", "Api\HospitalBookingSystemApi.Api\HospitalBookingSystemApi.Api.csproj", "{1B529101-51B2-4FC4-A1C4-B26BEF908A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Common", "HospitalBookingSystemApi.Common\HospitalBookingSystemApi.Common.csproj", "{17A18999-F825-47BB-92D4-B57D2B495DD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalBookingSystemApi.Common", "HospitalBookingSystemApi.Common\HospitalBookingSystemApi.Common.csproj", "{17A18999-F825-47BB-92D4-B57D2B495DD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalBookingSystemApi.Services.Data.Models", "Services\HospitalBookingSystemApi.Services.Data.Models\HospitalBookingSystemApi.Services.Data.Models.csproj", "{A536D484-110B-4602-A84D-F2A6460D7C07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{17A18999-F825-47BB-92D4-B57D2B495DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17A18999-F825-47BB-92D4-B57D2B495DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17A18999-F825-47BB-92D4-B57D2B495DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A536D484-110B-4602-A84D-F2A6460D7C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A536D484-110B-4602-A84D-F2A6460D7C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A536D484-110B-4602-A84D-F2A6460D7C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A536D484-110B-4602-A84D-F2A6460D7C07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +102,7 @@ Global
 		{16B3F9E6-847C-4340-93CE-D521DA7346A8} = {935E2D91-081B-4A42-A56B-9925C31A51C2}
 		{FF29738C-C117-4DB5-B102-30F2BBFBF905} = {935E2D91-081B-4A42-A56B-9925C31A51C2}
 		{1B529101-51B2-4FC4-A1C4-B26BEF908A9B} = {935E2D91-081B-4A42-A56B-9925C31A51C2}
+		{A536D484-110B-4602-A84D-F2A6460D7C07} = {756868D7-3C80-44EB-A0F2-7611C65739A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98BCECE7-52EF-4E4B-BE29-5A8B7E08E39A}

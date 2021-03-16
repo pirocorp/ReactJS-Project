@@ -8,5 +8,11 @@
         {
             public const string InvalidCredentials = "Username or password is incorrect.";
         }
+
+        public static class Errors
+        {
+            public const string DoctorCreation = "Doctor Creation";
+            public const string UsernameOrEmailInUse = "Username or email is already taken.";
+        }
     }
 }

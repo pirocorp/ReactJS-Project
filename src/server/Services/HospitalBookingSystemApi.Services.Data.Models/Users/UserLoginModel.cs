@@ -1,4 +1,4 @@
-﻿namespace HospitalBookingSystemApi.Api.Models.Users
+﻿namespace HospitalBookingSystemApi.Services.Data.Models.Users
 {
     using System.ComponentModel.DataAnnotations;
 
