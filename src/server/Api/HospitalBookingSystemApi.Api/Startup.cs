@@ -1,7 +1,7 @@
 ﻿namespace HospitalBookingSystemApi.Api
 {
-    using Common;
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
+    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data;
     using HospitalBookingSystemApi.Data.Common;
     using HospitalBookingSystemApi.Data.Models;
@@ -43,6 +43,7 @@
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(i => i.Name.ToTitleCase());
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = GlobalConstants.SystemName, Version = "v1" });
             });
 
