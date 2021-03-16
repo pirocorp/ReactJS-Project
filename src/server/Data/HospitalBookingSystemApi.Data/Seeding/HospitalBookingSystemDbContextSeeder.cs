@@ -33,6 +33,7 @@
             {
                 new RolesSeeder(),
                 new AdminSeeder(),
+                new AppointmentStatusesSeeder(),
             };
 
             foreach (var seeder in seeders)
