@@ -7,8 +7,10 @@ namespace HospitalBookingSystemApi.Data.Models
     using System.ComponentModel.DataAnnotations;
 
     using HospitalBookingSystemApi.Data.Common.Models;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class Doctor : BaseDeletableModel<string>
+    public class Doctor : BaseDeletableModel<string>, IEntityTypeConfiguration<Doctor>
     {
         public Doctor()
         {
@@ -35,10 +37,29 @@ namespace HospitalBookingSystemApi.Data.Models
         [StringLength(255)]
         public string WorkPhone { get; set; }
 
+        [Required]
+        public string UserId { get; set; }
+
+        public virtual User User { get; set; }
+
         public virtual ICollection<DoctorSpecialization> Specializations { get; set; }
 
         public virtual ICollection<DoctorShift> Shifts { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+
+        public void Configure(EntityTypeBuilder<Doctor> doctor)
+        {
+            doctor
+                .HasOne(d => d.User)
+                .WithOne(u => u.Doctor)
+                .HasForeignKey<Doctor>(d => d.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            doctor
+                .HasIndex(d => d.UserId)
+                .IsUnique();
+        }
     }
 }

@@ -31,7 +31,7 @@
             };
 
             await userManager.CreateAsync(user, adminSettings.Password);
-            await userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            await userManager.AddToRoleAsync(user, GlobalConstants.RolesNames.Administrator);
         }
     }
 }

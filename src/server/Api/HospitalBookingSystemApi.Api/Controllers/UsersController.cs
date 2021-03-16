@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using AutoMapper;
-
+    using Common;
     using HospitalBookingSystemApi.Api.Models;
     using HospitalBookingSystemApi.Api.Models.Users;
     using HospitalBookingSystemApi.Data.Models;
@@ -69,6 +69,8 @@
 
             if (userCreatedResult.Succeeded)
             {
+                await this.userManager.AddToRoleAsync(user, GlobalConstants.RolesNames.Patient);
+
                 var response = await this.GenerateJwtToken(model.Username);
 
                 return this.Ok(response);

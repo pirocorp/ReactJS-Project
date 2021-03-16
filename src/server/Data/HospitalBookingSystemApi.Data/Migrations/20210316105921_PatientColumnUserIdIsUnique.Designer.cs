@@ -4,14 +4,16 @@ using HospitalBookingSystemApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalBookingSystemApi.Data.Migrations
 {
     [DbContext(typeof(HospitalBookingSystemDbContext))]
-    partial class HospitalBookingSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210316105921_PatientColumnUserIdIsUnique")]
+    partial class PatientColumnUserIdIsUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

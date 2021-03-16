@@ -4,8 +4,13 @@
     {
         public const string SystemName = "Hospital Booking System Api";
 
-        public const string AdministratorRoleName = "Administrator";
+        public static class RolesNames
+        {
+            public const string Administrator = "Administrator";
 
-        public const string DoctorRoleName = "Doctor";
+            public const string Doctor = "Doctor";
+
+            public const string Patient = "Patient";
+        }
     }
 }

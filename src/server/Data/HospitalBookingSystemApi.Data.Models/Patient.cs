@@ -59,10 +59,14 @@ namespace HospitalBookingSystemApi.Data.Models
         {
             patient
                 .HasOne(p => p.User)
-                .WithMany(u => u.Patients)
-                .HasForeignKey(p => p.UserId)
+                .WithOne(u => u.Patients)
+                .HasForeignKey<Patient>(p => p.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            patient
+                .HasIndex(p => p.UserId)
+                .IsUnique();
         }
     }
 }
