@@ -1,5 +1,6 @@
 ﻿namespace HospitalBookingSystemApi.Api.Controllers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
@@ -57,6 +58,7 @@
         }
 
         [HttpPost]
+        [Authorize (Roles = GlobalConstants.RolesNames.Administrator)]
         public async Task<IActionResult> Post([FromBody] CreateDoctorModel model)
         {
             if (await this.userService.UsernameAlreadyExists(model.Username)
