@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-
+    using Common;
     using HospitalBookingSystemApi.Api.Models;
     using HospitalBookingSystemApi.Services;
     using HospitalBookingSystemApi.Services.Data;
@@ -14,6 +14,7 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using Microsoft.OpenApi.Models;
 
     public static class ServiceCollectionExtensions
     {
@@ -89,6 +90,46 @@
                 })
                 .ToList()
                 .ForEach(s => services.AddTransient(s.Interface, s.Implementation));
+
+            return services;
+        }
+
+        /// <summary>
+        /// Configures swagger for easy automatic documentation and testing of current api.
+        /// </summary>
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.CustomSchemaIds(i => i.Name.ToTitleCase());
+
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = GlobalConstants.SystemName, Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer",
+                            },
+                        },
+                        new string[] { }
+                    },
+                });
+            });
 
             return services;
         }
