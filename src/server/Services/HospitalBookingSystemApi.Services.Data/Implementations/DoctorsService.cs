@@ -1,16 +1,19 @@
 ﻿namespace HospitalBookingSystemApi.Services.Data.Implementations
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Common;
+
+    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data;
     using HospitalBookingSystemApi.Data.Models;
     using HospitalBookingSystemApi.Services.Data.Models.Doctor;
+    using HospitalBookingSystemApi.Services.Data.Models.Users;
     using HospitalBookingSystemApi.Services.Mapping;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Models.Users;
 
     public class DoctorsService : IDoctorsService
     {
@@ -28,8 +31,32 @@
             this.userManager = userManager;
         }
 
+        public async Task<bool> ExistsAsync(string id)
+            => await this.dbContext.Doctors.AnyAsync(d => d.Id.Equals(id));
+
         public async Task<T> GetAsync<T>(string id)
             => await this.GetAsync<T>(id, false);
+
+        public async Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id)
+            => await this.dbContext.Doctors
+                .Where(d => d.Id.Equals(id))
+                .Select(d => d.Specializations)
+                .To<T>()
+                .ToListAsync();
+
+        public async Task<IEnumerable<T>> GetShiftsAsync<T>(string id)
+            => await this.dbContext.Doctors
+                .Where(d => d.Id.Equals(id))
+                .Select(d => d.Shifts)
+                .To<T>()
+                .ToListAsync();
+
+        public async Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id)
+            => await this.dbContext.Doctors
+                .Where(d => d.Id.Equals(id))
+                .Select(d => d.Appointments)
+                .To<T>()
+                .ToListAsync();
 
         public async Task<T> GetAsyncWithDeleted<T>(string id)
             => await this.GetAsync<T>(id, true);
@@ -37,7 +64,7 @@
         public async Task<IEnumerable<T>> GetAllAsync<T>()
             => await this.GetAllAsync<T>(false);
 
-        public async Task<IEnumerable<T>> GetAllAsyncWithDeleted<T>()
+        public async Task<IEnumerable<T>> GetAllWithDeletedAsync<T>()
             => await this.GetAllAsync<T>(true);
 
         public async Task<bool> UserIsDoctorAsync(string doctorId, User user)
@@ -52,8 +79,6 @@
 
         public async Task<Doctor> CreateDoctorAsync(CreateDoctorModel model)
         {
-            // TODO like User Creation return created object and error one.
-
             var userModel = new UserRegisterModel()
             {
                 Username = model.Username,
@@ -80,6 +105,34 @@
             };
 
             await this.dbContext.Doctors.AddAsync(doctor);
+            await this.dbContext.SaveChangesAsync();
+
+            return doctor;
+        }
+
+        public async Task<Doctor> UpdateAsync(string id, UpdateDoctorModel model)
+        {
+            var doctor = await this.dbContext.Doctors.FindAsync(id);
+
+            doctor.FirstName = model.FirstName;
+            doctor.LastName = model.LastName;
+            doctor.WorkEmail = model.WorkEmail;
+            doctor.WorkPhone = model.WorkPhone;
+
+            this.dbContext.Attach(doctor);
+            await this.dbContext.SaveChangesAsync();
+
+            return doctor;
+        }
+
+        public async Task<Doctor> DeleteAsync(string id)
+        {
+            var doctor = await this.dbContext.Doctors.FindAsync(id);
+
+            doctor.IsDeleted = true;
+            doctor.DeletedOn = DateTime.UtcNow;
+
+            this.dbContext.Attach(doctor);
             await this.dbContext.SaveChangesAsync();
 
             return doctor;

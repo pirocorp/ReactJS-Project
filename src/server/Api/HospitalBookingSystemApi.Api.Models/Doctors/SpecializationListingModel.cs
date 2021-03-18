@@ -11,7 +11,7 @@
 
         public string Name { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
+        public virtual void CreateMappings(IProfileExpression configuration)
         {
             configuration
                 .CreateMap<DoctorSpecialization, SpecializationListingModel>()

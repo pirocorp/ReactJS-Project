@@ -20,7 +20,7 @@
 
         public List<SpecializationListingModel> Specializations { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
+        public virtual void CreateMappings(IProfileExpression configuration)
         {
             configuration
                 .CreateMap<Doctor, DoctorModel>()

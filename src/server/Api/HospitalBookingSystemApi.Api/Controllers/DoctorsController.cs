@@ -1,12 +1,10 @@
 ﻿namespace HospitalBookingSystemApi.Api.Controllers
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
     using HospitalBookingSystemApi.Api.Models;
     using HospitalBookingSystemApi.Api.Models.Doctors;
-    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data.Models;
     using HospitalBookingSystemApi.Services.Data;
     using HospitalBookingSystemApi.Services.Data.Models.Doctor;
@@ -14,6 +12,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+
+    using static Common.GlobalConstants;
 
     [Authorize]
     public class DoctorsController : BaseController
@@ -35,9 +35,9 @@
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            if (this.User.IsInRole(GlobalConstants.RolesNames.Administrator))
+            if (this.User.IsInRole(RolesNames.Administrator))
             {
-                return this.Ok(await this.doctorsService.GetAllAsync<DoctorAdminModel>());
+                return this.Ok(await this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>());
             }
 
             return this.Ok(await this.doctorsService.GetAllAsync<DoctorModel>());
@@ -48,17 +48,50 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            if (this.User.IsInRole(GlobalConstants.RolesNames.Administrator)
-                || (this.User.IsInRole(GlobalConstants.RolesNames.Doctor) && await this.doctorsService.UserIsDoctorAsync(id, user)))
+            if (this.User.IsInRole(RolesNames.Administrator)
+                || (this.User.IsInRole(RolesNames.Doctor) && await this.doctorsService.UserIsDoctorAsync(id, user)))
             {
-                return this.OkOrNotFound(await this.doctorsService.GetAsync<DoctorAdminModel>(id));
+                return this.OkOrNotFound(await this.doctorsService.GetAsyncWithDeleted<DoctorAdminModel>(id));
             }
 
             return this.OkOrNotFound(await this.doctorsService.GetAsync<DoctorModel>(id));
         }
 
+        [HttpGet(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Specializations)]
+        public async Task<IActionResult> GetSpecializations(string id)
+        {
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            return this.OkOrNotFound(await this.doctorsService.GetSpecializationsAsync<SpecializationListingModel>(id));
+        }
+
+        [HttpGet(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Shifts)]
+        public async Task<IActionResult> GetShifts(string id)
+        {
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            return this.OkOrNotFound(await this.doctorsService.GetShiftsAsync<ShiftListingModel>(id));
+        }
+
+        [HttpGet(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Appointments)]
+        public async Task<IActionResult> GetAppointments(string id)
+        {
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            return this.OkOrNotFound(await this.doctorsService.GetAppointmentsAsync<AppointmentListingModel>(id));
+        }
+
         [HttpPost]
-        [Authorize (Roles = GlobalConstants.RolesNames.Administrator)]
+        [Authorize(Roles = RolesNames.Administrator)]
         public async Task<IActionResult> Post([FromBody] CreateDoctorModel model)
         {
             if (await this.userService.UsernameAlreadyExists(model.Username)
@@ -74,6 +107,47 @@
             }
 
             var doctor = await this.doctorsService.CreateDoctorAsync(model);
+
+            return this.Ok(doctor);
+        }
+
+        [HttpPut(ApiConstants.WithId)]
+        [Authorize(Roles = RolesNames.Administrator + "," + RolesNames.Doctor)]
+        public async Task<IActionResult> Put([FromBody] UpdateDoctorModel model, string id)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!this.User.IsInRole(RolesNames.Administrator)
+                && (!this.User.IsInRole(RolesNames.Doctor) || await this.doctorsService.UserIsDoctorAsync(id, user)))
+            {
+                var error = new ApiErrorModel()
+                {
+                    Code = ApiConstants.Errors.DoctorUpdate,
+                    Description = ApiConstants.Errors.InsufficientPermission,
+                };
+
+                return this.BadRequest(error);
+            }
+
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            var doctor = await this.doctorsService.UpdateAsync(id, model);
+            return this.Ok(doctor);
+        }
+
+        [HttpDelete(ApiConstants.WithId)]
+        [Authorize(Roles = RolesNames.Administrator)]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            var doctor = await this.doctorsService.DeleteAsync(id);
 
             return this.Ok(doctor);
         }
