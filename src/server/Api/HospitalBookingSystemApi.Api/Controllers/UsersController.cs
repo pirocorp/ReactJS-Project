@@ -3,11 +3,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using AutoMapper;
     using HospitalBookingSystemApi.Api.Models;
     using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data.Models;
-    using HospitalBookingSystemApi.Services;
     using HospitalBookingSystemApi.Services.Data;
     using HospitalBookingSystemApi.Services.Data.Models.Users;
 
@@ -33,7 +31,6 @@
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Get()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -48,6 +45,7 @@
             return this.Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel model)
         {
@@ -71,6 +69,7 @@
             return this.Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterModel model)
         {

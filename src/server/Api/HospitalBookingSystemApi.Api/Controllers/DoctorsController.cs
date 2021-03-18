@@ -15,20 +15,22 @@
 
     using static Common.GlobalConstants;
 
-    [Authorize]
     public class DoctorsController : BaseController
     {
         private readonly IDoctorsService doctorsService;
         private readonly IUserService userService;
+        private readonly ISpecializationsService specializationsService;
         private readonly UserManager<User> userManager;
 
         public DoctorsController(
             IDoctorsService doctorsService,
             IUserService userService,
+            ISpecializationsService specializationsService,
             UserManager<User> userManager)
         {
             this.doctorsService = doctorsService;
             this.userService = userService;
+            this.specializationsService = specializationsService;
             this.userManager = userManager;
         }
 
@@ -66,6 +68,25 @@
             }
 
             return this.OkOrNotFound(await this.doctorsService.GetSpecializationsAsync<SpecializationListingModel>(id));
+        }
+
+        [HttpPost(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Specializations)]
+        [Authorize(Roles = RolesNames.Doctor)]
+        public async Task<IActionResult> PostSpecialization([FromBody] AddSpecialization model, string id)
+        {
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.specializationsService.ExistsByIdAsync(model.Id))
+            {
+                return this.NotFound();
+            }
+
+            await this.doctorsService.AddSpecializationAsync(model, id);
+
+            return this.Ok();
         }
 
         [HttpGet(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Shifts)]

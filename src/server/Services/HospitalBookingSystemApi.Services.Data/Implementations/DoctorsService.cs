@@ -49,6 +49,15 @@
                 .To<T>()
                 .ToListAsync();
 
+        public async Task AddSpecializationAsync(AddSpecialization model, string id)
+        {
+            var doctor = await this.dbContext.Doctors.FindAsync(id);
+
+            doctor.Specializations.Add(new DoctorSpecialization() { DoctorId = id, SpecializationId = model.Id });
+            this.dbContext.Attach(doctor);
+            await this.dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<T>> GetShiftsAsync<T>(string id)
             => await this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))

@@ -16,6 +16,8 @@
 
         Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id);
 
+        Task AddSpecializationAsync(AddSpecialization model, string id);
+
         Task<IEnumerable<T>> GetShiftsAsync<T>(string id);
 
         Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id);
