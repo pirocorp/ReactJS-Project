@@ -145,7 +145,9 @@
 
         public async Task<string> UnDeleteAsync(string id)
         {
-            var doctor = await this.dbContext.Doctors.FindAsync(id);
+            var doctor = await this.dbContext.Doctors
+                .IgnoreQueryFilters()
+                .FirstAsync(d => d.Id.Equals(id));
 
             doctor.IsDeleted = false;
             doctor.DeletedOn = null;

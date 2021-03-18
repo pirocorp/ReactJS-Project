@@ -1,4 +1,4 @@
-namespace HospitalBookingSystemApi.Api
+﻿namespace HospitalBookingSystemApi.Api
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
