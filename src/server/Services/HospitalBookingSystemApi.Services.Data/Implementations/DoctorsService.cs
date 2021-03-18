@@ -34,6 +34,11 @@
         public async Task<bool> ExistsAsync(string id)
             => await this.dbContext.Doctors.AnyAsync(d => d.Id.Equals(id));
 
+        public async Task<bool> IsDeletedAsync(string id)
+            => await this.dbContext.Doctors
+                .IgnoreQueryFilters()
+                .AnyAsync(d => d.Id.Equals(id) && d.IsDeleted);
+
         public async Task<T> GetAsync<T>(string id)
             => await this.GetAsync<T>(id, false);
 
@@ -77,7 +82,7 @@
             return doctor.User.Id.Equals(user.Id);
         }
 
-        public async Task<Doctor> CreateDoctorAsync(CreateDoctorModel model)
+        public async Task<string> CreateDoctorAsync(CreateDoctorModel model)
         {
             var userModel = new UserRegisterModel()
             {
@@ -107,10 +112,10 @@
             await this.dbContext.Doctors.AddAsync(doctor);
             await this.dbContext.SaveChangesAsync();
 
-            return doctor;
+            return doctor.Id;
         }
 
-        public async Task<Doctor> UpdateAsync(string id, UpdateDoctorModel model)
+        public async Task<string> UpdateAsync(string id, UpdateDoctorModel model)
         {
             var doctor = await this.dbContext.Doctors.FindAsync(id);
 
@@ -122,10 +127,10 @@
             this.dbContext.Attach(doctor);
             await this.dbContext.SaveChangesAsync();
 
-            return doctor;
+            return doctor.Id;
         }
 
-        public async Task<Doctor> DeleteAsync(string id)
+        public async Task<string> DeleteAsync(string id)
         {
             var doctor = await this.dbContext.Doctors.FindAsync(id);
 
@@ -135,7 +140,20 @@
             this.dbContext.Attach(doctor);
             await this.dbContext.SaveChangesAsync();
 
-            return doctor;
+            return doctor.Id;
+        }
+
+        public async Task<string> UnDeleteAsync(string id)
+        {
+            var doctor = await this.dbContext.Doctors.FindAsync(id);
+
+            doctor.IsDeleted = false;
+            doctor.DeletedOn = null;
+
+            this.dbContext.Attach(doctor);
+            await this.dbContext.SaveChangesAsync();
+
+            return doctor.Id;
         }
 
         private async Task<T> GetAsync<T>(string id, bool includeDeleted)

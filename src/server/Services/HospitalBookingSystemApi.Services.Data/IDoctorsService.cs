@@ -10,6 +10,8 @@
     {
         Task<bool> ExistsAsync(string id);
 
+        Task<bool> IsDeletedAsync(string id);
+
         Task<T> GetAsync<T>(string id);
 
         Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id);
@@ -26,10 +28,12 @@
 
         Task<bool> UserIsDoctorAsync(string doctorId, User user);
 
-        Task<Doctor> CreateDoctorAsync(CreateDoctorModel model);
+        Task<string> CreateDoctorAsync(CreateDoctorModel model);
 
-        Task<Doctor> UpdateAsync(string id, UpdateDoctorModel mode);
+        Task<string> UpdateAsync(string id, UpdateDoctorModel mode);
 
-        Task<Doctor> DeleteAsync(string id);
+        Task<string> DeleteAsync(string id);
+
+        Task<string> UnDeleteAsync(string id);
     }
 }

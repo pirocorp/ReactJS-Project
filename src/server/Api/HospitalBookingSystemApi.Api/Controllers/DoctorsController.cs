@@ -138,6 +138,18 @@
             return this.Ok(doctor);
         }
 
+        [HttpPatch(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.UnDelete)]
+        [Authorize(Roles = RolesNames.Administrator)]
+        public async Task<IActionResult> Patch(string id)
+        {
+            if (!await this.doctorsService.IsDeletedAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(await this.doctorsService.UnDeleteAsync(id));
+        }
+
         [HttpDelete(ApiConstants.WithId)]
         [Authorize(Roles = RolesNames.Administrator)]
         public async Task<IActionResult> Delete(string id)

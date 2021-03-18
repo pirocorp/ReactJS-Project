@@ -11,6 +11,8 @@
             public const string Shifts = "/shifts";
 
             public const string Appointments = "/appointments";
+
+            public const string UnDelete = "/undelete";
         }
 
         public static class Messages
