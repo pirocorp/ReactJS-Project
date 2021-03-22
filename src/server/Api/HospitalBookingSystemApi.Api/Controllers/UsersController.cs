@@ -76,13 +76,7 @@
             if (await this.userService.UsernameAlreadyExists(model.Username)
                 || await this.userService.EmailAlreadyExists(model.Email))
             {
-                var error = new ApiErrorModel()
-                {
-                    Code = nameof(this.Register),
-                    Description = ApiConstants.Errors.UsernameOrEmailInUse,
-                };
-
-                return this.BadRequest(error);
+                return this.BadRequest(ApiConstants.Errors.RegisterUsernameOrEmailInUse);
             }
 
             var response = await this.userService.RegisterAsync(model, GlobalConstants.RolesNames.Patient);

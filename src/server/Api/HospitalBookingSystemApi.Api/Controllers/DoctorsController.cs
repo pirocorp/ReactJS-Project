@@ -3,7 +3,6 @@
     using System.Threading.Tasks;
 
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
-    using HospitalBookingSystemApi.Api.Models;
     using HospitalBookingSystemApi.Api.Models.Doctors;
     using HospitalBookingSystemApi.Data.Models;
     using HospitalBookingSystemApi.Services.Data;
@@ -20,17 +19,20 @@
         private readonly IDoctorsService doctorsService;
         private readonly IUserService userService;
         private readonly ISpecializationsService specializationsService;
+        private readonly IShiftService shiftService;
         private readonly UserManager<User> userManager;
 
         public DoctorsController(
             IDoctorsService doctorsService,
             IUserService userService,
             ISpecializationsService specializationsService,
+            IShiftService shiftService,
             UserManager<User> userManager)
         {
             this.doctorsService = doctorsService;
             this.userService = userService;
             this.specializationsService = specializationsService;
+            this.shiftService = shiftService;
             this.userManager = userManager;
         }
 
@@ -53,7 +55,7 @@
             if (this.User.IsInRole(RolesNames.Administrator)
                 || (this.User.IsInRole(RolesNames.Doctor) && await this.doctorsService.UserIsDoctorAsync(id, user)))
             {
-                return this.OkOrNotFound(await this.doctorsService.GetAsyncWithDeleted<DoctorAdminModel>(id));
+                return this.OkOrNotFound(await this.doctorsService.GetWithDeletedAsync<DoctorAdminModel>(id));
             }
 
             return this.OkOrNotFound(await this.doctorsService.GetAsync<DoctorModel>(id));
@@ -84,8 +86,45 @@
                 return this.NotFound();
             }
 
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!await this.doctorsService.UserIsDoctorAsync(id, user))
+            {
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateInsufficientPermission);
+            }
+
             await this.doctorsService.AddSpecializationAsync(model, id);
 
+            return this.Ok();
+        }
+
+        [HttpDelete(ApiConstants.Parameters.DoctorId + ApiConstants.DoctorsEndpoints.Specializations + "/" + ApiConstants.Parameters.SpecializationId)]
+        [Authorize(Roles = RolesNames.Doctor)]
+        public async Task<IActionResult> DeleteSpecialization(string doctorId, string specializationId)
+        {
+            if (!await this.doctorsService.ExistsAsync(doctorId))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.specializationsService.ExistsByIdAsync(specializationId))
+            {
+                return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!await this.doctorsService.UserIsDoctorAsync(doctorId, user))
+            {
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateInsufficientPermission);
+            }
+
+            if (!await this.doctorsService.HasSpecializationAsync(doctorId, specializationId))
+            {
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateSpecializationNotFound);
+            }
+
+            await this.doctorsService.RemoveSpecializationAsync(doctorId, specializationId);
             return this.Ok();
         }
 
@@ -98,6 +137,62 @@
             }
 
             return this.OkOrNotFound(await this.doctorsService.GetShiftsAsync<ShiftListingModel>(id));
+        }
+
+        [HttpPost(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Shifts)]
+        [Authorize(Roles = RolesNames.Doctor)]
+        public async Task<IActionResult> PostShift([FromBody] AddShiftModel model, string id)
+        {
+            if (!await this.doctorsService.ExistsAsync(id))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.shiftService.ExistsAsync(model.Id))
+            {
+                return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!await this.doctorsService.UserIsDoctorAsync(id, user))
+            {
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateInsufficientPermission);
+            }
+
+            await this.doctorsService.AddShiftAsync(model, id);
+
+            return this.Ok();
+        }
+
+        [HttpDelete(ApiConstants.Parameters.DoctorId + ApiConstants.DoctorsEndpoints.Shifts + "/" + ApiConstants.Parameters.ShiftId)]
+        [Authorize(Roles = RolesNames.Doctor)]
+        public async Task<IActionResult> DeleteShift(string doctorId, string shiftId)
+        {
+            if (!await this.doctorsService.ExistsAsync(doctorId))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.shiftService.ExistsAsync(shiftId))
+            {
+                return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!await this.doctorsService.UserIsDoctorAsync(doctorId, user))
+            {
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateInsufficientPermission);
+            }
+
+            if (!await this.doctorsService.HasShiftAsync(doctorId, shiftId))
+            {
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateShiftNotFound);
+            }
+
+            await this.doctorsService.RemoveShiftAsync(doctorId, shiftId);
+            return this.Ok();
         }
 
         [HttpGet(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Appointments)]
@@ -118,13 +213,7 @@
             if (await this.userService.UsernameAlreadyExists(model.Username)
                 || await this.userService.EmailAlreadyExists(model.WorkEmail))
             {
-                var error = new ApiErrorModel()
-                {
-                    Code = ApiConstants.Errors.DoctorCreation,
-                    Description = ApiConstants.Errors.UsernameOrEmailInUse,
-                };
-
-                return this.BadRequest(error);
+                return this.BadRequest(ApiConstants.Errors.DoctorCreationUsernameOrEmailInUse);
             }
 
             var doctor = await this.doctorsService.CreateDoctorAsync(model);
@@ -141,13 +230,7 @@
             if (!this.User.IsInRole(RolesNames.Administrator)
                 && (!this.User.IsInRole(RolesNames.Doctor) || await this.doctorsService.UserIsDoctorAsync(id, user)))
             {
-                var error = new ApiErrorModel()
-                {
-                    Code = ApiConstants.Errors.DoctorUpdate,
-                    Description = ApiConstants.Errors.InsufficientPermission,
-                };
-
-                return this.BadRequest(error);
+                return this.BadRequest(ApiConstants.Errors.DoctorUpdateInsufficientPermission);
             }
 
             if (!await this.doctorsService.ExistsAsync(id))
