@@ -39,6 +39,24 @@
                 .IgnoreQueryFilters()
                 .AnyAsync(d => d.Id.Equals(id) && d.IsDeleted);
 
+        public async Task<bool> HasSpecializationAsync(string doctorId, string specializationId)
+            => await this.dbContext.DoctorsSpecializations
+                .AnyAsync(ds => ds.DoctorId.Equals(doctorId) && ds.SpecializationId.Equals(specializationId));
+
+        public async Task<bool> HasShiftAsync(string doctorId, string shiftId)
+            => await this.dbContext.DoctorsShifts
+                .AnyAsync(ds => ds.DoctorId.Equals(doctorId) && ds.ShiftId.Equals(shiftId));
+
+        public async Task<bool> UserIsDoctorAsync(string doctorId, User user)
+        {
+            var doctor = await this.dbContext.Doctors
+                .Where(d => d.Id.Equals(doctorId))
+                .Include(d => d.User)
+                .FirstOrDefaultAsync();
+
+            return doctor.User.Id.Equals(user.Id);
+        }
+
         public async Task<T> GetAsync<T>(string id)
             => await this.GetAsync<T>(id, false);
 
@@ -58,12 +76,41 @@
             await this.dbContext.SaveChangesAsync();
         }
 
+        public async Task RemoveSpecializationAsync(string doctorId, string specializationId)
+        {
+            var specialization = await this.dbContext.DoctorsSpecializations
+                .Where(ds => ds.DoctorId.Equals(doctorId) && ds.SpecializationId.Equals(specializationId))
+                .FirstOrDefaultAsync();
+
+            this.dbContext.DoctorsSpecializations.Remove(specialization);
+            await this.dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<T>> GetShiftsAsync<T>(string id)
             => await this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))
                 .Select(d => d.Shifts)
                 .To<T>()
                 .ToListAsync();
+
+        public async Task AddShiftAsync(AddShiftModel model, string id)
+        {
+            var doctor = await this.dbContext.Doctors.FindAsync(id);
+
+            doctor.Shifts.Add(new DoctorShift() { DoctorId = id, ShiftId = model.Id });
+            this.dbContext.Attach(doctor);
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveShiftAsync(string doctorId, string shiftId)
+        {
+            var shift = await this.dbContext.DoctorsShifts
+                .Where(ds => ds.DoctorId.Equals(doctorId) && ds.ShiftId.Equals(shiftId))
+                .FirstOrDefaultAsync();
+
+            this.dbContext.DoctorsShifts.Remove(shift);
+            await this.dbContext.SaveChangesAsync();
+        }
 
         public async Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id)
             => await this.dbContext.Doctors
@@ -72,7 +119,7 @@
                 .To<T>()
                 .ToListAsync();
 
-        public async Task<T> GetAsyncWithDeleted<T>(string id)
+        public async Task<T> GetWithDeletedAsync<T>(string id)
             => await this.GetAsync<T>(id, true);
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
@@ -80,16 +127,6 @@
 
         public async Task<IEnumerable<T>> GetAllWithDeletedAsync<T>()
             => await this.GetAllAsync<T>(true);
-
-        public async Task<bool> UserIsDoctorAsync(string doctorId, User user)
-        {
-            var doctor = await this.dbContext.Doctors
-                .Where(d => d.Id.Equals(doctorId))
-                .Include(d => d.User)
-                .FirstOrDefaultAsync();
-
-            return doctor.User.Id.Equals(user.Id);
-        }
 
         public async Task<string> CreateDoctorAsync(CreateDoctorModel model)
         {

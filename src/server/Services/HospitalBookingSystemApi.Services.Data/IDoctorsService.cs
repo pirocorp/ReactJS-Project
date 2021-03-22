@@ -12,23 +12,33 @@
 
         Task<bool> IsDeletedAsync(string id);
 
+        Task<bool> HasSpecializationAsync(string doctorId, string specializationId);
+
+        Task<bool> HasShiftAsync(string doctorId, string shiftId);
+
+        Task<bool> UserIsDoctorAsync(string doctorId, User user);
+
         Task<T> GetAsync<T>(string id);
 
         Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id);
 
         Task AddSpecializationAsync(AddSpecialization model, string id);
 
+        Task RemoveSpecializationAsync(string doctorId, string specializationId);
+
         Task<IEnumerable<T>> GetShiftsAsync<T>(string id);
+
+        Task AddShiftAsync(AddShiftModel model, string id);
+
+        Task RemoveShiftAsync(string doctorId, string shiftId);
 
         Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id);
 
-        Task<T> GetAsyncWithDeleted<T>(string id);
+        Task<T> GetWithDeletedAsync<T>(string id);
 
         Task<IEnumerable<T>> GetAllAsync<T>();
 
         Task<IEnumerable<T>> GetAllWithDeletedAsync<T>();
-
-        Task<bool> UserIsDoctorAsync(string doctorId, User user);
 
         Task<string> CreateDoctorAsync(CreateDoctorModel model);
 

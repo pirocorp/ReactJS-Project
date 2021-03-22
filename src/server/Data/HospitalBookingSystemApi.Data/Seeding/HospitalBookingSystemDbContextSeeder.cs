@@ -35,6 +35,7 @@
                 new AdminSeeder(),
                 new AppointmentStatusesSeeder(),
                 new SlotsSeeder(),
+                new ShiftsSeeder(),
             };
 
             foreach (var seeder in seeders)

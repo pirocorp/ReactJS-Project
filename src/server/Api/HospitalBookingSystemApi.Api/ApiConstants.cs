@@ -15,6 +15,11 @@
             public const string ShiftId = "{shiftId}";
         }
 
+        public static class PatientsEndpoints
+        {
+            public const string UnDelete = "/undelete";
+        }
+
         public static class DoctorsEndpoints
         {
             public const string Specializations = "/specializations";
@@ -62,18 +67,41 @@
                 Code = ErrorsMessages.Register,
                 Description = ErrorsMessages.UsernameOrEmailInUse,
             };
+
+            public static readonly ApiErrorModel UserAlreadyHavePatientProfile = new ()
+            {
+                Code = ErrorsMessages.PatientProfileCreation,
+                Description = ErrorsMessages.UserAlreadyHavePatientProfile,
+            };
+
+            public static readonly ApiErrorModel UserDoNotHavePatientProfile = new ()
+            {
+                Code = ErrorsMessages.PatientProfileUpdate,
+                Description = ErrorsMessages.UserDoNotHavePatientProfile,
+            };
+
+            public static readonly ApiErrorModel PatientUpdate = new ()
+            {
+                Code = ErrorsMessages.PatientUpdate,
+                Description = ErrorsMessages.InsufficientPermission,
+            };
         }
 
         private static class ErrorsMessages
         {
             public const string DoctorCreation = "Doctor Creation";
             public const string DoctorUpdate = "Doctor Update";
+            public const string PatientProfileCreation = "Patient Profile Creation";
+            public const string PatientProfileUpdate = "Patient Profile Update";
+            public const string PatientUpdate = "Patient Update";
             public const string Register = "Register";
 
             public const string InsufficientPermission = "Insufficient Permission to perform this action.";
             public const string UsernameOrEmailInUse = "Username or email is already taken.";
             public const string SpecializationNotFound = "Specialization not found.";
             public const string ShiftNotFound = "Shift not found.";
+            public const string UserAlreadyHavePatientProfile = "User Already Have Patient Profile";
+            public const string UserDoNotHavePatientProfile = "User Do Not Have Patient Profile";
         }
     }
 }
