@@ -9,14 +9,19 @@
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Services.Data.Models.Appointment;
 
     public class PatientsController : BaseController
     {
         private readonly IPatientsService patientsService;
+        private readonly IAppointmentService appointmentService;
 
-        public PatientsController(IPatientsService patientsService)
+        public PatientsController(
+            IPatientsService patientsService,
+            IAppointmentService appointmentService)
         {
             this.patientsService = patientsService;
+            this.appointmentService = appointmentService;
         }
 
         [HttpGet]
@@ -42,6 +47,81 @@
             return this.Ok(await this.patientsService.GetAsync<Models.Patients.PatientModel>(id));
         }
 
+        [HttpGet(ApiConstants.WithId + ApiConstants.PatientsEndpoints.Appointments)]
+        [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
+        public async Task<IActionResult> GetAppointments(string id)
+        {
+            if (!await this.patientsService.UserIsPatientAsync(id, this.User))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
+            }
+
+            return this.Ok(this.patientsService.GetAppointments<AppointmentDetailsModel>(id));
+        }
+
+        [HttpGet(ApiConstants.Parameters.PatientId + ApiConstants.PatientsEndpoints.Appointments + "/" + ApiConstants.Parameters.AppointmentId)]
+        [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
+        public async Task<IActionResult> GetAppointment(string patientId, string appointmentId)
+        {
+            if (!await this.appointmentService.ExistsAsync(appointmentId)
+                || !await this.patientsService.ExistsAsync(patientId))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.patientsService.PatientHasAppointment(patientId, appointmentId))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
+            }
+
+            if (!await this.patientsService.UserIsPatientAsync(patientId, this.User))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
+            }
+
+            return this.Ok(await this.appointmentService.GetAsync<AppointmentDetailsModel>(appointmentId));
+        }
+
+        [HttpPost(ApiConstants.Parameters.PatientId + ApiConstants.PatientsEndpoints.Appointments)]
+        [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
+        public async Task<IActionResult> PostAppointment([FromBody] CreateAppointment model, string patientId)
+        {
+            if (!await this.patientsService.ExistsAsync(patientId))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.patientsService.UserIsPatientAsync(patientId, this.User))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
+            }
+
+            return this.Ok(await this.appointmentService.CreateAsync(model, patientId));
+        }
+
+        [HttpPatch(
+            ApiConstants.Parameters.PatientId
+            + ApiConstants.PatientsEndpoints.Appointments
+            + "/"
+            + ApiConstants.Parameters.AppointmentId
+            + ApiConstants.PatientsEndpoints.CancelAppointment)]
+        public async Task<IActionResult> PatchAppointment(string patientId, string appointmentId)
+        {
+            if (!await this.appointmentService.ExistsAsync(appointmentId)
+                || !await this.patientsService.ExistsAsync(patientId))
+            {
+                return this.NotFound();
+            }
+
+            if (!await this.patientsService.PatientHasAppointment(patientId, appointmentId))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
+            }
+
+            await this.appointmentService.CancelAppointment(appointmentId);
+            return this.Ok();
+        }
+
         [HttpPost]
         [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
         public async Task<IActionResult> Post([FromBody] ServicePatientModel model)
@@ -65,7 +145,7 @@
 
             if (!await this.patientsService.UserIsPatientAsync(id, this.User))
             {
-                return this.BadRequest(ApiConstants.Errors.PatientUpdate);
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
             }
 
             return this.Ok(await this.patientsService.UpdateAsync(id, model));
@@ -93,7 +173,7 @@
 
             if (!await this.patientsService.UserIsPatientAsync(id, this.User))
             {
-                return this.BadRequest(ApiConstants.Errors.PatientUpdate);
+                return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
             }
 
             return this.Ok(await this.patientsService.DeleteAsync(id));

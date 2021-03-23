@@ -8,9 +8,13 @@
 
         public static class Parameters
         {
+            public const string AppointmentId = "{appointmentId}";
+
             public const string DoctorId = "{doctorId}";
 
             public const string SpecializationId = "{specializationId}";
+
+            public const string PatientId = "{patientId}";
 
             public const string ShiftId = "{shiftId}";
         }
@@ -18,6 +22,10 @@
         public static class PatientsEndpoints
         {
             public const string UnDelete = "/undelete";
+
+            public const string Appointments = "/appointments";
+
+            public const string CancelAppointment = "/cancel";
         }
 
         public static class DoctorsEndpoints
@@ -80,9 +88,9 @@
                 Description = ErrorsMessages.UserDoNotHavePatientProfile,
             };
 
-            public static readonly ApiErrorModel PatientUpdate = new ()
+            public static readonly ApiErrorModel PatientInsufficientPermission = new ()
             {
-                Code = ErrorsMessages.PatientUpdate,
+                Code = ErrorsMessages.Patient,
                 Description = ErrorsMessages.InsufficientPermission,
             };
         }
@@ -94,6 +102,7 @@
             public const string PatientProfileCreation = "Patient Profile Creation";
             public const string PatientProfileUpdate = "Patient Profile Update";
             public const string PatientUpdate = "Patient Update";
+            public const string Patient = "Patient";
             public const string Register = "Register";
 
             public const string InsufficientPermission = "Insufficient Permission to perform this action.";

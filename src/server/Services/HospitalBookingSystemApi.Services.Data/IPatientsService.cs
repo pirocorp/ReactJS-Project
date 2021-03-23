@@ -24,6 +24,10 @@
 
         Task<IEnumerable<T>> GetAllWithDeletedAsync<T>();
 
+        Task<IEnumerable<T>> GetAppointments<T>(string id);
+
+        Task<bool> PatientHasAppointment(string patientId, string appointmentId);
+
         Task<string> CreatePatientAsync(ServicePatientModel model, ClaimsPrincipal user);
 
         Task<string> UpdateAsync(string patientId, ServicePatientModel model);

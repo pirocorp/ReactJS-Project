@@ -67,6 +67,12 @@
         public async Task<T> GetWithDeletedAsync<T>(string id)
             => await this.GetAsync<T>(id, true);
 
+        public async Task<IEnumerable<T>> GetAppointments<T>(string id)
+            => await this.dbContext.Appointments.Where(a => a.Patient.Id.Equals(id)).To<T>().ToListAsync();
+
+        public async Task<bool> PatientHasAppointment(string patientId, string appointmentId)
+            => await this.dbContext.Appointments.AnyAsync(a => a.Patient.Id.Equals(patientId) && a.Id.Equals(appointmentId));
+
         public async Task<string> CreatePatientAsync(ServicePatientModel model, ClaimsPrincipal userPrincipal)
         {
             var user = await this.userManager.GetUserAsync(userPrincipal);

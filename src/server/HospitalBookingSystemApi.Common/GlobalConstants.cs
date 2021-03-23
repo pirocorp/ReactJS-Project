@@ -12,5 +12,7 @@
 
             public const string Patient = "Patient";
         }
+
+        public const string CancelAppointmentStatus = "Canceled";
     }
 }
