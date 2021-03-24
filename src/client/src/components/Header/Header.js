@@ -1,13 +1,13 @@
 import './Header.css';
 
-import
+import Navbar from './Navbar'
 
 const Header = () => {
     return(
-        <header class="header">
-            <Navbar></Navbar>
+        <header className="header">
+            <Navbar />
         </header>
     );
 }
 
-export default
+export default Header;

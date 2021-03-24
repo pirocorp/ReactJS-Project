@@ -1,12 +1,20 @@
-import './App.css';
+import { Route, Switch, withRouter } from 'react-router-dom';
+
 import Header from './components/Header';
 
-function App() {
+import './App.css';
+import TestComponent from './components/TestComponents';
+
+function App() {  
+    const HeaderWithRouter = withRouter(Header);
+    
     return (
-        <div className="main-wrapper">
-            <Header></Header>
-            <h1>Hello World!</h1>
-        </div>
+        <>
+            <HeaderWithRouter />
+            <Switch>
+                <Route path="/test" component={ TestComponent }/>
+            </Switch>
+        </>
     );
 }
 
