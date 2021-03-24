@@ -37,6 +37,9 @@ namespace HospitalBookingSystemApi.Data.Models
         [StringLength(255)]
         public string WorkPhone { get; set; }
 
+        [StringLength(65535)]
+        public string ImageUrl { get; set; }
+
         [Required]
         public string UserId { get; set; }
 

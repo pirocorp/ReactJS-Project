@@ -86,6 +86,7 @@
                 LastName = model.LastName,
                 Phone = model.Phone,
                 SSN = model.SSN,
+                ImageUrl = model.ImageUrl,
                 UserId = user.Id,
             };
 
@@ -106,6 +107,7 @@
             patient.City = model.City;
             patient.Phone = model.Phone;
             patient.SSN = model.SSN;
+            patient.ImageUrl = model.ImageUrl;
 
             this.dbContext.Attach(patient);
             await this.dbContext.SaveChangesAsync();

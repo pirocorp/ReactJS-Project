@@ -5,11 +5,11 @@
     using HospitalBookingSystemApi.Api.Models.Patients;
     using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Services.Data;
+    using HospitalBookingSystemApi.Services.Data.Models.Appointment;
     using HospitalBookingSystemApi.Services.Data.Models.Patient;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Services.Data.Models.Appointment;
 
     public class PatientsController : BaseController
     {

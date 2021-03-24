@@ -29,6 +29,9 @@
         [StringLength(255)]
         public string Phone { get; set; }
 
+        [StringLength(65535)]
+        public string ImageUrl { get; set; }
+
         [Required]
         [StringLength(255)]
         public string SSN { get; set; }

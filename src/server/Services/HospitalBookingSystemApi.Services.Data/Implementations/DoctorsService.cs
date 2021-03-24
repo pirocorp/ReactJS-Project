@@ -152,6 +152,8 @@
                 LastName = model.LastName,
                 WorkEmail = model.WorkEmail,
                 WorkPhone = model.WorkPhone,
+                ImageUrl = model.ImageUrl,
+
                 UserId = user.Id,
             };
 

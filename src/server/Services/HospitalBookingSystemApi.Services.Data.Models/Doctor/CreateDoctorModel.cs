@@ -21,6 +21,9 @@
         [StringLength(255)]
         public string WorkPhone { get; set; }
 
+        [StringLength(65535)]
+        public string ImageUrl { get; set; }
+
         [Required]
         [MinLength(3)]
         public string Username { get; set; }

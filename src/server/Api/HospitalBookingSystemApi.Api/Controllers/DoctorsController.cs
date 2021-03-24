@@ -73,7 +73,7 @@
         }
 
         [HttpPost(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Specializations)]
-        [Authorize(Roles = RolesNames.Doctor)]
+        [Authorize(Roles = RolesNames.Administrator + "," + RolesNames.Doctor)]
         public async Task<IActionResult> PostSpecialization([FromBody] AddSpecialization model, string id)
         {
             if (!await this.doctorsService.ExistsAsync(id))
