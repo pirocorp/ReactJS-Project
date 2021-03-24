@@ -1,0 +1,17 @@
+{
+    "React Arrow Function Snippet": {
+        "scope": "javascript,react",
+        "prefix": "refuc",
+        "body": [
+            "import './${name}.css';",
+            "",
+            "const ${name} = () => {",
+            "\treturn(",
+            "\t);",
+            "}",
+            "",
+            "export default ${name};"
+        ],
+        "description": "Create empty arrow function with imported css and with default export"
+    }
+}
