@@ -1,8 +1,9 @@
 ﻿namespace HospitalBookingSystemApi.Api.Controllers
 {
     using System.Threading.Tasks;
-    using Common;
+
     using HospitalBookingSystemApi.Api.Models.Specializations;
+    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Services.Data;
     using HospitalBookingSystemApi.Services.Data.Models.Specialization;
     using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
             => this.Ok(await this.specializationsService.GetAllAsync<SpecializationsModel>());
 

@@ -28,7 +28,7 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddCors();
+            services.AddCors(); // Add Corse Service
             services.AddDbContext<HospitalBookingSystemDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
@@ -75,11 +75,12 @@
 
             app.UseRouting();
 
-            // global cors policy
-            // app.UseCors(x => x
-            //    .AllowAnyOrigin()
-            //    .AllowAnyMethod()
-            //    .AllowAnyHeader());
+            // Set Global Cors Policy
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+
             app.UseAuthentication();
             app.UseAuthorization();
 

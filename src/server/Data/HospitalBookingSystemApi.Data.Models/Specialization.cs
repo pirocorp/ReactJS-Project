@@ -1,5 +1,6 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 namespace HospitalBookingSystemApi.Data.Models
 {
     using System;

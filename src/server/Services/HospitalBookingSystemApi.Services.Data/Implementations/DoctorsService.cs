@@ -60,6 +60,15 @@
         public async Task<T> GetAsync<T>(string id)
             => await this.GetAsync<T>(id, false);
 
+        public async Task<T> GetWithDeletedAsync<T>(string id)
+            => await this.GetAsync<T>(id, true);
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string speciality, string searchTerm)
+            => await this.GetAllAsync<T>(speciality, searchTerm, false);
+
+        public async Task<IEnumerable<T>> GetAllWithDeletedAsync<T>(string speciality, string searchTerm)
+            => await this.GetAllAsync<T>(speciality, searchTerm, true);
+
         public async Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id)
             => await this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))
@@ -118,15 +127,6 @@
                 .Select(d => d.Appointments)
                 .To<T>()
                 .ToListAsync();
-
-        public async Task<T> GetWithDeletedAsync<T>(string id)
-            => await this.GetAsync<T>(id, true);
-
-        public async Task<IEnumerable<T>> GetAllAsync<T>()
-            => await this.GetAllAsync<T>(false);
-
-        public async Task<IEnumerable<T>> GetAllWithDeletedAsync<T>()
-            => await this.GetAllAsync<T>(true);
 
         public async Task<string> CreateDoctorAsync(CreateDoctorModel model)
         {
@@ -211,9 +211,23 @@
                 ? await this.dbContext.Doctors.IgnoreQueryFilters().Where(d => d.Id.Equals(id)).To<T>().FirstOrDefaultAsync()
                 : await this.dbContext.Doctors.Where(d => d.Id.Equals(id)).To<T>().FirstOrDefaultAsync();
 
-        private async Task<IEnumerable<T>> GetAllAsync<T>(bool includeDeleted)
-            => includeDeleted
-                ? await this.dbContext.Doctors.IgnoreQueryFilters().To<T>().ToListAsync()
-                : await this.dbContext.Doctors.To<T>().ToListAsync();
+        private async Task<IEnumerable<T>> GetAllAsync<T>(string speciality, string searchTerm, bool includeDeleted)
+        {
+            var query = includeDeleted
+                ? this.dbContext.Doctors.IgnoreQueryFilters()
+                : this.dbContext.Doctors.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(speciality) && speciality != "all")
+            {
+                query = query.Where(d => d.Specializations.Any(s => s.SpecializationId.Equals(speciality)));
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(d => (d.FirstName.ToLower() + " " + d.LastName.ToLower()).Contains(searchTerm.ToLower()));
+            }
+
+            return await query.To<T>().ToListAsync();
+        }
     }
 }

@@ -20,6 +20,12 @@
 
         Task<T> GetAsync<T>(string id);
 
+        Task<T> GetWithDeletedAsync<T>(string id);
+
+        Task<IEnumerable<T>> GetAllAsync<T>(string speciality, string searchTerm);
+
+        Task<IEnumerable<T>> GetAllWithDeletedAsync<T>(string speciality, string searchTerm);
+
         Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id);
 
         Task AddSpecializationAsync(AddSpecialization model, string id);
@@ -33,12 +39,6 @@
         Task RemoveShiftAsync(string doctorId, string shiftId);
 
         Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id);
-
-        Task<T> GetWithDeletedAsync<T>(string id);
-
-        Task<IEnumerable<T>> GetAllAsync<T>();
-
-        Task<IEnumerable<T>> GetAllWithDeletedAsync<T>();
 
         Task<string> CreateDoctorAsync(CreateDoctorModel model);
 

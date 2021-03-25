@@ -37,14 +37,15 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [AllowAnonymous]
+        public async Task<IActionResult> Get([FromQuery] string speciality, [FromQuery] string searchTerm)
         {
             if (this.User.IsInRole(RolesNames.Administrator))
             {
-                return this.Ok(await this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>());
+                return this.Ok(await this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>(speciality, searchTerm));
             }
 
-            return this.Ok(await this.doctorsService.GetAllAsync<DoctorModel>());
+            return this.Ok(await this.doctorsService.GetAllAsync<DoctorModel>(speciality, searchTerm));
         }
 
         [HttpGet(ApiConstants.WithId)]
