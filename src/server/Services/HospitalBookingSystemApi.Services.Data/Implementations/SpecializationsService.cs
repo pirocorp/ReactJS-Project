@@ -33,7 +33,10 @@
                 .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
-            => await this.dbContext.Specializations.To<T>().ToListAsync();
+            => await this.dbContext.Specializations
+                .OrderBy(s => s.Name)
+                .To<T>()
+                .ToListAsync();
 
         public async Task<string> CreateAsync(CreateSpecializationModel model)
         {

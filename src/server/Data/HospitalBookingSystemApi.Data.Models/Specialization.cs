@@ -22,6 +22,10 @@ namespace HospitalBookingSystemApi.Data.Models
         [StringLength(255)]
         public string Name { get; set; }
 
+        [Required]
+        [StringLength(255)]
+        public string ImageURL { get; set; }
+
         public virtual ICollection<DoctorSpecialization> Doctors { get; set; }
     }
 }
