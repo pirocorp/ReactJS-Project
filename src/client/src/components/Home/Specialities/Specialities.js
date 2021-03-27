@@ -1,22 +1,20 @@
+import { useEffect, useState } from 'react';
+
+import specialitiesService from '../../../services/specialitiesService';
+
 import Slider from './Slider';
 import SliderItem from './SliderItem';
 
 import './Specialities.css';
 
 function Specialities() {
-    const specialities = [
-        {index: 1, title: "Urology", imageURL: "/assets/img/specialities/specialities-01.png"},
-        {index: 2, title: "Neurology", imageURL: "/assets/img/specialities/specialities-02.png"},
-        {index: 3, title: "Orthopedic", imageURL: "/assets/img/specialities/specialities-03.png"},
-        {index: 4, title: "Cardiologist", imageURL: "/assets/img/specialities/specialities-04.png"},
-        {index: 5, title: "Dentist", imageURL: "/assets/img/specialities/specialities-05.png"},
-        {index: 6, title: "Surgeon", imageURL: "/assets/img/specialities/specialities-06.png"},
-        {index: 7, title: "GP", imageURL: "/assets/img/specialities/specialities-07.png"},
-        {index: 8, title: "Urology", imageURL: "/assets/img/specialities/specialities-01.png"},
-        {index: 9, title: "Neurology", imageURL: "/assets/img/specialities/specialities-02.png"},
-        {index: 10, title: "Orthopedic", imageURL: "/assets/img/specialities/specialities-03.png"},
-        {index: 11, title: "Cardiologist", imageURL: "/assets/img/specialities/specialities-04.png"},
-    ];
+    let [specialities, setSpecialities] = useState([]);
+
+    useEffect(() => {
+        specialitiesService.getAll()
+            .then(res => setSpecialities(res ?? []))
+            .catch(err => { setSpecialities([]); console.log(err)});
+    }, []);   
 
     return (
         <section className="section section-specialities">

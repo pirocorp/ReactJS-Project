@@ -22,7 +22,7 @@ class Search extends Component {
         specialitiesService
             .getAll()
             .then(r => {
-                r?.push({id: 'all', name: 'All'}); 
+                r?.unshift({id: 'all', name: 'All'}); 
                 this.setState(state => state.data = r)
             });
     }

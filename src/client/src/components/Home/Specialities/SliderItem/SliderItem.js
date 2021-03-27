@@ -8,7 +8,7 @@ function SliderItem(props) {
                     <img src={props.imageURL} className="img-fluid" alt="Speciality" />
                     <span><i className="fa fa-circle" aria-hidden="true"></i></span>
                 </div>
-                <p>{props.title}</p>
+                <p>{props.name}</p>
             </div>
         </div>
     );
