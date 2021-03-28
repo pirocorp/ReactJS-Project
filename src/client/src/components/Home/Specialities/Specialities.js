@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import specialitiesService from '../../../services/specialitiesService';
 
-import Slider from './Slider';
-import SliderItem from './SliderItem';
+import Slider from '../../Shared/Slider';
+import SpecialityItem from './SpecialityItem';
 
 import './Specialities.css';
 
@@ -25,8 +25,8 @@ function Specialities() {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-md-9">
-                        <Slider>
-                            {specialities.map(x => <SliderItem key={x.index} {...x}></SliderItem>)}
+                        <Slider sliderSize={7} className="specialities-slider slick-dotted">
+                            {specialities.map(x => <SpecialityItem key={x.id} {...x}></SpecialityItem>)}
                         </Slider>
                     </div>
                 </div>

@@ -1,13 +1,16 @@
 import HomeBanner from './HomeBanner';
 
+import Specialities from './Specialities/';
+import PopularSection from './PopularSection/';
+
 import './Home.css';
-import Specialities from './Specialities/Specialities';
 
 function Home() {
     return(
         <>
             <HomeBanner />
             <Specialities />
+            <PopularSection />
         </>
     );
 }

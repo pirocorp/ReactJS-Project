@@ -1,6 +1,6 @@
-import './SliderButton.css';
+import './SliderDot.css';
 
-function SliderButton(props) {
+function SliderDot(props) {
     return (
         <li className={props.itemIsActive(props.children - 1)} role="presentation">
             <button
@@ -16,4 +16,4 @@ function SliderButton(props) {
     );
 }
 
-export default SliderButton;
+export default SliderDot;

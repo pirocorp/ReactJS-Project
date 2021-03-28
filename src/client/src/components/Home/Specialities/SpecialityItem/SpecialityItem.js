@@ -1,6 +1,6 @@
-import './SliderItem.css';
+import './SpecialityItem.css';
 
-function SliderItem(props) {
+function SpecialityItem(props) {
     return (
         <div className="slick-slide slick-cloned" data-slick-index="5" aria-hidden="true" tabIndex="-1">
             <div className="speicality-item text-center">
@@ -14,4 +14,4 @@ function SliderItem(props) {
     );
 }
 
-export default SliderItem;
+export default SpecialityItem;
