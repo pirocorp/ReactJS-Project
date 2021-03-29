@@ -38,8 +38,10 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromQuery] string speciality, [FromQuery] string searchTerm)
+        public async Task<IActionResult> Get([FromQuery] string speciality, [FromQuery] string searchTerm, [FromQuery] int page = 1)
         {
+            // TODO: Add pagination
+
             if (this.User.IsInRole(RolesNames.Administrator))
             {
                 return this.Ok(await this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>(speciality, searchTerm));
@@ -47,6 +49,8 @@
 
             return this.Ok(await this.doctorsService.GetAllAsync<DoctorModel>(speciality, searchTerm));
         }
+
+
 
         [HttpGet(ApiConstants.WithId)]
         public async Task<IActionResult> Get(string id)
