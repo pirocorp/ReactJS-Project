@@ -17,6 +17,7 @@ namespace HospitalBookingSystemApi.Data.Models
             this.Id = Guid.NewGuid().ToString();
 
             this.Appointments = new HashSet<Appointment>();
+            this.Likes = new HashSet<Like>();
         }
 
         [Required]
@@ -57,6 +58,8 @@ namespace HospitalBookingSystemApi.Data.Models
         public virtual User User { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
 
         public void Configure(EntityTypeBuilder<Patient> patient)
         {

@@ -19,6 +19,7 @@ namespace HospitalBookingSystemApi.Data.Models
             this.Specializations = new HashSet<DoctorSpecialization>();
             this.Shifts = new HashSet<DoctorShift>();
             this.Appointments = new HashSet<Appointment>();
+            this.Likes = new HashSet<Like>();
         }
 
         [Required]
@@ -50,6 +51,8 @@ namespace HospitalBookingSystemApi.Data.Models
         public virtual ICollection<DoctorShift> Shifts { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
 
         public void Configure(EntityTypeBuilder<Doctor> doctor)
         {
