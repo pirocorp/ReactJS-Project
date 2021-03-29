@@ -1,14 +1,18 @@
 import SliderDot from './SliderDot'
 
-function SliderDotsControl(props) {
+function SliderDotsControl({
+    sliderButtonsCount,
+    onSliderDotClick,
+    itemIsActive
+}) {
     return (
         <ul className="slick-dots" role="tablist">
-            {props.sliderButtonsCount > 0
-                ? [...Array(props.sliderButtonsCount)]
+            {sliderButtonsCount > 0
+                ? [...Array(sliderButtonsCount)]
                     .map((e, i) => <SliderDot
                         key={i}
-                        onSliderItemClick={props.onSliderItemClick}
-                        itemIsActive={props.itemIsActive}
+                        onSliderDotClick={onSliderDotClick}
+                        itemIsActive={itemIsActive}
                     >{i + 1}</SliderDot>)
                 : []}
         </ul>

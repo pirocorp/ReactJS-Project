@@ -1,8 +1,25 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import doctorsService from '../../../services/doctorsService';
+
+import Slider from '../../Shared/Slider';
+import DoctorWidget from './DoctorWidget';
 
 import './PopularSection.css';
 
 function PopularSection() {
+
+    let [doctors, setDoctors] = useState([]);
+
+    useEffect(() => {
+        doctorsService.getAll()
+            .then(res => setDoctors(res ?? []))
+            .catch(err => { setDoctors([]); console.log(err)});
+    }, []); 
+
+    console.log(doctors);
+
     return (
         <section className="section section-doctor">
             <div className="container-fluid">
@@ -18,8 +35,10 @@ function PopularSection() {
                             <Link to="/about-us">Read More..</Link>
                         </div>
                     </div>
-                    <div class="col-lg-8">
-
+                    <div className="col-lg-8">
+                        <Slider sliderSize={4} className="doctor-slider">
+                                {doctors.map(x => <DoctorWidget key={x.id} {...x}></DoctorWidget>)}
+                        </Slider>
                     </div>
                 </div>
             </div>
