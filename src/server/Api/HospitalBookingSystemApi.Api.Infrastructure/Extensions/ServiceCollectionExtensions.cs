@@ -4,14 +4,16 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    using Common;
+    using CloudinaryDotNet;
     using HospitalBookingSystemApi.Api.Models;
+    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Services;
     using HospitalBookingSystemApi.Services.Data;
     using HospitalBookingSystemApi.Services.Data.Models;
     using HospitalBookingSystemApi.Services.Mapping;
 
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
@@ -131,6 +133,23 @@
                 });
             });
 
+            return services;
+        }
+
+        /// <summary>
+        /// Configures Cloudinary for storing image files.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddCloudinary(this IServiceCollection services, IConfiguration configuration)
+        {
+            var account = new Account(
+                configuration["Cloudinary:CloudName"],
+                configuration["Cloudinary:ApiKey"],
+                configuration["Cloudinary:ApiSecret"]);
+
+            var cloudinary = new CloudinaryDotNet.Cloudinary(account);
+            services.AddSingleton(cloudinary);
             return services;
         }
     }

@@ -17,6 +17,9 @@
 
         public Patient Patient { get; set; }
 
+        [Range(1, 5)]
+        public int Rating { get; set; }
+
         public void Configure(EntityTypeBuilder<Like> like)
         {
             like.HasKey(l => new { l.DoctorId, l.PatientId });

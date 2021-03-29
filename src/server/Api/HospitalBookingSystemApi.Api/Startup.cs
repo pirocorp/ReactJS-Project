@@ -15,7 +15,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.OpenApi.Models;
 
     public class Startup
     {
@@ -49,12 +48,15 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
             services.AddAutoMapper();
 
-            services.AddTransient<IJwtService, JwtService>();
-
             services.AddDomainServices();
 
             // Routing
             services.AddLowercaseRouting();
+
+            // 3rd party services
+            services.AddTransient<IJwtService, JwtService>();
+            services.AddTransient<IImageService, ImageService>();
+            services.AddCloudinary(this.configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -18,17 +18,20 @@
     public class DoctorsService : IDoctorsService
     {
         private readonly HospitalBookingSystemDbContext dbContext;
-        private readonly IUserService userService;
         private readonly UserManager<User> userManager;
+        private readonly IUserService userService;
+        private readonly IImageService imageService;
 
         public DoctorsService(
             HospitalBookingSystemDbContext dbContext,
+            UserManager<User> userManager,
             IUserService userService,
-            UserManager<User> userManager)
+            IImageService imageService)
         {
             this.dbContext = dbContext;
-            this.userService = userService;
             this.userManager = userManager;
+            this.userService = userService;
+            this.imageService = imageService;
         }
 
         public async Task<bool> ExistsAsync(string id)
@@ -146,13 +149,16 @@
 
             var user = await this.userManager.FindByEmailAsync(response.User.Email);
 
+            var imageUrl = await this.imageService.UploadAsync(model.ImageContent);
+
             var doctor = new Doctor()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 WorkEmail = model.WorkEmail,
                 WorkPhone = model.WorkPhone,
-                ImageUrl = model.ImageUrl,
+                ImageUrl = imageUrl,
+                Education = model.Education,
 
                 UserId = user.Id,
             };

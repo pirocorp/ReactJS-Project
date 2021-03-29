@@ -27,6 +27,8 @@
                 new () { Name = "GP", ImageURL = "/assets/img/specialities/specialities-07.png", },
                 new () { Name = "Otolaryngology", ImageURL = "/assets/img/specialities/specialities-08.png", },
                 new () { Name = "Family", ImageURL = "/assets/img/specialities/specialities-09.png", },
+                new () { Name = "Ophthalmology", ImageURL = "/assets/img/specialities/specialities-10.webp", },
+                new () { Name = "Dermatology", ImageURL = "/assets/img/specialities/specialities-11.png", },
             };
 
             await dbContext.AddRangeAsync(specializations);

@@ -14,5 +14,7 @@
         }
 
         public const string CancelAppointmentStatus = "Canceled";
+
+        public const string CloudinaryResourceBaseAddress = "https://res.cloudinary.com";
     }
 }

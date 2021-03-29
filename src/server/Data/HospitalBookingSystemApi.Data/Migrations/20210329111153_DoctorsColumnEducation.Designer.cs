@@ -4,14 +4,16 @@ using HospitalBookingSystemApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalBookingSystemApi.Data.Migrations
 {
     [DbContext(typeof(HospitalBookingSystemDbContext))]
-    partial class HospitalBookingSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210329111153_DoctorsColumnEducation")]
+    partial class DoctorsColumnEducation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,9 +242,6 @@ namespace HospitalBookingSystemApi.Data.Migrations
 
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
 
                     b.HasKey("DoctorId", "PatientId");
 

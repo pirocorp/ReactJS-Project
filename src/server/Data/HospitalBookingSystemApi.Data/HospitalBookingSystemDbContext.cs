@@ -42,6 +42,8 @@
 
         public DbSet<Specialization> Specializations { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
         /// <see cref="SaveChanges(bool)"/>
         public override int SaveChanges() => this.SaveChanges(true);
 

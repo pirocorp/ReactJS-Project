@@ -29,8 +29,48 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\HospitalBookingSystemApi.Common\HospitalBookingSystemApi.Common.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services\HospitalBookingSystemApi.Services.csproj" />
     <ProjectReference Include="..\HospitalBookingSystemApi.Data.Common\HospitalBookingSystemApi.Data.Common.csproj" />
     <ProjectReference Include="..\HospitalBookingSystemApi.Data.Models\HospitalBookingSystemApi.Data.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="img\doctor-01.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-02.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-03.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-04.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-05.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-06.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-07.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-08.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-09.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="img\doctor-12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
