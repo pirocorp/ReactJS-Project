@@ -4,6 +4,7 @@ import Specialities from './Specialities/';
 import PopularSection from './PopularSection/';
 
 import './Home.css';
+import Features from './Features/Features';
 
 function Home() {
     return(
@@ -11,6 +12,7 @@ function Home() {
             <HomeBanner />
             <Specialities />
             <PopularSection />
+            <Features />
         </>
     );
 }
