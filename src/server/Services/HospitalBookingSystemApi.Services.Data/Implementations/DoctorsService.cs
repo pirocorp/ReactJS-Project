@@ -66,11 +66,11 @@
         public async Task<T> GetWithDeletedAsync<T>(string id)
             => await this.GetAsync<T>(id, true);
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(string speciality, string searchTerm)
-            => await this.GetAllAsync<T>(speciality, searchTerm, false);
+        public async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, int page)
+            => await this.GetAllAsync<T>(speciality, searchTerm, false, page);
 
-        public async Task<IEnumerable<T>> GetAllWithDeletedAsync<T>(string speciality, string searchTerm)
-            => await this.GetAllAsync<T>(speciality, searchTerm, true);
+        public async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllWithDeletedAsync<T>(string speciality, string searchTerm, int page)
+            => await this.GetAllAsync<T>(speciality, searchTerm, true, page);
 
         public async Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id)
             => await this.dbContext.Doctors
@@ -217,7 +217,7 @@
                 ? await this.dbContext.Doctors.IgnoreQueryFilters().Where(d => d.Id.Equals(id)).To<T>().FirstOrDefaultAsync()
                 : await this.dbContext.Doctors.Where(d => d.Id.Equals(id)).To<T>().FirstOrDefaultAsync();
 
-        private async Task<IEnumerable<T>> GetAllAsync<T>(string speciality, string searchTerm, bool includeDeleted)
+        private async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, bool includeDeleted, int page)
         {
             var query = includeDeleted
                 ? this.dbContext.Doctors.IgnoreQueryFilters()
@@ -233,7 +233,18 @@
                 query = query.Where(d => (d.FirstName.ToLower() + " " + d.LastName.ToLower()).Contains(searchTerm.ToLower()));
             }
 
-            return await query.To<T>().ToListAsync();
+            var total = await query.CountAsync();
+
+            query = query
+                .OrderByDescending(x => x.Likes.Average(l => l.Rating));
+
+            var results = await query
+                .Skip((page - 1) * GlobalConstants.PageSize)
+                .Take(GlobalConstants.PageSize)
+                .To<T>()
+                .ToListAsync();
+
+            return (results, total);
         }
     }
 }

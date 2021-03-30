@@ -2,10 +2,10 @@ import { Component } from 'react';
 
 import specialitiesService from '../../../../services/specialitiesService.js';
 
-import './Search.css';
+import './SearchBar.css';
 
-class Search extends Component {
-    constructor(props ){
+class SearchBar extends Component {
+    constructor(props){
         super(props);
 
         this.state = {
@@ -70,9 +70,30 @@ class Search extends Component {
     onSubmitHandler(e) {
         e.preventDefault();
 
-        console.log(this.state);
-        //TODO: Change route and pass state as query string
+        let speciality = this.state.speciality;
+        let searchTerm = this.state.searchTerm;
+
+        let queryString;
+
+        if(speciality || searchTerm) {
+            queryString = '?';
+
+            let queries = [];
+
+            if(speciality) {
+                queries.push(`speciality=${speciality}`);
+            }
+
+            if(searchTerm) {
+                queries.push(`searchTerm=${searchTerm}`);
+            }
+
+            queryString += queries.join('&');
+        }
+               
+        let uri = encodeURI(`/patients/search${queryString}`);
+        this.props.history.push(uri);
     }
 }
 
-export default Search;
+export default SearchBar;

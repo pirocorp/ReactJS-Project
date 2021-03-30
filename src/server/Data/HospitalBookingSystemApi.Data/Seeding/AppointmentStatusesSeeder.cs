@@ -1,12 +1,12 @@
 ﻿namespace HospitalBookingSystemApi.Data.Seeding
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using HospitalBookingSystemApi.Data.Models;
+
     using Microsoft.EntityFrameworkCore;
-    using Models;
 
     public class AppointmentStatusesSeeder : ISeeder
     {
@@ -17,7 +17,7 @@
                 return;
             }
 
-            var statusNames = new[] { "Pending", "Canceled", "Completed", "Break" };
+            var statusNames = new[] { "Pending", "Canceled", "Confirmed", "Completed", "Break" };
             var statuses = statusNames
                 .Select(statusName => new AppointmentStatus() { Name = statusName })
                 .ToList();

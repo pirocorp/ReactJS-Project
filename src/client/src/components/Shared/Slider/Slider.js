@@ -59,8 +59,6 @@ class Slider extends Component {
 
         let elements = this.props.children.slice(this.state.offset, this.state.offset + this.sliderSize);
 
-        console.log(this.props.children);
-
         return (
             <div className={classes.join(' ')}>
                 { prevArrow }

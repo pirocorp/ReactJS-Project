@@ -3176,10 +3176,10 @@ html.menu-opened body {
 }
 
 .doctor-img {
-    -ms-flex: 0 0 150px;
-    flex: 0 0 150px;
+    -ms-flex: 0 0 200px;
+    flex: 0 0 200px;
     margin-right: 20px;
-    width: 150px;
+    width: 200px;
 }
 
 .doctor-img img {

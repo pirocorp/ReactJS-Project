@@ -32,6 +32,12 @@
                 .Select(s => s.Id)
                 .FirstOrDefaultAsync();
 
+        public async Task<T> GetAsync<T>(string id)
+            => await this.dbContext.Specializations
+                .Where(s => s.Id.Equals(id))
+                .To<T>()
+                .FirstOrDefaultAsync();
+
         public async Task<IEnumerable<T>> GetAllAsync<T>()
             => await this.dbContext.Specializations
                 .OrderBy(s => s.Name)

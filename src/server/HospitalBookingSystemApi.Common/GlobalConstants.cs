@@ -4,6 +4,12 @@
     {
         public const string SystemName = "Hospital Booking System Api";
 
+        public const string CancelAppointmentStatus = "Canceled";
+
+        public const string CloudinaryResourceBaseAddress = "https://res.cloudinary.com";
+
+        public const int PageSize = 10;
+
         public static class RolesNames
         {
             public const string Administrator = "Administrator";
@@ -12,9 +18,5 @@
 
             public const string Patient = "Patient";
         }
-
-        public const string CancelAppointmentStatus = "Canceled";
-
-        public const string CloudinaryResourceBaseAddress = "https://res.cloudinary.com";
     }
 }

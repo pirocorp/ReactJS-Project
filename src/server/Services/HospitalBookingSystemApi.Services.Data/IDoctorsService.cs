@@ -22,9 +22,9 @@
 
         Task<T> GetWithDeletedAsync<T>(string id);
 
-        Task<IEnumerable<T>> GetAllAsync<T>(string speciality, string searchTerm);
+        Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, int page);
 
-        Task<IEnumerable<T>> GetAllWithDeletedAsync<T>(string speciality, string searchTerm);
+        Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllWithDeletedAsync<T>(string speciality, string searchTerm, int page);
 
         Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id);
 

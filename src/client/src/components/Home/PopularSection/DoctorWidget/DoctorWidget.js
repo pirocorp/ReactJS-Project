@@ -17,7 +17,7 @@ function DoctorWidget({
             <div className="profile-widget" /* style="width: 100%; display: inline-block;" */>
                 <div className="doc-img">
                     <Link to="#" tabIndex="-1">
-                        <img className="img-fluid" alt="User Image" src={imageUrl} />
+                        <img className="img-fluid" alt="Doctor" src={imageUrl} />
                     </Link>
                     <Link to="#" className="fav-btn" tabIndex="-1">
                         <i className="far fa-bookmark"></i>
@@ -25,7 +25,7 @@ function DoctorWidget({
                 </div>
                 <div className="pro-content">
                     <h3 className="title">
-                        <a to="doctor-profile.html" tabIndex="-1">{firstName + ' ' + lastName}</a>
+                        <Link to="doctor-profile.html" tabIndex="-1">{firstName + ' ' + lastName}</Link>
                         <i className="fas fa-check-circle verified"></i>
                     </h3>
                     <p className="speciality">{education}</p>

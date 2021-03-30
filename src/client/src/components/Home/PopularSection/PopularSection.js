@@ -14,11 +14,9 @@ function PopularSection() {
 
     useEffect(() => {
         doctorsService.getAll()
-            .then(res => setDoctors(res ?? []))
+            .then(res => setDoctors(res.results ?? []))
             .catch(err => { setDoctors([]); console.log(err)});
     }, []); 
-
-    console.log(doctors);
 
     return (
         <section className="section section-doctor">

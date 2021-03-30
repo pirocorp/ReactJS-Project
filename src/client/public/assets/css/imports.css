@@ -26,7 +26,8 @@
 }
 
 .search-location .form-control {
-    background: #fff url(../img/location.png) no-repeat 10px center;
+    background: #fff url(../img/category.svg) no-repeat 10px center;  
+    background-size: 20px;  
 }
 
 .search-info .form-control {

@@ -6,10 +6,10 @@ import PopularSection from './PopularSection/';
 import './Home.css';
 import Features from './Features/Features';
 
-function Home() {
+function Home(props) {
     return(
         <>
-            <HomeBanner />
+            <HomeBanner {... props}/>
             <Specialities />
             <PopularSection />
             <Features />

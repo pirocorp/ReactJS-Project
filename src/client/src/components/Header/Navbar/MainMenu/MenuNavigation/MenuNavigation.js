@@ -25,17 +25,17 @@ const MenuNavigation = () => {
             <li className={setClassName('/doctors') + " has-submenu"}>
                 <Link to="#">Doctors <i className="fas fa-chevron-down"></i></Link>
                 <ul className="submenu">
-                    { routes.doctors.map(d => <li><Link to={d.path}>{d.title}</Link></li>) }
+                    { routes.doctors.map(d => <li key={d.path}><Link to={d.path}>{d.title}</Link></li>) }
                 </ul>
             </li>
             <li className={setClassName('/patients') + " has-submenu"}>
                 <Link to="#">Patients <i className="fas fa-chevron-down"></i></Link>
                 <ul className="submenu">
-                    { routes.patients.map(d => <li><Link to={d.path}>{d.title}</Link></li>) }
+                    { routes.patients.map(d => <li key={d.path}><Link to={d.path}>{d.title}</Link></li>) }
                 </ul>
             </li>
             <li className={setClassName('/admin')}>
-                { routes.admin.map(d => <li><Link to={d.path}>{d.title}</Link></li>) }
+                { routes.admin.map(d => <li key={d.path}><Link to={d.path}>{d.title}</Link></li>) }
             </li>
             <li className="login-link">
                 <Link to="/login">Login / Signup</Link>

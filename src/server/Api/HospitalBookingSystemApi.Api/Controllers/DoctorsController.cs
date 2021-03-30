@@ -1,7 +1,9 @@
 ﻿namespace HospitalBookingSystemApi.Api.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Common;
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
     using HospitalBookingSystemApi.Api.Models.Doctors;
     using HospitalBookingSystemApi.Data.Models;
@@ -11,7 +13,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-
+    using Models;
     using static Common.GlobalConstants;
 
     public class DoctorsController : BaseController
@@ -40,17 +42,24 @@
         [AllowAnonymous]
         public async Task<IActionResult> Get([FromQuery] string speciality, [FromQuery] string searchTerm, [FromQuery] int page = 1)
         {
-            // TODO: Add pagination
+            if (page <= 0)
+            {
+                return this.BadRequest(ApiConstants.Errors.PageError);
+            }
 
             if (this.User.IsInRole(RolesNames.Administrator))
             {
-                return this.Ok(await this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>(speciality, searchTerm));
+                var adminResponse = await this
+                    .GetResponse(this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>, speciality, searchTerm, page);
+
+                return this.Ok(adminResponse);
             }
 
-            return this.Ok(await this.doctorsService.GetAllAsync<DoctorModel>(speciality, searchTerm));
+            var response = await this
+                .GetResponse(this.doctorsService.GetAllAsync<DoctorModel>, speciality, searchTerm, page);
+
+            return this.Ok(response);
         }
-
-
 
         [HttpGet(ApiConstants.WithId)]
         public async Task<IActionResult> Get(string id)
@@ -271,6 +280,19 @@
             var doctor = await this.doctorsService.DeleteAsync(id);
 
             return this.Ok(doctor);
+        }
+
+        private async Task<GetResponseModel<T>> GetResponse<T>(Func<string, string, int, Task<(IEnumerable<T> PageResults, int TotalResults)>> func, string speciality, string searchTerm, int page)
+        {
+            var (results, total) = await func(speciality, searchTerm, page);
+
+            var response = new GetResponseModel<T>()
+            {
+                Results = results,
+                Total = total,
+            };
+
+            return response;
         }
     }
 }

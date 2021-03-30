@@ -93,6 +93,12 @@
                 Code = ErrorsMessages.Patient,
                 Description = ErrorsMessages.InsufficientPermission,
             };
+
+            public static readonly ApiErrorModel PageError = new ()
+            {
+                Code = ErrorsMessages.Page,
+                Description = ErrorsMessages.InvalidPageNumber,
+            };
         }
 
         private static class ErrorsMessages
@@ -104,6 +110,7 @@
             public const string PatientUpdate = "Patient Update";
             public const string Patient = "Patient";
             public const string Register = "Register";
+            public const string Page = "Page";
 
             public const string InsufficientPermission = "Insufficient Permission to perform this action.";
             public const string UsernameOrEmailInUse = "Username or email is already taken.";
@@ -111,6 +118,7 @@
             public const string ShiftNotFound = "Shift not found.";
             public const string UserAlreadyHavePatientProfile = "User Already Have Patient Profile";
             public const string UserDoNotHavePatientProfile = "User Do Not Have Patient Profile";
+            public const string InvalidPageNumber = "Invalid Page Number";
         }
     }
 }

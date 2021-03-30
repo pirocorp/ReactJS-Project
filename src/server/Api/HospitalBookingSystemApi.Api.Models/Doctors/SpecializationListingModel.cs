@@ -11,12 +11,15 @@
 
         public string Name { get; set; }
 
+        public string ImageURL { get; set; }
+
         public virtual void CreateMappings(IProfileExpression configuration)
         {
             configuration
                 .CreateMap<DoctorSpecialization, SpecializationListingModel>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.SpecializationId))
-                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Specialization.Name));
+                .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Specialization.Name))
+                .ForMember(d => d.ImageURL, opt => opt.MapFrom(s => s.Specialization.ImageURL));
         }
     }
 }
