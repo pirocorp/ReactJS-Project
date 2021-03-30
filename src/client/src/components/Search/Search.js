@@ -1,6 +1,5 @@
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import doctorsService from '../../services/doctorsService';
 import Breadcrumb from './Breadcrumb/Breadcrumb';
@@ -17,11 +16,12 @@ function Search({
 
     let [doctors, setDoctors] = useState([]);
     let [total, setTotal] = useState(0);
-    let [queries, setQueries] = useState({
+    let [page, setPage] = useState(1);
+
+    let queries = {
         speciality: parsed.speciality,
-        searchTerm: parsed.searchTerm,
-        page: parsed.page ?? 1
-    });
+        searchTerm: parsed.searchTerm        
+    };
 
     useEffect(() => {
         doctorsService.getAll(location.search)
@@ -32,9 +32,29 @@ function Search({
             .catch(err => { setDoctors([]); console.log(err)});
     }, [location.search]); 
 
+    function onLoadMoreClickHandler() {
+        let newPage = page + 1;      
+
+        let url = location.search + `&page=${newPage}`;
+
+        doctorsService.getAll(url)
+            .then(res => {
+                if(res.results.length === 0){
+                    return
+                }
+
+                doctors.push(...res.results);
+                setDoctors(doctors);
+                setTotal(res.total)
+                setPage(newPage);
+            })
+            .catch(err => console.log(err));
+    }
+
     return(
         <>
             <Breadcrumb total={total} speciality={queries.speciality}/>
+            
             <div className="content">
 				<div className="container-fluid">
                     <div className="row">
@@ -47,7 +67,7 @@ function Search({
                             { doctors.map(d => <DoctorCard key={d.id} {...d}/>) }
                             
                             <div className="load-more text-center">
-                                <Link className="btn btn-primary btn-sm" to="#">Load More</Link>	
+                                <button className="btn btn-primary btn-sm" onClick={onLoadMoreClickHandler}>Load More</button>	
                             </div>
                         </div>
                     </div>
