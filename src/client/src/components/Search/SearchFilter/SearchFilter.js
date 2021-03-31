@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
+import DatePicker from "react-datepicker";
 
 import { createQueryStringFromObject } from '../../../common/helpers';
 
 import specialitiesService from '../../../services/specialitiesService';
 
+import "react-datepicker/dist/react-datepicker.css";
 import './SearchFilter.css';
 
 function SearchFilter({
     queries,
     history
 }) {
-
-    let [specialities, setSpecialities] = useState([]);
+    const [specialities, setSpecialities] = useState([]);
+    const [date, setDate] = useState();
 
     useEffect(() => {
         specialitiesService
@@ -26,7 +28,8 @@ function SearchFilter({
         e.preventDefault();
 
         queries.speciality = e.target.speciality.value;
-        queries.searchTerm = e.target.searchTerm.value;          
+        queries.searchTerm = e.target.searchTerm.value;  
+        queries.date = date ? date.toJSON() : '';   
                
         let queryString = createQueryStringFromObject(queries);
 
@@ -46,7 +49,13 @@ function SearchFilter({
                 <form onSubmit={onFilterSearchSubmit}>
                     <div className="filter-widget">
                         <div className="cal-icon">
-                            <input type="text" className="form-control datetimepicker" placeholder="Select Date" />
+                            <DatePicker 
+                                className="form-control" 
+                                placeholderText="Select Date"
+                                selected={date}
+                                onChange={date => setDate(date)} 
+                                dateFormat="yyyy/MM/dd"
+                            />
                         </div>
                     </div>
                     <div className="filter-widget">

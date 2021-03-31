@@ -20,7 +20,8 @@ function Search({
 
     let queries = {
         speciality: parsed.speciality,
-        searchTerm: parsed.searchTerm        
+        searchTerm: parsed.searchTerm,
+        date: parsed.date,      
     };
 
     useEffect(() => {

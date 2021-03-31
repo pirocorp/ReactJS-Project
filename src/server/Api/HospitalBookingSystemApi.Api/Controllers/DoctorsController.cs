@@ -40,7 +40,7 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromQuery] string speciality, [FromQuery] string searchTerm, [FromQuery] int page = 1)
+        public async Task<IActionResult> Get([FromQuery] string speciality, [FromQuery] string searchTerm, [FromQuery] DateTime date, [FromQuery] int page = 1)
         {
             if (page <= 0)
             {
