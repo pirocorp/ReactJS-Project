@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+import { Link, useHistory } from 'react-router-dom';
 
 import { routes } from '../../../../../common/applicationRoutes';
 
 import './MenuNavigation.css';
 
 const MenuNavigation = () => {
-    const currentPath = window.location.pathname;
+
+    const[currentPath, setPath] = useState(useHistory().location.pathname);
 
     const setClassName = (path) => {
         if (currentPath.startsWith(path) && path.length > 1) {
@@ -15,10 +18,16 @@ const MenuNavigation = () => {
         }
 
         return '';
-    }
+    };
+
+    function onNavigationMenuClickHandler(){
+        const path = window.location.pathname;
+
+        setPath(path);
+    };
 
     return(
-        <ul className="main-nav">
+        <ul className="main-nav" onClick={onNavigationMenuClickHandler}>
             <li className={setClassName('/')}>
                 <Link to="/">Home</Link>
             </li>

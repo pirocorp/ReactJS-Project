@@ -1,4 +1,4 @@
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -8,12 +8,10 @@ import Search from './components/Search';
 import './App.css';
 import TestComponent from './components/TestComponents';
 
-function App() {  
-    const HeaderWithRouter = withRouter(Header);
-    
+function App() {    
     return (
         <>
-            <HeaderWithRouter />
+            <Header />
             <Switch>
                 <Route path="/test" exact component={ TestComponent } />
                 <Route path="/" exact component={ Home } />
