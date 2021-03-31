@@ -3,10 +3,12 @@ import MenuNavigation from './MenuNavigation';
 
 import './MainMenu.css';
 
-const MainMenu = () => {
+const MainMenu = ({
+    setOpenMenu
+}) => {
     return(
         <div className="main-menu-wrapper">
-            <MenuHeader />
+            <MenuHeader setOpenMenu={ setOpenMenu } />
             <MenuNavigation />
         </div>
     );

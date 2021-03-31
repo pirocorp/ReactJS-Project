@@ -2,11 +2,18 @@ import './NavbarHeader.css';
 
 import { Link } from 'react-router-dom';
 
-const NavbarHeader = () => {
+const NavbarHeader = ({
+    setOpenMenu
+}) => {
+
+    function onMobileMenuClickHandler() {
+        setOpenMenu(true);
+    }
+
     return(
         <div className="navbar-header">
             <div id="mobile_btn">
-                <span className="bar-icon">
+                <span className="bar-icon" onClick={onMobileMenuClickHandler}>
                     <span></span>
                     <span></span>
                     <span></span>

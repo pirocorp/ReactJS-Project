@@ -2,10 +2,12 @@ import './Header.css';
 
 import Navbar from './Navbar'
 
-const Header = () => {
+const Header = ({
+    setOpenMenu
+}) => {
     return(
         <header className="header">
-            <Navbar />
+            <Navbar setOpenMenu={ setOpenMenu } />
         </header>
     );
 }
