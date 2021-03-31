@@ -49,14 +49,12 @@
 
             if (this.User.IsInRole(RolesNames.Administrator))
             {
-                var adminResponse = await this
-                    .GetResponse(this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>, speciality, searchTerm, page);
+                var adminResponse = await GetResponse(this.doctorsService.GetAllWithDeletedAsync<DoctorAdminModel>, speciality, searchTerm, date, page);
 
                 return this.Ok(adminResponse);
             }
 
-            var response = await this
-                .GetResponse(this.doctorsService.GetAllAsync<DoctorModel>, speciality, searchTerm, page);
+            var response = await GetResponse(this.doctorsService.GetAllAsync<DoctorModel>, speciality, searchTerm, date, page);
 
             return this.Ok(response);
         }
@@ -282,9 +280,9 @@
             return this.Ok(doctor);
         }
 
-        private async Task<GetResponseModel<T>> GetResponse<T>(Func<string, string, int, Task<(IEnumerable<T> PageResults, int TotalResults)>> func, string speciality, string searchTerm, int page)
+        private static async Task<GetResponseModel<T>> GetResponse<T>(Func<string, string, DateTime, int, Task<(IEnumerable<T> PageResults, int TotalResults)>> func, string speciality, string searchTerm, DateTime date, int page)
         {
-            var (results, total) = await func(speciality, searchTerm, page);
+            var (results, total) = await func(speciality, searchTerm, date, page);
 
             var response = new GetResponseModel<T>()
             {

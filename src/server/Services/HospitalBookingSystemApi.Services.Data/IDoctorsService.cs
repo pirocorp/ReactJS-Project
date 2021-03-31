@@ -1,5 +1,6 @@
 ﻿namespace HospitalBookingSystemApi.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -22,9 +23,9 @@
 
         Task<T> GetWithDeletedAsync<T>(string id);
 
-        Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, int page);
+        Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, DateTime date, int page);
 
-        Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllWithDeletedAsync<T>(string speciality, string searchTerm, int page);
+        Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllWithDeletedAsync<T>(string speciality, string searchTerm, DateTime date, int page);
 
         Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id);
 

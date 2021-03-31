@@ -66,11 +66,11 @@
         public async Task<T> GetWithDeletedAsync<T>(string id)
             => await this.GetAsync<T>(id, true);
 
-        public async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, int page)
-            => await this.GetAllAsync<T>(speciality, searchTerm, false, page);
+        public async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, DateTime date, int page)
+            => await this.GetAllAsync<T>(speciality, searchTerm, date, false, page);
 
-        public async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllWithDeletedAsync<T>(string speciality, string searchTerm, int page)
-            => await this.GetAllAsync<T>(speciality, searchTerm, true, page);
+        public async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllWithDeletedAsync<T>(string speciality, string searchTerm, DateTime date, int page)
+            => await this.GetAllAsync<T>(speciality, searchTerm, date, true, page);
 
         public async Task<IEnumerable<T>> GetSpecializationsAsync<T>(string id)
             => await this.dbContext.Doctors
@@ -217,7 +217,7 @@
                 ? await this.dbContext.Doctors.IgnoreQueryFilters().Where(d => d.Id.Equals(id)).To<T>().FirstOrDefaultAsync()
                 : await this.dbContext.Doctors.Where(d => d.Id.Equals(id)).To<T>().FirstOrDefaultAsync();
 
-        private async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, bool includeDeleted, int page)
+        private async Task<(IEnumerable<T> PageResults, int TotalResults)> GetAllAsync<T>(string speciality, string searchTerm, DateTime date, bool includeDeleted, int page)
         {
             var query = includeDeleted
                 ? this.dbContext.Doctors.IgnoreQueryFilters()
@@ -231,6 +231,29 @@
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
                 query = query.Where(d => (d.FirstName.ToLower() + " " + d.LastName.ToLower()).Contains(searchTerm.ToLower()));
+            }
+
+            if (date >= DateTime.Now)
+            {
+                var shift = await this.dbContext.Shifts.Where(s => s.Date == date).FirstOrDefaultAsync();
+
+                if (shift != null)
+                {
+                    var possibleSlots = this.dbContext.Slots.Select(s => s.Id).ToHashSet();
+
+                    var shiftSlots = await this.dbContext.Appointments
+                        .Where(a => a.ShiftId.Equals(shift.Id))
+                        .Select(a => new
+                            {
+                                SlotId = a.Slot.Id,
+                                DoctorId = a.DoctorId,
+                            })
+                        .GroupBy(a => a.DoctorId)
+                        .ToDictionaryAsync(x => x.Key, x => x.ToHashSet());
+
+                    query = query
+                        .Where(d => !shiftSlots.ContainsKey(d.Id) || shiftSlots[d.Id].Count < possibleSlots.Count);
+                }
             }
 
             var total = await query.CountAsync();
