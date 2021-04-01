@@ -22,6 +22,7 @@ class SearchBar extends Component {
         specialitiesService
             .getAll()
             .then(r => {
+                r = r ? r : [];
                 r?.unshift({id: 'all', name: 'All'}); 
                 this.setState(state => state.data = r)
             });

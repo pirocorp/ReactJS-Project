@@ -1,6 +1,8 @@
-import './Header.css';
+import { withRouter } from 'react-router-dom';
 
 import Navbar from './Navbar'
+
+import './Header.css';
 
 const Header = ({
     setOpenMenu
@@ -12,4 +14,4 @@ const Header = ({
     );
 }
 
-export default Header;
+export default withRouter(Header);

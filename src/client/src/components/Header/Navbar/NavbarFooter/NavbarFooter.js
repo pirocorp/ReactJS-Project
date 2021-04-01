@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import './NavbarFooter.css';
 
 const NavbarFooter = () => {
@@ -13,7 +15,7 @@ const NavbarFooter = () => {
                 </div>
             </li>
             <li className="nav-item">
-                <a className="nav-link header-login" href="login.html">login / Signup </a>
+                <Link className="nav-link header-login" to="/login">login / Signup </Link>
             </li>
         </ul>
     );

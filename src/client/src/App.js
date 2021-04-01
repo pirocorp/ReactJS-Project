@@ -6,6 +6,8 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Search from './components/Search';
 import DoctorProfile from './components/DoctorProfile';
+import Login from './components/Login';
+import Register from './components/Register';
 
 import './App.css';
 import TestComponent from './components/TestComponents';
@@ -20,6 +22,8 @@ function App() {
                 <Route path="/test" exact component={ TestComponent } />
                 <Route path="/" exact component={ Home } />
                 <Route path="/patients/search" exact component={ Search } />
+                <Route path="/login" exact component={ Login } />
+                <Route path="/register" exact component={ Register } />
                 <Route path="/doctors/:doctorId" exact component={ DoctorProfile } />
             </Switch>
             <Footer />

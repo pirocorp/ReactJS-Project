@@ -19,6 +19,7 @@ function SearchFilter({
         specialitiesService
             .getAll()
             .then(r => {
+                r = r ? r : []; 
                 r?.unshift({ id: 'all', name: 'All' });
                 setSpecialities(r);
             });
