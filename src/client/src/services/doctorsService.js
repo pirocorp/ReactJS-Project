@@ -14,8 +14,17 @@ function getAll (queryString) {
         .catch(err => console.log(err));
 }
 
+function get(id) {
+    const uri = `${endpoint}/${id}`;
+
+    return fetch(uri)
+        .then(res => res.json())
+        .catch(err => console.log(err))
+}
+
 const doctorsService = {
     getAll,
+    get
 };
 
 export default doctorsService;

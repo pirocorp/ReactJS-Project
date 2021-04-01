@@ -60,6 +60,7 @@
         }
 
         [HttpGet(ApiConstants.WithId)]
+        [AllowAnonymous]
         public async Task<IActionResult> Get(string id)
         {
             var user = await this.userManager.GetUserAsync(this.User);

@@ -241,18 +241,20 @@
                 {
                     var possibleSlots = this.dbContext.Slots.Select(s => s.Id).ToHashSet();
 
-                    var shiftSlots = await this.dbContext.Appointments
+                    var shiftsSlots = (await this.dbContext.Appointments
                         .Where(a => a.ShiftId.Equals(shift.Id))
                         .Select(a => new
                             {
                                 SlotId = a.Slot.Id,
                                 DoctorId = a.DoctorId,
                             })
+                        .ToListAsync())
                         .GroupBy(a => a.DoctorId)
-                        .ToDictionaryAsync(x => x.Key, x => x.ToHashSet());
+                        .ToDictionary(x => x.Key, x => x.ToHashSet());
 
                     query = query
-                        .Where(d => !shiftSlots.ContainsKey(d.Id) || shiftSlots[d.Id].Count < possibleSlots.Count);
+                        .Where(d => d.Shifts.Any(s => s.Shift.Id.Equals(shift.Id)) // Doctor is enrolled in shift
+                                                   && (!shiftsSlots.ContainsKey(d.Id) || shiftsSlots[d.Id].Count < possibleSlots.Count)); // Doctor has free slot in this shift
                 }
             }
 

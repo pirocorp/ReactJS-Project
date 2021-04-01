@@ -29,7 +29,8 @@ function SearchFilter({
 
         queries.speciality = e.target.speciality.value;
         queries.searchTerm = e.target.searchTerm.value;  
-        queries.date = date ? date.toJSON() : '';   
+        
+        queries.date = date ? new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toJSON() : '';   
                
         let queryString = createQueryStringFromObject(queries);
 

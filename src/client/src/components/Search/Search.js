@@ -2,8 +2,8 @@ import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 
 import doctorsService from '../../services/doctorsService';
-import Breadcrumb from './Breadcrumb/Breadcrumb';
-import DoctorCard from './DoctorCard/DoctorCard';
+import Breadcrumb from '../Shared/Breadcrumb/Breadcrumb';
+import DoctorCard from '../Shared/DoctorCard/DoctorCard';
 
 import './Search.css';
 import SearchFilter from './SearchFilter/SearchFilter';
@@ -54,7 +54,7 @@ function Search({
 
     return(
         <>
-            <Breadcrumb total={total} speciality={queries.speciality}/>
+            <Breadcrumb active="Search" title={`${total} ${total === 1 ? 'match' : 'matches' } found`} />
             
             <div className="content">
 				<div className="container-fluid">
@@ -65,7 +65,7 @@ function Search({
                         </div>
 
                         <div className="col-md-12 col-lg-8 col-xl-9">
-                            { doctors.map(d => <DoctorCard key={d.id} {...d}/>) }
+                            { doctors.map(d => <DoctorCard key={d.id} {...d} />) }
                             
                             <div className="load-more text-center">
                                 <button className="btn btn-primary btn-sm" onClick={onLoadMoreClickHandler}>Load More</button>	
