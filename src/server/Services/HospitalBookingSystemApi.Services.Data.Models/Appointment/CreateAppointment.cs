@@ -12,8 +12,5 @@
 
         [Required]
         public string ShiftId { get; set; }
-
-        [Required]
-        public string StatusId { get; set; }
     }
 }

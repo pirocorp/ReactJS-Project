@@ -10,6 +10,8 @@
 
         public const int PageSize = 10;
 
+        public const string DefaultAppointmentStatus = "Pending";
+
         public static class RolesNames
         {
             public const string Administrator = "Administrator";

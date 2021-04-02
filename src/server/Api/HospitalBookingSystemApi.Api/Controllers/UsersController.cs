@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using HospitalBookingSystemApi.Api.Models.Users;
 
     public class UsersController : BaseController
     {
@@ -93,6 +94,27 @@
             }
 
             return this.Ok(response);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("exists")]
+        public async Task<IActionResult> Exists([FromBody] ExistModel model)
+        {
+            var exists = false;
+
+            if (model.Email is not null)
+            {
+                exists = await this.userService.EmailAlreadyExists(model.Email);
+            }
+
+            if (model.Username is not null)
+            {
+                exists = exists || await this.userService.UsernameAlreadyExists(model.Username);
+            }
+
+            return await Task.FromResult(this.Ok(new {
+                exists,
+            }));
         }
     }
 }

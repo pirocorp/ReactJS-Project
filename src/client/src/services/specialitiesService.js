@@ -1,12 +1,8 @@
-import apiConstants from './apiConstants';
+import requesterService from './requesterService';
 
-const endpoint = apiConstants.baseUrl + '/specializations';
+const endpoint = '/specializations';
 
-function getAll () {
-    return fetch(endpoint)
-        .then(res => res.json())
-        .catch(err => console.log(err));
-}
+const getAll = () => requesterService.get(endpoint);
 
 const specialitiesService = {
     getAll,

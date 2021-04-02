@@ -10,7 +10,8 @@ function DoctorWidget({
     education,
     rating,
     ratingsCount,
-    imageUrl
+    imageUrl,
+    id
 }) {
     return (
         <div className="slick-slide" data-slick-index="2" aria-hidden="true" tabIndex="-1">
@@ -39,7 +40,7 @@ function DoctorWidget({
                     </ul>
                     <div className="row row-sm">
                         <div className="col-6">
-                            <Link to="#" className="btn view-btn" tabIndex="-1">View Profile</Link>
+                            <Link to={`doctors/${id}`} className="btn view-btn" tabIndex="-1">View Profile</Link>
                         </div>
                         <div className="col-6">
                             <Link to="#" className="btn book-btn" tabIndex="-1">Book Now</Link>

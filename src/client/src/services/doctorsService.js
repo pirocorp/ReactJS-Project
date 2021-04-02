@@ -1,6 +1,6 @@
-import apiConstants from './apiConstants';
+import requesterService from './requesterService';
 
-const endpoint = apiConstants.baseUrl + '/doctors';
+const endpoint = '/doctors';
 
 function getAll (queryString) {
     let uri = endpoint;
@@ -9,18 +9,10 @@ function getAll (queryString) {
         uri += queryString;
     }
 
-    return fetch(uri)
-        .then(res => res.json())
-        .catch(err => console.log(err));
+    return requesterService.get(uri);
 }
 
-function get(id) {
-    const uri = `${endpoint}/${id}`;
-
-    return fetch(uri)
-        .then(res => res.json())
-        .catch(err => console.log(err))
-}
+const get = (id) => requesterService.get(`${endpoint}/${id}`);
 
 const doctorsService = {
     getAll,

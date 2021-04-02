@@ -50,7 +50,7 @@
                 DoctorId = model.DoctorId,
                 ShiftId = model.ShiftId,
                 SlotId = model.SlotId,
-                StatusId = model.StatusId,
+                StatusId = await this.appointmentStatusesService.GetStatusIdAsync(GlobalConstants.DefaultAppointmentStatus),
             };
 
             await this.dbContext.Appointments.AddAsync(appointment);

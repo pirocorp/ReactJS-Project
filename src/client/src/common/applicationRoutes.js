@@ -2,7 +2,7 @@ const routes = {
     patients: [
         { path: "/patients/search", title: "Search for Doctors" },
         { path: "/login", title: "Login" },
-        { path: "/patients/register", title: "Register" },
+        { path: "/register", title: "Register" },
         { path: "/patients/booking", title: "Booking" },
         { path: "/patients/patient-dashboard", title: "Patient Dashboard" }
     ],
