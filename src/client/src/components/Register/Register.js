@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import IsFocused from '../../hocs/IsFocused';
 
+import Alert from '../Shared/Alert';
+
+import userService from '../../services/usersService';
+
 import './Register.css';
 
 function Register({
@@ -11,7 +15,6 @@ function Register({
 }) {
 
     // TODO: Implement register functionality, automatic login after register and redirect to home.
-
     const [state, setState] = useState({
         username : '',
         email: '',
@@ -19,21 +22,99 @@ function Register({
         confirmPassword: ''
     });
 
-    function onRegisterFormSubmitHandler(e) {
+    const [error, setError] = useState({
+        title: '',
+        text: ''
+    });
+
+    const [info, setInfo] = useState({
+        title: '',
+        text: ''
+    });
+
+    async function onRegisterFormSubmitHandler(e) {
         e.preventDefault();
+
+        if((await userService.usernameExists(state.username)).exists){
+            setError({
+                title: 'Username',
+                text: 'is already taken'
+            });
+
+            return;
+        }    
+        
+        if((await userService.emailExists(state.email)).exists) {
+            setError({
+                title: 'Email',
+                text: 'is already taken'
+            });
+
+            return;
+        }
+
+        if(state.password != state.confirmPassword) {
+            setError({
+                title: 'Passwords',
+                text: 'did not match'
+            });
+
+            return;
+        }
+
+        if(state.password.length < 6){
+            setError({
+                title: 'Password',
+                text: 'must be at least 6 characters long'
+            });
+
+            return;
+        }
 
         const payload = {
             username: state.username,
             email: state.email,
             password: state.password,
-        }
+        };
 
-        console.log(payload);
+        userService.register(payload)
+            .then(res => {
+                setInfo({
+                    title: 'Success',
+                    text: 'you registered successfully'
+                });
+
+                console.log(res); 
+                // TODO Add JWT to some global state and include if JWT is present in all requests
+                // So requester service must include JWT if its present and send it with its every request
+            })
+            .catch(res => setError({
+                title: 'Unsuccessful',
+                text: 'something went wrong please try again later'
+            }));
     };
 
-    return (
+    function onRegisterInputBlurHandler(e) {
+        onInputBlurHandler(e, setState);
+    }
+
+    function onCloseErrorAlertHandler() {
+        setError({
+            title: '',
+            text: ''
+        });
+    }
+
+    function onCloseSuccessAlertHandler() {
+
+    }
+
+    return (        
         <div className="content content-login">
             <div className="container-fluid">
+
+                <Alert title={error.title} className="alert-danger" text={error.text} onCloseAlert={onCloseErrorAlertHandler} />
+                <Alert title={error.title} className="alert-success" text={error.text} onCloseAlert={onCloseSuccessAlertHandler} />
 
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
@@ -50,19 +131,19 @@ function Register({
 
                                     <form onSubmit={ onRegisterFormSubmitHandler }>
                                         <div className={ `form-group form-focus ${isFocused(state.username)}` }>
-                                            <input type="text" className="form-control floating " name="username" onBlur={ (e) => onInputBlurHandler(e, setState) } />
+                                            <input type="text" className="form-control floating " name="username" onBlur={ onRegisterInputBlurHandler } />
                                             <label className="focus-label">Username</label>
                                         </div>
                                         <div className={ `form-group form-focus ${isFocused(state.email)}` }>
-                                            <input type="email" className="form-control floating" name="email" onBlur={ (e) => onInputBlurHandler(e, setState) } />
+                                            <input type="email" className="form-control floating" name="email" onBlur={ onRegisterInputBlurHandler } />
                                             <label className="focus-label" >Email</label>
                                         </div>
                                         <div className={ `form-group form-focus ${isFocused(state.password)}` }>
-                                            <input type="password" className="form-control floating" name="password" onBlur={ (e) => onInputBlurHandler(e, setState) } />
+                                            <input type="password" className="form-control floating" name="password" onBlur={ onRegisterInputBlurHandler } />
                                             <label className="focus-label">Password</label>
                                         </div>
                                         <div className={ `form-group form-focus ${isFocused(state.confirmPassword)}` }>
-                                            <input type="password" className="form-control floating" name="confirmPassword" onBlur={ (e) => onInputBlurHandler(e, setState) } />
+                                            <input type="password" className="form-control floating" name="confirmPassword" onBlur={ onRegisterInputBlurHandler } />
                                             <label className="focus-label">Confirm Password</label>
                                         </div>
                                         <div className="text-right">
