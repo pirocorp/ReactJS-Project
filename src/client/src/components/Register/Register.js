@@ -11,7 +11,9 @@ import './Register.css';
 
 function Register({
     isFocused,
-    onInputBlurHandler
+    onInputBlurHandler,
+    setUser,
+    history
 }) {
 
     // TODO: Implement register functionality, automatic login after register and redirect to home.
@@ -23,11 +25,6 @@ function Register({
     });
 
     const [error, setError] = useState({
-        title: '',
-        text: ''
-    });
-
-    const [info, setInfo] = useState({
         title: '',
         text: ''
     });
@@ -79,14 +76,16 @@ function Register({
 
         userService.register(payload)
             .then(res => {
-                setInfo({
-                    title: 'Success',
-                    text: 'you registered successfully'
-                });
-
-                console.log(res); 
-                // TODO Add JWT to some global state and include if JWT is present in all requests
-                // So requester service must include JWT if its present and send it with its every request
+                if(res.result.succeeded) {   
+                    setUser(res.user);
+                    history.push('/');
+                    return;
+                } else {
+                    setError({
+                        title: res.code,
+                        text: res.description
+                    })
+                }              
             })
             .catch(res => setError({
                 title: 'Unsuccessful',
@@ -105,16 +104,11 @@ function Register({
         });
     }
 
-    function onCloseSuccessAlertHandler() {
-
-    }
-
     return (        
         <div className="content content-login">
             <div className="container-fluid">
 
                 <Alert title={error.title} className="alert-danger" text={error.text} onCloseAlert={onCloseErrorAlertHandler} />
-                <Alert title={error.title} className="alert-success" text={error.text} onCloseAlert={onCloseSuccessAlertHandler} />
 
                 <div className="row">
                     <div className="col-md-8 offset-md-2">

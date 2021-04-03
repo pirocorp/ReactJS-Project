@@ -1,8 +1,20 @@
 import { Link } from 'react-router-dom';
 
+import authService from '../../../../services/authService';
+
 import './NavbarFooter.css';
 
 const NavbarFooter = () => {
+    const user = authService.getCurrentUser();
+
+    function onLogoutClickHandler() {
+        authService.logout();
+    }
+
+    const link = user?.token 
+        ? <Link className="nav-link header-login" onClick={ onLogoutClickHandler }>logout</Link> 
+        : <Link className="nav-link header-login" to="/login">login / Signup </Link>;
+
     return(
         <ul className="nav header-navbar-rht">
             <li className="nav-item contact-item">
@@ -15,7 +27,7 @@ const NavbarFooter = () => {
                 </div>
             </li>
             <li className="nav-item">
-                <Link className="nav-link header-login" to="/login">login / Signup </Link>
+                { link }
             </li>
         </ul>
     );

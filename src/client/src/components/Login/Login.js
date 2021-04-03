@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import Alert from '../Shared/Alert';
+
 import IsFocused from '../../hocs/IsFocused';
+
+import usersService from '../../services/usersService';
 
 import './Login.css';
 
 function Login({
     isFocused,
-    onInputBlurHandler
+    onInputBlurHandler,
+    setUser,
+    history
 }) {
     // TODO: Implement actual login logic and redirect to home after login
 
@@ -16,9 +22,46 @@ function Login({
         password: ''
     });
 
+    const [error, setError] = useState({
+        title: '',
+        text: ''
+    });
+
+    function onLoginFormSubmitHandler(e) {
+        e.preventDefault();
+
+        e.target.username.value = '';
+        e.target.password.value = '';
+
+        usersService.login(state)
+            .then(res => {
+
+                if(res.token) {
+                    setUser(res);
+                    history.push('/');
+                    return;
+                }
+
+                setError({
+                    title: 'Login unsuccessful',
+                    text: 'invalid credentials'
+                });
+            })
+            .catch(err => console.log(err));
+    }
+
+    function onCloseErrorAlertHandler() {
+        setError({
+            title: '',
+            text: ''
+        });
+    }
+
     return (
         <div className="content content-login">
             <div className="container-fluid">
+
+            <Alert title={error.title} className="alert-danger" text={error.text} onCloseAlert={onCloseErrorAlertHandler} />
 
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
@@ -32,9 +75,9 @@ function Login({
                                     <div className="login-header">
                                         <h3>Login <span>Doccure</span></h3>
                                     </div>
-                                    <form action="https://dreamguys.co.in/demo/doccure/index.html">
+                                    <form onSubmit={ onLoginFormSubmitHandler }>
                                         <div className={`form-group form-focus ${isFocused(state.username)}`}>
-                                            <input type="email" className="form-control floating" name="username" onBlur={ (e) => onInputBlurHandler(e, setState) } />
+                                            <input type="text" className="form-control floating" name="username" onBlur={ (e) => onInputBlurHandler(e, setState) } />
                                             <label className="focus-label">Username</label>
                                         </div>
                                         <div className={`form-group form-focus ${isFocused(state.password)}`}>
