@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import './NavbarFooter.css';
 
 const NavbarFooter = ({
-    user, 
+    user,
     setUser
 }) => {
 
-    function onLogoutClickHandler() {
+    function onLogoutClickHandler(e) {
         setUser({});
     }
 
-    const link = user.token 
-        ? <Link className="nav-link header-login" onClick={ onLogoutClickHandler }>logout</Link> 
+    const link = user?.token 
+        ? <Link className="nav-link header-login" to="/logout" onClick={ onLogoutClickHandler }>logout</Link> 
         : <Link className="nav-link header-login" to="/login">login / Signup </Link>;
 
     return(

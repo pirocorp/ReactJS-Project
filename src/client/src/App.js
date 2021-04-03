@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+
 import useUser from './hooks/useUser';
 
 import Header from './components/Header';
@@ -21,11 +22,12 @@ function App() {
         <div className={openMenu ? "menu-opened" : ''}>
             <Header setOpenMenu={setOpenMenu} user={ user } setUser={ setUser }/>
             <Switch>
-                <Route path="/test" exact component={ TestComponent } />
+                <Route path="/test" exact render={ props => <TestComponent {...props} user={ user } />} />
                 <Route path="/" exact component={ Home } />
                 <Route path="/patients/search" exact component={ Search } />
                 <Route path="/login" exact render={ props => <Login {...props} setUser={ setUser } /> } />
                 <Route path="/register" exact render={ props => <Register {...props} setUser={ setUser } /> } />
+                <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
                 <Route path="/doctors/:doctorId" exact component={ DoctorProfile } />
             </Switch>
             <Footer />
