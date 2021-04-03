@@ -2,11 +2,24 @@ import authService from "../../services/authService";
 
 const TestComponent = (props) => {
 
-    console.log(authService.getRole(props.user?.token));
+    const role = authService.getRole(props.user?.token);
+    let element = <></>;
 
-    return(
-        <h1>This will be protected test component.</h1>
-    );
+    switch (role) {
+        case "Patient":
+            element = <h1>Patient</h1>
+            break;
+        case "Doctor":
+            element = <h1>Doctor</h1>
+            break;
+        case "Administrator":
+            element = <h1>Admin</h1>
+            break;
+        default:
+            element = <h1>Anonymous</h1>
+    }
+
+    return element;
 }
 
 export default TestComponent;
