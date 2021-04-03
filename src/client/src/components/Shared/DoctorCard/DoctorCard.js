@@ -39,8 +39,7 @@ function DoctorCard({
                         <Rating rating={rating ?? 0} ratingsCount={ratingsCount ?? 0} />
 
                         <div className="clinic-details">
-                            <p className="doc-location"><i className="fas fa-map-marker-alt"></i> Florida, USA</p>
-                            <ul className="clinic-gallery">
+                            <ul className="clinic-gallery mt-4">
                                 <li>
                                     <Link to="#" data-fancybox="gallery">
                                         <img src="/assets/img/features/feature-01.jpg" alt="Feature" />

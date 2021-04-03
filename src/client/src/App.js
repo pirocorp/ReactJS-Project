@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-
-import authService from './services/authService';
+import useUser from './hooks/useUser';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -16,7 +15,7 @@ import TestComponent from './components/TestComponents';
 
 function App() {
     const [openMenu, setOpenMenu] = useState(false);
-    const token = authService.getToken();
+    const { user, setUser } = useUser();
 
     return (
         <div className={openMenu ? "menu-opened" : ''}>
@@ -25,8 +24,8 @@ function App() {
                 <Route path="/test" exact component={ TestComponent } />
                 <Route path="/" exact component={ Home } />
                 <Route path="/patients/search" exact component={ Search } />
-                <Route path="/login" exact render={ props => <Login {...props} setUser={ authService.setCurrentUser } /> } />
-                <Route path="/register" exact render={ props => <Register {...props} setUser={ authService.setCurrentUser } /> } />
+                <Route path="/login" exact render={ props => <Login {...props} setUser={ setUser } /> } />
+                <Route path="/register" exact render={ props => <Register {...props} setUser={ setUser } /> } />
                 <Route path="/doctors/:doctorId" exact component={ DoctorProfile } />
             </Switch>
             <Footer />
