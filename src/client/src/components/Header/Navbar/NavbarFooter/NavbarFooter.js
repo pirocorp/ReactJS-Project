@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom';
 
-import authService from '../../../../services/authService';
-
 import './NavbarFooter.css';
 
-const NavbarFooter = () => {
-    const user = authService.getCurrentUser();
+const NavbarFooter = ({
+    user, 
+    setUser
+}) => {
 
     function onLogoutClickHandler() {
-        authService.logout();
+        setUser({});
     }
 
-    const link = user?.token 
+    const link = user.token 
         ? <Link className="nav-link header-login" onClick={ onLogoutClickHandler }>logout</Link> 
         : <Link className="nav-link header-login" to="/login">login / Signup </Link>;
 

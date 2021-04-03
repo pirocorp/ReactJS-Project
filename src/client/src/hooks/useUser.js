@@ -10,8 +10,8 @@ export default function useUser() {
         setUser(user);
     }
 
-    return {
+    return [
         user,
-        setUser: saveUser
-    }
+        saveUser
+    ]
 }

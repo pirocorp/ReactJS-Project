@@ -4,12 +4,10 @@ import Navbar from './Navbar'
 
 import './Header.css';
 
-const Header = ({
-    setOpenMenu
-}) => {
+const Header = (props) => {
     return(
         <header className="header">
-            <Navbar setOpenMenu={ setOpenMenu } />
+            <Navbar { ...props } />
         </header>
     );
 }

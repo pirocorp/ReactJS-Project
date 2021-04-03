@@ -15,11 +15,11 @@ import TestComponent from './components/TestComponents';
 
 function App() {
     const [openMenu, setOpenMenu] = useState(false);
-    const { user, setUser } = useUser();
+    const [user, setUser] = useUser();
 
     return (
         <div className={openMenu ? "menu-opened" : ''}>
-            <Header setOpenMenu={setOpenMenu}/>
+            <Header setOpenMenu={setOpenMenu} user={ user } setUser={ setUser }/>
             <Switch>
                 <Route path="/test" exact component={ TestComponent } />
                 <Route path="/" exact component={ Home } />

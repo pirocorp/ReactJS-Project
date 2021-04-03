@@ -5,16 +5,14 @@ import NavbarFooter from './NavbarFooter';
 import './Navbar.css';
 
 
-const Navbar = ({
-    setOpenMenu
-}) => {
+const Navbar = (props) => {
     return(
         <nav className="navbar navbar-expand-lg header-nav">
-            <NavbarHeader setOpenMenu={ setOpenMenu } />
+            <NavbarHeader {...props} />
 
-            <MainMenu setOpenMenu={ setOpenMenu } />
+            <MainMenu {...props} />
 
-            <NavbarFooter />
+            <NavbarFooter {...props} />
         </nav>
     );
 }
