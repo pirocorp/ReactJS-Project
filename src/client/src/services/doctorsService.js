@@ -1,6 +1,7 @@
 import requesterService from './requesterService';
 
 const endpoint = '/doctors';
+const shifts = '/shifts';
 
 function getAll (queryString) {
     let uri = endpoint;
@@ -14,9 +15,12 @@ function getAll (queryString) {
 
 const get = (id) => requesterService.get(`${endpoint}/${id}`);
 
+const getShifts = (id) => requesterService.get(`${endpoint}/${id}${shifts}`);
+
 const doctorsService = {
     getAll,
-    get
+    get,
+    getShifts
 };
 
 export default doctorsService;

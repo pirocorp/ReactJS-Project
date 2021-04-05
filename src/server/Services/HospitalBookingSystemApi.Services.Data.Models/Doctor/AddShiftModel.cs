@@ -1,6 +1,9 @@
 ﻿namespace HospitalBookingSystemApi.Services.Data.Models.Doctor
 {
-    public class AddShiftModel
+    using HospitalBookingSystemApi.Data.Models;
+    using HospitalBookingSystemApi.Services.Mapping;
+
+    public class AddShiftModel : IMapFrom<Shift>
     {
         public string Id { get; set; }
     }

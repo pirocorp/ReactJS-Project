@@ -20,7 +20,7 @@ function Doctor({
         usersService.getProfileId(userId)
             .then(res => doctorService.get(res?.profileId))
             .then(res => setDoctorProfile(res));
-    }, []);
+    }, [user]);
 
     if(!user){
         return <Redirect to="/login"/>

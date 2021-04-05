@@ -154,14 +154,16 @@
 
         [HttpPost(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Shifts)]
         [Authorize(Roles = RolesNames.Doctor)]
-        public async Task<IActionResult> PostShift([FromBody] AddShiftModel model, string id)
+        public async Task<IActionResult> PostShift([FromBody] InputShiftModel model, string id)
         {
             if (!await this.doctorsService.ExistsAsync(id))
             {
                 return this.NotFound();
             }
 
-            if (!await this.shiftService.ExistsAsync(model.Id))
+            var shift = await this.shiftService.GetShiftAsync<AddShiftModel>(model.Date);
+
+            if (shift is null)
             {
                 return this.NotFound();
             }
@@ -173,7 +175,7 @@
                 return this.BadRequest(ApiConstants.Errors.DoctorUpdateInsufficientPermission);
             }
 
-            await this.doctorsService.AddShiftAsync(model, id);
+            await this.doctorsService.AddShiftAsync(shift, id);
 
             return this.Ok();
         }
