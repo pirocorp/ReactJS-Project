@@ -57,7 +57,7 @@
                 .Include(d => d.User)
                 .FirstOrDefaultAsync();
 
-            return doctor.User.Id.Equals(user.Id);
+            return doctor is not null && doctor.User.Id.Equals(user.Id);
         }
 
         public async Task<T> GetAsync<T>(string id)

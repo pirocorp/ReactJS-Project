@@ -13,11 +13,14 @@ const register = (data) => requesterService.post(registerEndpoint, data);
 
 const login = (data) => requesterService.post(loginEndpoint, data);
 
+const getProfileId = (id) => requesterService.get(`${endpoint}/${id}`);
+
 const doctorsService = {
     usernameExists,
     emailExists,
     register,
-    login
+    login,
+    getProfileId
 };
 
 export default doctorsService;

@@ -1,27 +1,28 @@
 import apiConstants from './apiConstants';
+import authService from './authService';
 
-function get(endpoint) {
-
+function generic(endpoint, method, data = {}) {
     const uri = apiConstants.baseUrl + endpoint;
+    const jwt = authService.getToken();
 
-    return fetch(uri)
+    let options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+        },        
+    };
+
+    if(method !== 'GET'){
+        options.body = JSON.stringify(data)
+    }
+
+    return fetch(uri, options)
         .then(res => res.json())
         .catch(err => console.log(err));
 };
 
-function generic(endpoint, method, data = {}) {
-    const uri = apiConstants.baseUrl + endpoint;
-
-    return fetch(uri, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .catch(err => console.log(err));
-};
+const get = (endpoint) => generic(endpoint, 'GET');
 
 const post = (endpoint, data = {}) => generic(endpoint, 'POST', data);
 

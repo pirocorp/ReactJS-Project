@@ -19,21 +19,20 @@ function logout() {
 
 const getToken = () => getCurrentUser()?.token;
 
-const getRole = (token) => {
-    const roleIdentifier = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+const getClaims = (token) => token ? jwt_decode(token) : null;
 
-    if(!token) return;
+const getUserId = (token) => getClaims(token) ? getClaims(token)['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] : '';
 
-    var decoded = jwt_decode(token);
-    return decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-}
+const getRole = (token) => getClaims(token) ? getClaims(token)['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] : '';
 
 const authService = {
     setCurrentUser,
     getCurrentUser,
     getToken,
     logout,
-    getRole
+    getRole,
+    getUserId,
+    getClaims
 }
 
 export default authService;

@@ -10,6 +10,8 @@
 
         Task<RegisterResponse> RegisterAsync(UserRegisterModel model, string role);
 
+        Task<string> GetUserProfileIdAsync(string userId);
+
         Task<bool> UsernameAlreadyExists(string username);
 
         Task<bool> EmailAlreadyExists(string email);

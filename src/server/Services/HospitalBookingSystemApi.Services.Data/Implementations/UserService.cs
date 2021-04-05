@@ -1,5 +1,6 @@
 ﻿namespace HospitalBookingSystemApi.Services.Data.Implementations
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -26,6 +27,20 @@
             this.userManager = userManager;
             this.mapper = mapper;
             this.jwtService = jwtService;
+        }
+
+        public async Task<string> GetUserProfileIdAsync(string userId)
+        {
+            var profileId = (await this.dbContext.Patients
+                .FirstOrDefaultAsync(p => p.UserId.Equals(userId)))?.Id;
+
+            if (profileId is null)
+            {
+                profileId = (await this.dbContext.Doctors
+                    .FirstOrDefaultAsync(d => d.UserId.Equals(userId)))?.Id;
+            }
+
+            return profileId;
         }
 
         public async Task<UserResponseModel> GenerateJwtTokenAsync(string username)

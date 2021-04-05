@@ -4,16 +4,16 @@
     using System.Threading.Tasks;
 
     using HospitalBookingSystemApi.Api.Models;
+    using HospitalBookingSystemApi.Api.Models.Users;
     using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data.Models;
     using HospitalBookingSystemApi.Services.Data;
     using HospitalBookingSystemApi.Services.Data.Models.Users;
-
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using HospitalBookingSystemApi.Api.Models.Users;
 
     public class UsersController : BaseController
     {
@@ -45,6 +45,10 @@
 
             return this.Ok(result);
         }
+
+        [HttpGet(ApiConstants.WithId)]
+        public async Task<IActionResult> Get(string id) => this
+            .OkOrNotFound(new { ProfileId = await this.userService.GetUserProfileIdAsync(id) });
 
         [AllowAnonymous]
         [HttpPost("login")]
