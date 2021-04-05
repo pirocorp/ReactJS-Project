@@ -10,10 +10,10 @@ import Search from './components/Search';
 import DoctorProfile from './components/DoctorProfile';
 import Login from './components/Login';
 import Register from './components/Register';
+import Doctor from './components/Doctor';
 
 import './App.css';
 import TestComponent from './components/TestComponents';
-import DoctorDashboard from './components/DoctorDashboard';
 
 function App() {
     const [openMenu, setOpenMenu] = useState(false);
@@ -29,8 +29,8 @@ function App() {
                 <Route path="/login" exact render={ props => <Login {...props} setUser={ setUser } /> } />
                 <Route path="/register" exact render={ props => <Register {...props} setUser={ setUser } /> } />
                 <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
-                <Route path="/doctors/dashboard" exact render={ props => <DoctorDashboard user={ user } { ...props } /> } />
-                <Route path="/doctors/:doctorId" exact component={ DoctorProfile } />
+                <Route path="/doctors/profile/:doctorId" exact component={ DoctorProfile } />
+                <Route path="/doctors" render={ (props) => <Doctor {...props} user={ user } />} />
             </Switch>
             <Footer />
         </div>

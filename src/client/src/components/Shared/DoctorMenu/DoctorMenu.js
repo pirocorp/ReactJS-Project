@@ -22,13 +22,13 @@ function DoctorMenu({
             <div className="widget-profile pro-widget-content">
                 <div className="profile-info-widget">
                     <span className="booking-doc-img">
-                        <img src={doctorProfile.imageUrl} alt={`Doctor ${doctorProfile?.firstName} ${doctorProfile?.lastName}`} />
+                        <img src={doctorProfile?.imageUrl ?? ''} alt={`Doctor ${doctorProfile?.firstName ?? ''} ${doctorProfile?.lastName ?? ''}`} />
                     </span>
                     <div className="profile-det-info">
-                        <h3>Dr. { `${doctorProfile?.firstName} ${doctorProfile?.lastName}` }</h3>
+                        <h3>Dr. { `${doctorProfile?.firstName ?? ''} ${doctorProfile?.lastName ?? ''}` }</h3>
 
                         <div className="patient-details">
-                            <h5 className="mb-0">{ doctorProfile.education }</h5>
+                            <h5 className="mb-0">{ doctorProfile?.education }</h5>
                         </div>
                     </div>
                 </div>

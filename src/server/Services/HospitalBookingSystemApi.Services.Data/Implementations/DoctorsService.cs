@@ -101,7 +101,8 @@
         public async Task<IEnumerable<T>> GetShiftsAsync<T>(string id)
             => await this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))
-                .Select(d => d.Shifts)
+                .SelectMany(d => d.Shifts)
+                .Select(ds => ds.Shift)
                 .To<T>()
                 .ToListAsync();
 

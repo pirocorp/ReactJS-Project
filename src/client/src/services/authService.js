@@ -3,11 +3,11 @@ import jwt_decode from "jwt-decode";
 const dataName = 'data'
 
 function setCurrentUser(user) {
-    sessionStorage.setItem(dataName, JSON.stringify(user));
+    localStorage.setItem(dataName, JSON.stringify(user));
 }
 
 function getCurrentUser() {
-    const userString = sessionStorage.getItem(dataName);
+    const userString = localStorage.getItem(dataName);
     const user = JSON.parse(userString);
 
     return user;
