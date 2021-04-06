@@ -17,45 +17,67 @@ function DoctorSchedule({
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        if(!doctorProfile?.id) {
+        if (!doctorProfile?.id) {
             return;
         }
 
-        doctorsService
-            .getShifts(doctorProfile.id)
-            .then(res => {
-                setEvents(res);
-                console.log(events);
+        let view = calendar.view;
 
-                //res must be converted to events and added to state;
-            });
+        console.log(view);
+
+        updateShifts();
 
     }, [doctorProfile]);
 
-    function onDateClickHandler(args) {
-        // on date click this function will be called
-        // this function must do post to backend with new shift
-        // and in case of success change state of the component
-        console.log("Yaaa");
-        console.log(args);
-    }
+    const updateShifts = () => doctorsService
+        .getShifts(doctorProfile.id)
+        .then(res => setEvents(res.map(r => ({ date: r.date.split('T')[0], title: 'On Duty', id: r.id }))));
 
-    let calendar =  
-        <FullCalendar 
-            plugins = {[ dayGridPlugin, interactionPlugin ]}
-            initialView = "dayGridMonth"
-            events={[
-                { title: 'event 1', date: '2021-04-01' },
-                { title: 'event 2', date: '2021-04-02' }
-            ]}
-            dateClick={ onDateClickHandler }
+
+    function onDateClickHandler(args) {
+        const date = new Date(Date.UTC(args.date.getFullYear(), args.date.getMonth(), args.date.getDate())).toJSON();
+
+        if (args.dayEl.innerText.includes('On Duty')) {
+            return;
+        }
+
+        const payload = {
+            date: date,
+        };
+
+        doctorsService.postShift(doctorProfile.id, payload)
+            .then(res => updateShifts());
+    };
+
+    function onEventClickHandler(info) {
+        let shiftId = info.event.id;
+
+        doctorsService.deleteShift(doctorProfile.id, shiftId)
+            .then(res => updateShifts());
+    };
+
+    let calendar =
+        <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            dateClick={onDateClickHandler}
+            eventClick={onEventClickHandler}
+            fixedWeekCount={false}
         />;
 
     return (
         <DoctorPage doctorProfile={doctorProfile}>
-            { calendar }
+            <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="card">
+                    <div class="card-body">
+                        {calendar}
+                    </div>
+                </div>
+            </div>
+
         </DoctorPage>
-    );   
+    );
 }
 
 export default DoctorSchedule;

@@ -109,8 +109,19 @@
         public async Task AddShiftAsync(AddShiftModel model, string id)
         {
             var doctor = await this.dbContext.Doctors.FindAsync(id);
+            var doctorShift = new DoctorShift()
+            {
+                DoctorId = id,
+                ShiftId = model.Id,
+            };
 
-            doctor.Shifts.Add(new DoctorShift() { DoctorId = id, ShiftId = model.Id });
+            if (await this.dbContext.DoctorsShifts
+                .AnyAsync(d => d.DoctorId.Equals(doctorShift.DoctorId) && d.ShiftId.Equals(doctorShift.ShiftId)))
+            {
+                return;
+            }
+
+            doctor.Shifts.Add(doctorShift);
             this.dbContext.Attach(doctor);
             await this.dbContext.SaveChangesAsync();
         }
