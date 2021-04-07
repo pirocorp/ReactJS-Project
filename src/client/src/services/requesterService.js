@@ -32,12 +32,38 @@ const patch = (endpoint, data = {}) => generic(endpoint, 'PATCH', data);
 
 const del = (endpoint, data = {}) => generic(endpoint, 'DELETE', data);
 
+const sendData = (endpoint, data) => {
+    const uri = apiConstants.baseUrl + endpoint;
+    const jwt = authService.getToken();
+    
+    const formData = new FormData();
+
+    for(const name in data) {
+        formData.append(name, data[name]);
+    }
+
+    let options = {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${jwt}`,
+        },   
+        body: formData     
+    };
+
+    console.log(formData);
+
+    return fetch(uri, options)
+        .then(res => res.json())
+        .catch(err => console.log(err));
+}
+
 const requester = {
     get,
     post,
     put,
     patch,
     del,
+    sendData,
     generic
 };
 

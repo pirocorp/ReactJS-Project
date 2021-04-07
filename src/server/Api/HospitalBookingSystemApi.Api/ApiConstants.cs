@@ -94,6 +94,12 @@
                 Description = ErrorsMessages.InsufficientPermission,
             };
 
+            public static readonly ApiErrorModel PatientSsnError = new ()
+            {
+                Code = ErrorsMessages.Patient,
+                Description = ErrorsMessages.SsnAlreadyExists,
+            };
+
             public static readonly ApiErrorModel PageError = new ()
             {
                 Code = ErrorsMessages.Page,
@@ -119,6 +125,7 @@
             public const string UserAlreadyHavePatientProfile = "User Already Have Patient Profile";
             public const string UserDoNotHavePatientProfile = "User Do Not Have Patient Profile";
             public const string InvalidPageNumber = "Invalid Page Number";
+            public const string SsnAlreadyExists = "Patient with this SSN already exists";
         }
     }
 }

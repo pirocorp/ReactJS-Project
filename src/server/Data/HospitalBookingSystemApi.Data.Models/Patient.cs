@@ -73,6 +73,10 @@ namespace HospitalBookingSystemApi.Data.Models
             patient
                 .HasIndex(p => p.UserId)
                 .IsUnique();
+
+            patient
+                .HasIndex(p => p.SSN)
+                .IsUnique();
         }
     }
 }

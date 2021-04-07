@@ -66,12 +66,6 @@ function DoctorMenu({
                                 <span>Profile</span>
                             </Link>
                         </li>
-                        <li>
-                            <a to="/logout">
-                                <i className="fas fa-sign-out-alt"></i>
-                                <span>Logout</span>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
             </div>

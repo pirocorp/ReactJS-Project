@@ -16,6 +16,8 @@
 
         Task<bool> UserHasPatientProfileAsync(ClaimsPrincipal user);
 
+        Task<bool> SSNExists(string ssn);
+
         Task<T> GetAsync<T>(string id);
 
         Task<T> GetWithDeletedAsync<T>(string id);

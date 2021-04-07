@@ -4,7 +4,7 @@ const routes = {
         { path: "/login", title: "Login" },
         { path: "/register", title: "Register" },
         { path: "/patients/booking", title: "Booking" },
-        { path: "/patients/patient-dashboard", title: "Patient Dashboard" }
+        { path: "/patients/dashboard", title: "Patient Dashboard" }
     ],
     doctors: [
         { path: "/doctors/appointments", title: "Appointments" },

@@ -34,5 +34,7 @@
 
             return result.SecureUrl.AbsolutePath;
         }
+
+        public async Task<string> UploadAsync(MemoryStream imageStream) => await this.UploadAsync(imageStream.ToArray());
     }
 }

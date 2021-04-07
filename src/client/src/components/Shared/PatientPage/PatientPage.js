@@ -1,14 +1,37 @@
 import Breadcrumb from '../Breadcrumb';
 
+import PatientMenu from '../PatientMenu';
+
 import './PatientPage.css';
 
-function PatientPage() {
+function PatientPage({
+    title,
+    children,
+    patientProfile
+}) {
 
-    return(
+    return (
         <>
-            <Breadcrumb active="Dashboard" title="Dashboard" />
+            <Breadcrumb homeLink="/patients/dashboard" homeName="Patient" active={title} title={title} />
 
-            <h1>Generic Patient Page</h1> 
+            <div className="content">
+                <div className="container-fluid">
+                    <div className="row">
+                        <PatientMenu patientProfile={patientProfile} />
+
+                        <div className="col-md-7 col-lg-8 col-xl-9">
+                            <div className="card">
+                                <div className="card-body">
+
+                                { children }
+                                
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>           
         </>
     );
 }

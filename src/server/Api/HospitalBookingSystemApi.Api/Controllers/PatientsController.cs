@@ -1,9 +1,12 @@
 ﻿namespace HospitalBookingSystemApi.Api.Controllers
 {
+    using System.IO;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using HospitalBookingSystemApi.Api.Models.Patients;
     using HospitalBookingSystemApi.Common;
+    using HospitalBookingSystemApi.Services;
     using HospitalBookingSystemApi.Services.Data;
     using HospitalBookingSystemApi.Services.Data.Models.Appointment;
     using HospitalBookingSystemApi.Services.Data.Models.Patient;
@@ -15,13 +18,19 @@
     {
         private readonly IPatientsService patientsService;
         private readonly IAppointmentService appointmentService;
+        private readonly IImageService imageService;
+        private readonly IMapper mapper;
 
         public PatientsController(
             IPatientsService patientsService,
-            IAppointmentService appointmentService)
+            IAppointmentService appointmentService,
+            IImageService imageService,
+            IMapper mapper)
         {
             this.patientsService = patientsService;
             this.appointmentService = appointmentService;
+            this.imageService = imageService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -124,14 +133,42 @@
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
-        public async Task<IActionResult> Post([FromBody] ServicePatientModel model)
+        public async Task<IActionResult> Post([FromForm] PatientInputModel model)
         {
+            if (model is null)
+            {
+                return this.BadRequest();
+            }
+
             if (await this.patientsService.UserHasPatientProfileAsync(this.User))
             {
                 return this.BadRequest(ApiConstants.Errors.UserAlreadyHavePatientProfile);
             }
 
-            return this.Ok(await this.patientsService.CreatePatientAsync(model, this.User));
+            if (await this.patientsService.SSNExists(model.SSN))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientSsnError);
+            }
+
+            var imageFromForm = model.Image;
+            string imageUrl;
+            await using (var ms = new MemoryStream())
+            {
+                await imageFromForm.CopyToAsync(ms);
+                var imageData = ms.ToArray();
+
+                imageUrl = await this.imageService.UploadAsync(imageData);
+            }
+
+            var serviceModel = this.mapper.Map<ServicePatientModel>(model);
+            serviceModel.ImageUrl = imageUrl;
+
+            var response = new
+            {
+                PatientId = await this.patientsService.CreatePatientAsync(serviceModel, this.User),
+            };
+
+            return this.Ok(response);
         }
 
         [HttpPut(ApiConstants.WithId)]

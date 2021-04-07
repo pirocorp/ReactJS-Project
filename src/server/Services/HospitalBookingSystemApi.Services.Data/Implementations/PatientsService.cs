@@ -55,6 +55,9 @@
             return await this.dbContext.Patients.IgnoreQueryFilters().AnyAsync(p => p.UserId.Equals(user.Id));
         }
 
+        public async Task<bool> SSNExists(string ssn)
+            => await this.dbContext.Patients.AnyAsync(p => p.SSN.Equals(ssn));
+
         public async Task<IEnumerable<T>> GetAllAsync<T>()
             => await this.GetAllAsync<T>(false);
 

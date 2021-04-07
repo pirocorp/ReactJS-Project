@@ -11,6 +11,7 @@
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\HospitalBookingSystemApi.Data.Models\HospitalBookingSystemApi.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Data.Models\HospitalBookingSystemApi.Services.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\HospitalBookingSystemApi.Services.Mapping\HospitalBookingSystemApi.Services.Mapping.csproj" />
   </ItemGroup>
 
