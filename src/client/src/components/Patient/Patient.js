@@ -34,7 +34,7 @@ function Patient() {
         usersService.getProfileId(userId)
             .then(res => patientsService.getProfile(res?.profileId))
             .then(res => setPatientProfile(res));            
-    }, [user]);
+    }, [user, patientProfile]);
 
     const role = authService.getRole(user.token);
 

@@ -4,7 +4,7 @@ import './PatientDashboard.css';
 
 function PatientDashboard() {
     return(
-        <PatientPage>
+        <PatientPage title="Dashboard">
             <h2>Patient Dashboard</h2>
         </PatientPage>
     );

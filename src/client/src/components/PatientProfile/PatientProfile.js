@@ -42,7 +42,61 @@ function PatientProfile() {
             image: imageState
         }
 
-        // TODO: Client Side Validation and errors from the backend
+        if(payload.firstName.length <= 1) {
+            setError({
+                title: 'First Name',
+                text: ' length must be at least 2 characters long'
+            });
+
+            return;
+        }
+
+        if(payload.lastName.length <= 1) {
+            setError({
+                title: 'Last Name',
+                text: ' length must be at least 2 characters long'
+            });
+
+            return;
+        }
+
+        if(payload.email.length <= 1) {
+            setError({
+                title: 'Email',
+                text: 'is invalid'
+            });
+
+            return;
+        }
+
+        if(payload.phone.length <= 1) {
+            setError({
+                title: 'Phone',
+                text: 'is invalid'
+            });
+
+            return;
+        }
+
+        if(payload.address.length <= 1) {
+            setError({
+                title: 'Address',
+                text: 'is missing'
+            });
+
+            return;
+        }
+
+        if(payload.city.length <= 1) {
+            setError({
+                title: 'City',
+                text: 'is missing'
+            });
+
+            return;
+        }
+
+        // TODO: Client Side Validation
 
         if(patientProfile?.id){
             patientsService
