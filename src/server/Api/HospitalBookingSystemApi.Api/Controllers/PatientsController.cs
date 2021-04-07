@@ -157,7 +157,7 @@
 
         [HttpPut(ApiConstants.WithId)]
         [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
-        public async Task<IActionResult> Put([FromBody] PatientInputModel model, string id)
+        public async Task<IActionResult> Put([FromForm] PatientInputModel model, string id)
         {
             if (!await this.patientsService.UserHasPatientProfileAsync(this.User))
             {
@@ -167,11 +167,6 @@
             if (!await this.patientsService.UserIsPatientAsync(id, this.User))
             {
                 return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
-            }
-
-            if (await this.patientsService.SSNExists(model.SSN))
-            {
-                return this.BadRequest(ApiConstants.Errors.PatientSsnError);
             }
 
             var serviceModel = await this.PatientInputModelToServicePatientModel(model);
@@ -214,18 +209,23 @@
 
         private async Task<ServicePatientModel> PatientInputModelToServicePatientModel(PatientInputModel model)
         {
-            var imageFromForm = model.Image;
-            string imageUrl;
-            await using (var ms = new MemoryStream())
-            {
-                await imageFromForm.CopyToAsync(ms);
-                var imageData = ms.ToArray();
+            var serviceModel = this.mapper.Map<ServicePatientModel>(model);
 
-                imageUrl = await this.imageService.UploadAsync(imageData);
+            if (model.Image is not null)
+            {
+                var imageFromForm = model.Image;
+                string imageUrl;
+                await using (var ms = new MemoryStream())
+                {
+                    await imageFromForm.CopyToAsync(ms);
+                    var imageData = ms.ToArray();
+
+                    imageUrl = await this.imageService.UploadAsync(imageData);
+                }
+
+                serviceModel.ImageUrl = GlobalConstants.CloudinaryResourceBaseAddress + imageUrl;
             }
 
-            var serviceModel = this.mapper.Map<ServicePatientModel>(model);
-            serviceModel.ImageUrl = GlobalConstants.CloudinaryResourceBaseAddress + imageUrl;
             return serviceModel;
         }
     }

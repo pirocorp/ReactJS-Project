@@ -6,10 +6,8 @@ function PatientInfoWidget() {
 
     const patientProfile = useContext(PatientContext);
 
-    console.log(patientProfile);
-
     if(!patientProfile?.id) {
-        return <div classNameName="profile-det-info"><h3>No Patient Profile Yet</h3></div>;
+        return <div className="profile-det-info"><h3>No Patient Profile Yet</h3></div>;
     }
 
     const fullName = `${patientProfile.firstName} ${patientProfile.lastName}`;

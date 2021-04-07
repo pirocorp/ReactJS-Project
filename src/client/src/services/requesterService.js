@@ -32,7 +32,7 @@ const patch = (endpoint, data = {}) => generic(endpoint, 'PATCH', data);
 
 const del = (endpoint, data = {}) => generic(endpoint, 'DELETE', data);
 
-const sendData = (endpoint, data) => {
+const sendData = (endpoint, method, data) => {
     const uri = apiConstants.baseUrl + endpoint;
     const jwt = authService.getToken();
     
@@ -43,7 +43,7 @@ const sendData = (endpoint, data) => {
     }
 
     let options = {
-        method: 'POST',
+        method: method,
         headers: {
             'Authorization': `Bearer ${jwt}`,
         },   

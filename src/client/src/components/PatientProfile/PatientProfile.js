@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 
+import Alert from '../Shared/Alert';
 import PatientPage from '../Shared/PatientPage';
 import PatientContext from '../../contexts/PatientContext';
 
@@ -13,11 +14,15 @@ function PatientProfile() {
     const [imageInputName, setImageInputName] = useState('');
     const patientProfile = useContext(PatientContext);
 
-
     const [error, setError] = useState({
         title: '',
         text: ''
     });
+
+    const [success, setSuccess] = useState({
+        title: '',
+        text: ''
+    })
 
     const imageElement = patientProfile?.imageUrl 
         ? <img src={patientProfile?.imageUrl} alt="User Image" />
@@ -39,7 +44,29 @@ function PatientProfile() {
 
         // TODO: Client Side Validation and errors from the backend
 
-        patientsService.createPatientProfile(payload);
+        if(patientProfile?.id){
+            patientsService
+                .updatePatientProfile(payload, patientProfile.id)
+                .then(res => notifications(res));
+        } else {
+            patientsService
+                .createPatientProfile(payload)
+                .then(res => console.log(res));
+        }
+    }
+
+    const notifications = (res) => {
+        if(res.patientId) {
+            setSuccess({
+                title: 'Successfully ',
+                text: 'updated patient profile'
+            });
+        } else {
+            setError({
+                title: res[0].Code,
+                text: 'Something went wrong please try again later.'
+            });
+        }
     }
 
     const onImageUploadChange = (e) => {
@@ -52,6 +79,9 @@ function PatientProfile() {
 
     return (
         <PatientPage title="Patient Profile">
+
+            <Alert className="alert-success" title={success.title} text={success.text} onCloseAlert={() => setSuccess({text: '', title: ''})}/>
+            <Alert className="alert-danger" title={error.title} text={error.text} onCloseAlert={() => setError({text: '', title: ''})}/>
 
             <form onSubmit={ onPatientProfileSubmitHandler }>
                 <div className="row form-row">
@@ -79,8 +109,8 @@ function PatientProfile() {
                                 id="first-name" 
                                 name="first-name" 
                                 className="form-control" 
-                                placeholder="Richard" 
-                                defaultValue={patientProfile.firstName} 
+                                placeholder="First Name" 
+                                defaultValue={patientProfile?.firstName} 
                             />
                         </div>
                     </div>
@@ -92,8 +122,8 @@ function PatientProfile() {
                                 name="last-name" 
                                 type="text" 
                                 className="form-control" 
-                                placeholder="Wilson" 
-                                defaultValue={patientProfile.lastName}
+                                placeholder="Last Name" 
+                                defaultValue={patientProfile?.lastName}
                             />
                         </div>
                     </div>
@@ -105,8 +135,8 @@ function PatientProfile() {
                                 name="email" 
                                 type="email" 
                                 className="form-control" 
-                                placeholder="richard@example.com" 
-                                defaultValue={patientProfile.email}
+                                placeholder="example@example.com" 
+                                defaultValue={patientProfile?.email}
                             />
                         </div>
                     </div>
@@ -119,7 +149,7 @@ function PatientProfile() {
                                 type="text" 
                                 placeholder="+1 202-555-0125" 
                                 className="form-control" 
-                                defaultValue={patientProfile.phone}
+                                defaultValue={patientProfile?.phone}
                             />
                         </div>
                     </div>
@@ -132,7 +162,7 @@ function PatientProfile() {
                                 type="text" 
                                 className="form-control"
                                 placeholder="806 Twin Willow Lane" 
-                                defaultValue={patientProfile.address}
+                                defaultValue={patientProfile?.address}
                             />
                         </div>
                     </div>
@@ -145,7 +175,7 @@ function PatientProfile() {
                                 type="text" 
                                 className="form-control" 
                                 placeholder="Old Forge" 
-                                defaultValue={patientProfile.city}
+                                defaultValue={patientProfile?.city}
                             />
                         </div>
                     </div>
@@ -158,7 +188,7 @@ function PatientProfile() {
                                 type="text" 
                                 className="form-control" 
                                 placeholder="13420"
-                                defaultValue={patientProfile.ssn} 
+                                defaultValue={patientProfile?.ssn} 
                             />
                         </div>
                     </div>

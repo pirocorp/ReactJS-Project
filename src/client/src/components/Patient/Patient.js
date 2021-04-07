@@ -6,6 +6,7 @@ import usersService from '../../services/usersService';
 import patientsService from '../../services/patientService';
 
 import PatientProfile from '../PatientProfile';
+import PatientDashboard from '../PatientDashboard';
 import UserContext from '../../contexts/UserContext';
 import PatientContext from '../../contexts/PatientContext';
 
@@ -45,6 +46,7 @@ function Patient() {
         <Switch>
             <PatientContext.Provider value={ patientProfile }>
                 <Route path="/patients/profile" exact component={ PatientProfile } />
+                <Route path="/patients/dashboard" exact component={ PatientDashboard } />
             </PatientContext.Provider>
         </Switch>
     );

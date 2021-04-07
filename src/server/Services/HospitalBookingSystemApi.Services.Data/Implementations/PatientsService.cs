@@ -110,7 +110,11 @@
             patient.City = model.City;
             patient.Phone = model.Phone;
             patient.SSN = model.SSN;
-            patient.ImageUrl = model.ImageUrl;
+
+            if (model.ImageUrl is not null)
+            {
+                patient.ImageUrl = model.ImageUrl;
+            }
 
             this.dbContext.Attach(patient);
             await this.dbContext.SaveChangesAsync();
