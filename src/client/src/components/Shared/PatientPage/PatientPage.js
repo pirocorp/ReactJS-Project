@@ -6,8 +6,7 @@ import './PatientPage.css';
 
 function PatientPage({
     title,
-    children,
-    patientProfile
+    children
 }) {
 
     return (
@@ -17,7 +16,7 @@ function PatientPage({
             <div className="content">
                 <div className="container-fluid">
                     <div className="row">
-                        <PatientMenu patientProfile={patientProfile} />
+                        <PatientMenu />
 
                         <div className="col-md-7 col-lg-8 col-xl-9">
                             <div className="card">

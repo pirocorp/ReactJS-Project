@@ -24,7 +24,6 @@ function App() {
 
     const userContext = {
         user: user,
-        profileId: '',
         setUser: setUser,        
     };
 

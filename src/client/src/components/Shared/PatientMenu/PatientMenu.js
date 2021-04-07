@@ -5,9 +5,7 @@ import PatientInfoWidget from './PatientInfoWidget';
 
 import './PatientMenu.css';
 
-function PatientMenu({
-    patientProfile
-}) {
+function PatientMenu() {
     const [path, setPath] = useState('');
 
     const history = useHistory()
@@ -18,16 +16,12 @@ function PatientMenu({
 
     const isActive = (e) => path.includes(e) ? 'active'  : '';
 
-    const patientInfoElement = patientProfile 
-        ? <PatientInfoWidget patientProfile={patientProfile} />
-        : <div className="profile-det-info"><h3>No Patient Profile Yet</h3></div>;
-
     return (
         <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
             <div className="profile-sidebar">
                 <div className="widget-profile pro-widget-content">
 
-                    { patientInfoElement }
+                    <PatientInfoWidget />
 
                 </div>
                 <div className="dashboard-widget">

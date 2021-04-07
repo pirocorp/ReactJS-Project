@@ -1,16 +1,29 @@
-function PatientInfoWidget({
-    patientProfile
-}) {
+import { useContext } from 'react';
+
+import PatientContext from '../../../../contexts/PatientContext';
+
+function PatientInfoWidget() {
+
+    const patientProfile = useContext(PatientContext);
+
+    console.log(patientProfile);
+
+    if(!patientProfile?.id) {
+        return <div classNameName="profile-det-info"><h3>No Patient Profile Yet</h3></div>;
+    }
+
+    const fullName = `${patientProfile.firstName} ${patientProfile.lastName}`;
+    const fullAddress = `${patientProfile.address}, ${patientProfile.city}`;
+
     return (
-        <div class="profile-info-widget">
-            <a href="#" class="booking-doc-img">
-                <img src="assets/img/patients/patient.jpg" alt="User Image" />
-            </a>
-            <div class="profile-det-info">
-                <h3>Richard Wilson</h3>
-                <div class="patient-details">
-                    <h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
-                    <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
+        <div className="profile-info-widget">
+            <span href="#" className="booking-doc-img">
+                <img src={patientProfile.imageUrl} alt={ fullName } />
+            </span>
+            <div className="profile-det-info">
+                <h3>{ fullName }</h3>
+                <div className="patient-details">
+                    <h5 className="mb-0"><i className="fas fa-map-marker-alt"></i> { fullAddress }</h5>
                 </div>
             </div>
         </div>

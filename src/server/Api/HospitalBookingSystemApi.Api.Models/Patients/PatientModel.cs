@@ -7,6 +7,8 @@
 
     public class PatientModel : IMapFrom<Patient>
     {
+        public string Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -20,6 +22,8 @@
         public string Phone { get; set; }
 
         public string SSN { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public List<PatientAppointmentListingModel> Appointments { get; set; }
     }

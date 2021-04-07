@@ -135,11 +135,6 @@
         [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
         public async Task<IActionResult> Post([FromForm] PatientInputModel model)
         {
-            if (model is null)
-            {
-                return this.BadRequest();
-            }
-
             if (await this.patientsService.UserHasPatientProfileAsync(this.User))
             {
                 return this.BadRequest(ApiConstants.Errors.UserAlreadyHavePatientProfile);
@@ -150,18 +145,7 @@
                 return this.BadRequest(ApiConstants.Errors.PatientSsnError);
             }
 
-            var imageFromForm = model.Image;
-            string imageUrl;
-            await using (var ms = new MemoryStream())
-            {
-                await imageFromForm.CopyToAsync(ms);
-                var imageData = ms.ToArray();
-
-                imageUrl = await this.imageService.UploadAsync(imageData);
-            }
-
-            var serviceModel = this.mapper.Map<ServicePatientModel>(model);
-            serviceModel.ImageUrl = imageUrl;
+            var serviceModel = await this.PatientInputModelToServicePatientModel(model);
 
             var response = new
             {
@@ -173,7 +157,7 @@
 
         [HttpPut(ApiConstants.WithId)]
         [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
-        public async Task<IActionResult> Put([FromBody] ServicePatientModel model, string id)
+        public async Task<IActionResult> Put([FromBody] PatientInputModel model, string id)
         {
             if (!await this.patientsService.UserHasPatientProfileAsync(this.User))
             {
@@ -185,7 +169,19 @@
                 return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
             }
 
-            return this.Ok(await this.patientsService.UpdateAsync(id, model));
+            if (await this.patientsService.SSNExists(model.SSN))
+            {
+                return this.BadRequest(ApiConstants.Errors.PatientSsnError);
+            }
+
+            var serviceModel = await this.PatientInputModelToServicePatientModel(model);
+
+            var response = new
+            {
+                PatientId = await this.patientsService.UpdateAsync(id, serviceModel),
+            };
+
+            return this.Ok(response);
         }
 
         [HttpPatch(ApiConstants.WithId + ApiConstants.PatientsEndpoints.UnDelete)]
@@ -214,6 +210,23 @@
             }
 
             return this.Ok(await this.patientsService.DeleteAsync(id));
+        }
+
+        private async Task<ServicePatientModel> PatientInputModelToServicePatientModel(PatientInputModel model)
+        {
+            var imageFromForm = model.Image;
+            string imageUrl;
+            await using (var ms = new MemoryStream())
+            {
+                await imageFromForm.CopyToAsync(ms);
+                var imageData = ms.ToArray();
+
+                imageUrl = await this.imageService.UploadAsync(imageData);
+            }
+
+            var serviceModel = this.mapper.Map<ServicePatientModel>(model);
+            serviceModel.ImageUrl = GlobalConstants.CloudinaryResourceBaseAddress + imageUrl;
+            return serviceModel;
         }
     }
 }

@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import PatientPage from '../Shared/PatientPage';
+import PatientContext from '../../contexts/PatientContext';
 
 import patientsService from '../../services/patientService';
 
 import './PatientProfile.css';
 
-function PatientProfile({
-    patientProfile
-}) {
+function PatientProfile() {
 
     const [imageState, setImageState] = useState();
     const [imageInputName, setImageInputName] = useState('');
+    const patientProfile = useContext(PatientContext);
 
 
     const [error, setError] = useState({
@@ -37,6 +37,8 @@ function PatientProfile({
             image: imageState
         }
 
+        // TODO: Client Side Validation and errors from the backend
+
         patientsService.createPatientProfile(payload);
     }
 
@@ -50,6 +52,7 @@ function PatientProfile({
 
     return (
         <PatientPage title="Patient Profile">
+
             <form onSubmit={ onPatientProfileSubmitHandler }>
                 <div className="row form-row">
                     <div className="col-12 col-md-12">
@@ -71,43 +74,92 @@ function PatientProfile({
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label htmlFor="first-name">First Name</label>
-                            <input type="text" id="first-name" name="first-name" className="form-control" placeholder="Richard" />
+                            <input 
+                                type="text" 
+                                id="first-name" 
+                                name="first-name" 
+                                className="form-control" 
+                                placeholder="Richard" 
+                                defaultValue={patientProfile.firstName} 
+                            />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label htmlFor="last-name">Last Name</label>
-                            <input id="last-name" name="last-name" type="text" className="form-control" placeholder="Wilson" />
+                            <input 
+                                id="last-name" 
+                                name="last-name" 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Wilson" 
+                                defaultValue={patientProfile.lastName}
+                            />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
-                            <input id="email" name="email" type="email" className="form-control" placeholder="richard@example.com" />
+                            <input 
+                                id="email" 
+                                name="email" 
+                                type="email" 
+                                className="form-control" 
+                                placeholder="richard@example.com" 
+                                defaultValue={patientProfile.email}
+                            />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label htmlFor="phone">Phone</label>
-                            <input id="phone" name="phone" type="text" placeholder="+1 202-555-0125" className="form-control" />
+                            <input 
+                                id="phone" 
+                                name="phone" 
+                                type="text" 
+                                placeholder="+1 202-555-0125" 
+                                className="form-control" 
+                                defaultValue={patientProfile.phone}
+                            />
                         </div>
                     </div>
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="address">Address</label>
-                            <input id="address" name="address" type="text" className="form-control" placeholder="806 Twin Willow Lane" />
+                            <input 
+                                id="address" 
+                                name="address" 
+                                type="text" 
+                                className="form-control"
+                                placeholder="806 Twin Willow Lane" 
+                                defaultValue={patientProfile.address}
+                            />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label htmlFor="city">City</label>
-                            <input id="city" name="city" type="text" className="form-control" placeholder="Old Forge" />
+                            <input 
+                                id="city" 
+                                name="city" 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="Old Forge" 
+                                defaultValue={patientProfile.city}
+                            />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label htmlFor="ssn">SSN</label>
-                            <input id="ssn" name="ssn" type="text" className="form-control" placeholder="13420" />
+                            <input 
+                                id="ssn" 
+                                name="ssn" 
+                                type="text" 
+                                className="form-control" 
+                                placeholder="13420"
+                                defaultValue={patientProfile.ssn} 
+                            />
                         </div>
                     </div>
                 </div>
