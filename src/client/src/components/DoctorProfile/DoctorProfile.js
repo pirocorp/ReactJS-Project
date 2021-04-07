@@ -22,7 +22,7 @@ function DoctorProfile({
 
     return (
         <>
-            <BreadCrumbs active="Doctor Profile" title="Doctor Profile" />
+            <BreadCrumbs homeLink="/patients/search" homeName="Search" active="Doctor Profile" title="Doctor Profile" />
 
             <div className="content">
                 <div className="container">

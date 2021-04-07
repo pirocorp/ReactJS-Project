@@ -1,5 +1,5 @@
-import { Redirect, Route, Switch } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import authService from '../../services/authService';
 import usersService from '../../services/usersService';

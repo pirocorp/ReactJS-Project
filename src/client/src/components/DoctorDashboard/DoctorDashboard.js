@@ -7,7 +7,7 @@ function DoctorDashboard({
 }) {
 
     return(
-        <DoctorPage doctorProfile={ doctorProfile }>
+        <DoctorPage title="Dashboard" doctorProfile={ doctorProfile }>
             
         </DoctorPage>
     );

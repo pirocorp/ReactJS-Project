@@ -5,11 +5,13 @@ import './DoctorPage.css';
 
 function DoctorPage({
     children,
-    doctorProfile
+    doctorProfile,
+    title
 }) {
     return (
         <>
-            <Breadcrumb active="Dashboard" title="Dashboard" />
+            <Breadcrumb homeName="Doctor" homeLink="/doctors/dashboard" active={title} title={title} />
+
             <div className="content">
                 <div className="container-fluid">
 

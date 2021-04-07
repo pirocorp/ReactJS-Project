@@ -54,7 +54,7 @@ function Search({
 
     return(
         <>
-            <Breadcrumb active="Search" title={`${total} ${total === 1 ? 'match' : 'matches' } found`} />
+            <Breadcrumb homeLink="/" homeName="Home" active="Search" title={`${total} ${total === 1 ? 'match' : 'matches' } found`} />
             
             <div className="content">
 				<div className="container-fluid">

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './Breadcrumb.css';
 
 function Breadcrumb({
+    homeLink,
+    homeName,
     active,
     title
 }) {
@@ -13,7 +15,7 @@ function Breadcrumb({
                     <div className="col-md-8 col-12">
                         <nav aria-label="breadcrumb" className="page-breadcrumb">
                             <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                                <li className="breadcrumb-item"><Link to={homeLink}>{homeName}</Link></li>
                                 <li className="breadcrumb-item active" aria-current="page">{active}</li>
                             </ol>
                         </nav>
