@@ -21,10 +21,6 @@ function DoctorSchedule({
             return;
         }
 
-        let view = calendar.view;
-
-        console.log(view);
-
         updateShifts();
 
     }, [doctorProfile]);
@@ -32,7 +28,6 @@ function DoctorSchedule({
     const updateShifts = () => doctorsService
         .getShifts(doctorProfile.id)
         .then(res => setEvents(res.map(r => ({ date: r.date.split('T')[0], title: 'On Duty', id: r.id }))));
-
 
     function onDateClickHandler(args) {
         const date = new Date(Date.UTC(args.date.getFullYear(), args.date.getMonth(), args.date.getDate())).toJSON();

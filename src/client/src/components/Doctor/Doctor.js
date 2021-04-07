@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import authService from '../../services/authService';
 import usersService from '../../services/usersService';
@@ -7,13 +7,14 @@ import doctorService from '../../services/doctorsService';
 
 import DoctorDashboard from '../DoctorDashboard';
 import DoctorSchedule from '../DoctorSchedule';
+import UserContext from '../../contexts/UserContext';
 
 import './Doctor.css';
 
-function Doctor({
-    user
-}) {
+function Doctor() {
     const [doctorProfile, setDoctorProfile] = useState({});
+
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         let userId = authService.getUserId(user?.token);
@@ -22,7 +23,9 @@ function Doctor({
             .then(res => setDoctorProfile(res));
     }, [user]);
 
-    if(!user){
+    const role = authService.getRole(user.token);
+
+    if(!user || role != 'Doctor'){
         return <Redirect to="/login"/>
     }
 

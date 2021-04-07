@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Alert from '../Shared/Alert';
-
 import IsFocused from '../../hocs/IsFocused';
+import UserContext from '../../contexts/UserContext';
 
 import usersService from '../../services/usersService';
 
@@ -12,10 +12,9 @@ import './Login.css';
 function Login({
     isFocused,
     onInputBlurHandler,
-    setUser,
     history
 }) {
-    // TODO: Implement actual login logic and redirect to home after login
+    const { setUser } = useContext( UserContext );
 
     const [state, setState] = useState({
         username : '',

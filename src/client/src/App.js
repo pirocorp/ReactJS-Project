@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import useUser from './hooks/useUser';
+import UserContext from './contexts/UserContext';
+import MobileMenuContext from './contexts/MobileMenuContext';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -19,20 +21,35 @@ function App() {
     const [openMenu, setOpenMenu] = useState(false);
     const [user, setUser] = useUser();
 
+    const userContext = {
+        user: user,
+        profileId: '',
+        setUser: setUser,        
+    };
+
+    const mobileMenuContext = {
+        openMenu: openMenu,
+        setOpenMenu: setOpenMenu
+    };
+
     return (
-        <div className={openMenu ? "menu-opened" : ''}>
-            <Header setOpenMenu={setOpenMenu} user={ user } setUser={ setUser }/>
-            <Switch>
-                <Route path="/test" exact render={ props => <TestComponent {...props} user={ user } />} />
-                <Route path="/" exact component={ Home } />
-                <Route path="/patients/search" exact component={ Search } />
-                <Route path="/login" exact render={ props => <Login {...props} setUser={ setUser } /> } />
-                <Route path="/register" exact render={ props => <Register {...props} setUser={ setUser } /> } />
-                <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
-                <Route path="/doctors/profile/:doctorId" exact component={ DoctorProfile } />
-                <Route path="/doctors" render={ (props) => <Doctor {...props} user={ user } />} />
-            </Switch>
-            <Footer />
+        <div className={ openMenu ? "menu-opened" : '' }>
+            <UserContext.Provider value={ userContext }>
+                <MobileMenuContext.Provider value={ mobileMenuContext }>
+                    <Header />
+                </MobileMenuContext.Provider>
+                <Switch>
+                    <Route path="/test" exact component={ TestComponent } />
+                    <Route path="/" exact component={ Home } />
+                    <Route path="/patients/search" exact component={ Search } />
+                    <Route path="/login" exact component={ Login } />
+                    <Route path="/register" exact component={ Register } />
+                    <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
+                    <Route path="/doctors/profile/:doctorId" exact component={ DoctorProfile } />
+                    <Route path="/doctors" component={ Doctor } />
+                </Switch>
+                <Footer />
+            </UserContext.Provider>
         </div>
     );
 }

@@ -1,10 +1,14 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import MobileMenuContext from '../../../../../contexts/MobileMenuContext';
 
 import './MenuHeader.css';
 
-const MenuHeader = ({
-    setOpenMenu
-}) => {
+const MenuHeader = () => {
+
+    const { setOpenMenu } = useContext(MobileMenuContext);
+
     function onMobileMenuCloseClickHandler() {
         setOpenMenu(false);
     }

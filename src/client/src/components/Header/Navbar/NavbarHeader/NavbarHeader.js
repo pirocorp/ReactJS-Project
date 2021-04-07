@@ -1,10 +1,13 @@
-import './NavbarHeader.css';
-
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-const NavbarHeader = ({
-    setOpenMenu
-}) => {
+import MobileMenuContext from '../../../../contexts/MobileMenuContext';
+
+import './NavbarHeader.css';
+
+const NavbarHeader = () => {
+
+    const { setOpenMenu } = useContext(MobileMenuContext);
 
     function onMobileMenuClickHandler() {
         setOpenMenu(true);

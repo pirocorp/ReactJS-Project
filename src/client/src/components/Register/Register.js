@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import IsFocused from '../../hocs/IsFocused';
 
 import Alert from '../Shared/Alert';
+import UserContext from '../../contexts/UserContext';
 
 import userService from '../../services/usersService';
 
@@ -12,11 +13,11 @@ import './Register.css';
 function Register({
     isFocused,
     onInputBlurHandler,
-    setUser,
     history
 }) {
 
-    // TODO: Implement register functionality, automatic login after register and redirect to home.
+    const { setUser } = useContext(UserContext);
+    
     const [state, setState] = useState({
         username : '',
         email: '',

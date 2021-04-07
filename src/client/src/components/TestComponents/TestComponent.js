@@ -1,8 +1,14 @@
+import { useContext } from 'react';
+
 import authService from "../../services/authService";
 
-const TestComponent = (props) => {
+import UserContext from '../../contexts/UserContext';
 
-    const role = authService.getRole(props.user?.token);
+const TestComponent = () => {
+
+    const { user } = useContext(UserContext);
+
+    const role = authService.getRole(user?.token);
     let element = <></>;
 
     switch (role) {

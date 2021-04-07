@@ -1,11 +1,13 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import UserContext from '../../../../contexts/UserContext';
 
 import './NavbarFooter.css';
 
-const NavbarFooter = ({
-    user,
-    setUser
-}) => {
+const NavbarFooter = () => {
+
+    const { user, setUser } = useContext(UserContext);
 
     function onLogoutClickHandler(e) {
         setUser({});
