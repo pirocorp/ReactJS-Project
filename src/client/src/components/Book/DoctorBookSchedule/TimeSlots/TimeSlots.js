@@ -33,7 +33,7 @@ function TimeSlots({
 
                 return patientsService.getPatientAppointments(res.profileId);
             })
-            .then(res => {setAppointments(res); console.log(res); });        
+            .then(res => setAppointments(res.filter(a => a.status.name !== 'Canceled')));        
     }, []);
 
     const mapSlots = (date) => {
@@ -46,7 +46,7 @@ function TimeSlots({
                 <span 
                     key={ s.id } 
                     id={ s.id } 
-                    className={sameDateAppointments.some(a => a.slot === s.name)? 'timing selected' : 'timing'} 
+                    className={sameDateAppointments.some(a => a.slot === s.name)? 'timing taken' : 'timing'} 
                     onClick={ (e) => onTimeSlotClickHandler(e, date) }
                 >
                     <span>{ s.name }</span>
@@ -63,6 +63,10 @@ function TimeSlots({
             slotId,
             date: datePayload
         };
+
+        // TODO: Set Another state for selected slot and when button is clicked appointment is made
+        // Clicking one slot deselect another clicked
+        // Update appointments after new appointment is send to backend
         
         patientsService.createAppointment(patientId, payload)
             .then(res => console.log(res))

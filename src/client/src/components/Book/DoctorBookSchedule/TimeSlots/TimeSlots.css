@@ -1,12 +1,12 @@
-.time-slot li .timing.full {
+.time-slot li .timing.taken {
     background-color: #fb4289;
     border: 1px solid #fb4289;
     color: #fff;
 }
 
-.time-slot li .timing.full::before {
+.time-slot li .timing.taken::before {
     color: #fff;
-    content: "\f00c";
+    content: "\f273";
     font-family: "Font Awesome 5 Free";
     font-size: 12px;
     font-weight: 900;
