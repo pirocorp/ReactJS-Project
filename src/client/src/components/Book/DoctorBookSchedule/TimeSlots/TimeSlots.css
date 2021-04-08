@@ -1,0 +1,16 @@
+.time-slot li .timing.full {
+    background-color: #fb4289;
+    border: 1px solid #fb4289;
+    color: #fff;
+}
+
+.time-slot li .timing.full::before {
+    color: #fff;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-size: 12px;
+    font-weight: 900;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}

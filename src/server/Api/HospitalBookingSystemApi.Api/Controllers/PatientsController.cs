@@ -19,17 +19,20 @@
         private readonly IPatientsService patientsService;
         private readonly IAppointmentService appointmentService;
         private readonly IImageService imageService;
+        private readonly IShiftService shiftService;
         private readonly IMapper mapper;
 
         public PatientsController(
             IPatientsService patientsService,
             IAppointmentService appointmentService,
             IImageService imageService,
+            IShiftService shiftService,
             IMapper mapper)
         {
             this.patientsService = patientsService;
             this.appointmentService = appointmentService;
             this.imageService = imageService;
+            this.shiftService = shiftService;
             this.mapper = mapper;
         }
 
@@ -39,10 +42,10 @@
         {
             if (this.User.IsInRole(GlobalConstants.RolesNames.Administrator))
             {
-                return this.Ok(await this.patientsService.GetAllWithDeletedAsync<Models.Patients.PatientModel>());
+                return this.Ok(await this.patientsService.GetAllWithDeletedAsync<PatientModel>());
             }
 
-            return this.Ok(await this.patientsService.GetAllAsync<Models.Patients.PatientModel>());
+            return this.Ok(await this.patientsService.GetAllAsync<PatientModel>());
         }
 
         [HttpGet(ApiConstants.WithId)]
@@ -50,10 +53,10 @@
         {
             if (this.User.IsInRole(GlobalConstants.RolesNames.Administrator))
             {
-                return this.Ok(await this.patientsService.GetWithDeletedAsync<Models.Patients.PatientModel>(id));
+                return this.Ok(await this.patientsService.GetWithDeletedAsync<PatientModel>(id));
             }
 
-            return this.Ok(await this.patientsService.GetAsync<Models.Patients.PatientModel>(id));
+            return this.Ok(await this.patientsService.GetAsync<PatientModel>(id));
         }
 
         [HttpGet(ApiConstants.WithId + ApiConstants.PatientsEndpoints.Appointments)]
@@ -65,7 +68,7 @@
                 return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
             }
 
-            return this.Ok(this.patientsService.GetAppointments<AppointmentDetailsModel>(id));
+            return this.Ok(await this.patientsService.GetAppointmentsAsync<AppointmentDetailsModel>(id));
         }
 
         [HttpGet(ApiConstants.Parameters.PatientId + ApiConstants.PatientsEndpoints.Appointments + "/" + ApiConstants.Parameters.AppointmentId)]
@@ -93,7 +96,7 @@
 
         [HttpPost(ApiConstants.Parameters.PatientId + ApiConstants.PatientsEndpoints.Appointments)]
         [Authorize(Roles = GlobalConstants.RolesNames.Patient)]
-        public async Task<IActionResult> PostAppointment([FromBody] CreateAppointment model, string patientId)
+        public async Task<IActionResult> PostAppointment([FromBody] InputAppointmentModel inputModel, string patientId)
         {
             if (!await this.patientsService.ExistsAsync(patientId))
             {
@@ -105,7 +108,16 @@
                 return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
             }
 
-            return this.Ok(await this.appointmentService.CreateAsync(model, patientId));
+            var shiftId = await this.shiftService.GetShiftIdAsync(inputModel.Date);
+
+            var serviceModel = new CreateAppointment()
+            {
+                DoctorId = inputModel.DoctorId,
+                SlotId = inputModel.SlotId,
+                ShiftId = shiftId,
+            };
+
+            return this.Ok(await this.appointmentService.CreateAsync(serviceModel, patientId));
         }
 
         [HttpPatch(

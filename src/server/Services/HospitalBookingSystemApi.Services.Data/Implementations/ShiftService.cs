@@ -26,5 +26,8 @@
                 .Where(s => s.Date.Equals(date))
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+        public async Task<string> GetShiftIdAsync(DateTime date)
+            => await this.dbContext.Shifts.Where(s => s.Date.Equals(date)).Select(s => s.Id).FirstOrDefaultAsync();
     }
 }

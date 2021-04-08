@@ -31,7 +31,7 @@ function Book({
                         <div className="col-12">
                             <DoctorBookCard { ... doctor }/>
 
-                            <DoctorBookSchedule />
+                            <DoctorBookSchedule doctorId={ doctorId } />
                         </div>
                     </div>
                 </div>

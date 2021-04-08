@@ -1,8 +1,9 @@
 ﻿namespace HospitalBookingSystemApi.Api.Models.Patients
 {
-    using System.ComponentModel.DataAnnotations;
+    using HospitalBookingSystemApi.Data.Models;
+    using HospitalBookingSystemApi.Services.Mapping;
 
-    public class AppointmentDoctorModel
+    public class AppointmentDoctorModel : IMapFrom<Doctor>
     {
         public string FirstName { get; set; }
 

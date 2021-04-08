@@ -73,7 +73,7 @@ function DoctorCard({
                     </div>
                     <div className="clinic-booking">
                         { path.includes('patient') ? <Link className="view-pro-btn" to={`/doctors/profile/${id}`}>View Profile</Link> : '' }                        
-                        <Link className="apt-btn" to="booking.html">Book Appointment</Link>
+                        <Link className="apt-btn" to={`/doctors/book/${id}`}>Book Appointment</Link>
                     </div>
                 </div>
             </div>

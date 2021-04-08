@@ -10,5 +10,7 @@
         Task<bool> ExistsAsync(string id);
 
         Task<T> GetShiftAsync<T>(DateTime date);
+
+        Task<string> GetShiftIdAsync(DateTime date);
     }
 }

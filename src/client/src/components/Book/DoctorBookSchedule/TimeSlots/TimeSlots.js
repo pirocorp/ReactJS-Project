@@ -1,6 +1,74 @@
-import './TimeSlots.css';
+import { useEffect, useState, useContext } from 'react';
 
-function TimeSlots() {
+import UserContext from '../../../../contexts/UserContext';
+
+import slotsService from '../../../../services/slotsService';
+import authService from '../../../../services/authService';
+import usersService from '../../../../services/usersService';
+
+import './TimeSlots.css';
+import patientsService from '../../../../services/patientService';
+
+function TimeSlots({
+    dates,
+    doctorId
+}) {
+
+    const { user } = useContext(UserContext);
+    const [ slots, setSlots ] = useState([]);
+    const [ appointments, setAppointments ] = useState([]);
+    const [ patientId, setPatientId ] = useState('');
+
+    useEffect(() => {
+        slotsService
+            .getAll()
+            .then(res => setSlots(res ?? []));
+
+        const userId = authService.getUserId(user?.token);
+
+        usersService
+            .getProfileId(userId)
+            .then(res => {
+                setPatientId(res.profileId);
+
+                return patientsService.getPatientAppointments(res.profileId);
+            })
+            .then(res => {setAppointments(res); console.log(res); });        
+    }, []);
+
+    const mapSlots = (date) => {
+        
+        const onlyDate = date?.toISOString().split('T')[0];
+        const sameDateAppointments = appointments.filter(a => a.date.split('T')[0] === onlyDate);
+
+        return slots
+            .map(s => (
+                <span 
+                    key={ s.id } 
+                    id={ s.id } 
+                    className={sameDateAppointments.some(a => a.slot === s.name)? 'timing selected' : 'timing'} 
+                    onClick={ (e) => onTimeSlotClickHandler(e, date) }
+                >
+                    <span>{ s.name }</span>
+                </span>
+            ));
+    }
+
+    const onTimeSlotClickHandler = (e, date) => {
+        const slotId = e.currentTarget.id;
+
+        const datePayload = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toJSON();
+        const payload = {
+            doctorId,
+            slotId,
+            date: datePayload
+        };
+        
+        patientsService.createAppointment(patientId, payload)
+            .then(res => console.log(res))
+            .catch(res => console.log(res));
+    };
+
     return (
         <div className="schedule-cont">
             <div className="row">
@@ -9,81 +77,25 @@ function TimeSlots() {
                     <div className="time-slot">
                         <ul className="clearfix">
                             <li>
-                                <span className="timing">
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[0]) }
                             </li>
                             <li>
-                                <span className="timing" >
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[1]) }
                             </li>
                             <li>
-                                <span className="timing" >
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[2]) }  
                             </li>
                             <li>
-                                <span className="timing" >
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[3]) }
                             </li>
                             <li>
-                                <span className="timing" >
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing selected" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[4]) }
                             </li>
                             <li>
-                                <span className="timing" >
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[5]) }
                             </li>
                             <li>
-                                <span className="timing" >
-                                    <span>9:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>10:00</span> <span>AM</span>
-                                </span>
-                                <span className="timing" >
-                                    <span>11:00</span> <span>AM</span>
-                                </span>
+                                { mapSlots(dates[6]) }
                             </li>
                         </ul>
                     </div>

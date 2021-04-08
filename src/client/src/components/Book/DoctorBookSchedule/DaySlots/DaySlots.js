@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import './DaySlots.css';
 
 function Days({
     startDate,
     setStartDate,
+    dates,
+    setDates
 }) {
     const minDate = new Date();
     minDate.setDate(minDate.getDate() + 1);
 
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const [elements, setElements] = useState([]);
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];    
 
     useEffect(() => {
 
@@ -27,7 +28,7 @@ function Days({
             dates.push(new Date(d));   
         }
 
-        setElements(dates);
+        setDates(dates);
     }, [startDate]);
 
     const increaseDates = () => {
@@ -65,7 +66,7 @@ function Days({
                     </span>
                 </li>
                 {
-                    elements.map(d => (
+                    dates.map(d => (
                         <li key={ d.getTime() }>
                             <span>{ days[d.getDay()].slice(0, 3) }</span>
                             <span className="slot-date">{ d.getDate() + ' ' + d.toLocaleString('default', { month: 'short' }) } 

@@ -1,12 +1,15 @@
 import { useState, useEffect} from 'react';
 
 import DaySlots from './DaySlots';
+import TimeSlots from './TimeSlots';
 
 import './DoctorBookSchedule.css';
 
-function DoctorBookSchedule() {
-
+function DoctorBookSchedule({
+    doctorId
+}) {
     const [startDate, setStartDate] = useState({ });
+    const [dates, setDates] = useState([]);
 
     useEffect(() => {
         const startDate = new Date();
@@ -25,13 +28,15 @@ function DoctorBookSchedule() {
                     <DaySlots 
                         startDate={ startDate } 
                         setStartDate={ setStartDate } 
+                        dates={ dates }
+                        setDates={ setDates }
                     />
 
                     </div>
                 </div>
             </div>
 
-
+            <TimeSlots dates={ dates } doctorId={ doctorId } />
 
         </div>
 

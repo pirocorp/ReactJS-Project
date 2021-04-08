@@ -26,7 +26,7 @@
 
         Task<IEnumerable<T>> GetAllWithDeletedAsync<T>();
 
-        Task<IEnumerable<T>> GetAppointments<T>(string id);
+        Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id);
 
         Task<bool> PatientHasAppointment(string patientId, string appointmentId);
 
