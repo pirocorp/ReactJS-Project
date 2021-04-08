@@ -139,7 +139,7 @@
         public async Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id)
             => await this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))
-                .Select(d => d.Appointments)
+                .SelectMany(d => d.Appointments)
                 .To<T>()
                 .ToListAsync();
 

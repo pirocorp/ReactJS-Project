@@ -96,8 +96,6 @@ function PatientProfile() {
             return;
         }
 
-        // TODO: Client Side Validation
-
         if(patientProfile?.id){
             patientsService
                 .updatePatientProfile(payload, patientProfile.id)

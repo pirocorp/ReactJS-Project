@@ -43,7 +43,7 @@ function DoctorWidget({
                             <Link to={`doctors/profile/${id}`} className="btn view-btn" tabIndex="-1">View Profile</Link>
                         </div>
                         <div className="col-6">
-                            <Link to="#" className="btn book-btn" tabIndex="-1">Book Now</Link>
+                            <Link to={`doctors/book/${id}`} className="btn book-btn" tabIndex="-1">Book Now</Link>
                         </div>
                     </div>
                 </div>
