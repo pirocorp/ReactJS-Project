@@ -35,8 +35,6 @@ function BusinessHoursContent() {
     }, []);
 
     function isOpen() {
-        console.log(time.date)
-
         return true;
     }
 

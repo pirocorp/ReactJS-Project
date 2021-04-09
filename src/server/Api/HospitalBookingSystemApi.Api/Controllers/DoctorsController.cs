@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Common;
+
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
     using HospitalBookingSystemApi.Api.Models.Doctors;
     using HospitalBookingSystemApi.Data.Models;
@@ -13,7 +13,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+
     using static Common.GlobalConstants;
 
     public class DoctorsController : BaseController

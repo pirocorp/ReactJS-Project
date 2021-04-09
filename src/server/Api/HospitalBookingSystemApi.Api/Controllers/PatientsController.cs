@@ -117,7 +117,12 @@
                 ShiftId = shiftId,
             };
 
-            return this.Ok(await this.appointmentService.CreateAsync(serviceModel, patientId));
+            var response = new
+            {
+                AppointmentId = await this.appointmentService.CreateAsync(serviceModel, patientId),
+            };
+
+            return this.Ok(response);
         }
 
         [HttpPatch(

@@ -2,6 +2,7 @@ import requesterService from './requesterService';
 
 const endpoint = '/doctors';
 const shifts = '/shifts';
+const appointments = '/appointments';
 
 function getAll (queryString) {
     let uri = endpoint;
@@ -21,12 +22,15 @@ const postShift = (id, data) => requesterService.post(`${endpoint}/${id}${shifts
 
 const deleteShift = (doctorId, shiftId) => requesterService.del(`${endpoint}/${doctorId}${shifts}/${shiftId}`);
 
+const getAppointments = (doctorId) => requesterService.get(`${endpoint}/${doctorId}${appointments}`);
+
 const doctorsService = {
     getAll,
     get,
     getShifts,
     postShift,
-    deleteShift
+    deleteShift,
+    getAppointments,
 };
 
 export default doctorsService;

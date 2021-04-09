@@ -15,6 +15,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Doctor from './components/Doctor';
 import Patient from './components/Patient';
+import BookingSuccess from './components/BookingSuccess';
 
 import './App.css';
 import TestComponent from './components/TestComponents';
@@ -48,6 +49,7 @@ function App() {
                     <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
                     <Route path="/doctors/profile/:doctorId" exact component={ DoctorProfile } />
                     <Route path="/doctors/book/:doctorId" exact component={ Book } />
+                    <Route path="/booking-success/:appointmentId" exact component={ BookingSuccess } />
                     <Route path="/doctors" component={ Doctor } />
                     <Route path="/patients" component={ Patient } />
                 </Switch>

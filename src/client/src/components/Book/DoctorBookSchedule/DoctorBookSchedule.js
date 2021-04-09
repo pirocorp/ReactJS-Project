@@ -6,7 +6,9 @@ import TimeSlots from './TimeSlots';
 import './DoctorBookSchedule.css';
 
 function DoctorBookSchedule({
-    doctorId
+    doctorId,
+    payload,
+    setPayload
 }) {
     const [startDate, setStartDate] = useState({ });
     const [dates, setDates] = useState([]);
@@ -36,7 +38,7 @@ function DoctorBookSchedule({
                 </div>
             </div>
 
-            <TimeSlots dates={ dates } doctorId={ doctorId } />
+            <TimeSlots dates={ dates } doctorId={ doctorId } payload={ payload } setPayload={ setPayload } />           
 
         </div>
 
