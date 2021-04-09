@@ -37,7 +37,7 @@ function Book({
         usersService
             .getProfileId(userId)
             .then(res => {
-                if(!res.profileId) {
+                if(!res?.profileId) {
                     setRedirectTo(true);                    
                     return;
                 }

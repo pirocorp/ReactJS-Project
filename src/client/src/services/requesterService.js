@@ -50,8 +50,6 @@ const sendData = (endpoint, method, data) => {
         body: formData     
     };
 
-    console.log(formData);
-
     return fetch(uri, options)
         .then(res => res.json())
         .catch(err => console.log(err));

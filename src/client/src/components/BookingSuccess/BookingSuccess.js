@@ -15,7 +15,7 @@ function BookingSuccess({
 
 	useEffect(() => {
 		appointmentsService.get(appointmentId)
-			.then(res => {setAppointment(res); console.log(res);});
+			.then(res => setAppointment(res));
 	}, []);
 
 	const fullName = `Dr. ${appointment?.firstName} ${appointment?.lastName}`;

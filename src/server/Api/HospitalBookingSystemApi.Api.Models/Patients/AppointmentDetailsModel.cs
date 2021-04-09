@@ -8,6 +8,8 @@
 
     public class AppointmentDetailsModel : IMapFrom<Appointment>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         public AppointmentDoctorModel Doctor { get; set; }
 
         public DateTime Date { get; set; }
@@ -17,6 +19,8 @@
         public string Notes { get; set; }
 
         public AppointmentStatusModel Status { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

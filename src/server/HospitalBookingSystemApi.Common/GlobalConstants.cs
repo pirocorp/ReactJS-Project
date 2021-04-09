@@ -12,6 +12,8 @@
 
         public const string DefaultAppointmentStatus = "Pending";
 
+        public const string IgnoredAppointments = "Canceled";
+
         public static class RolesNames
         {
             public const string Administrator = "Administrator";

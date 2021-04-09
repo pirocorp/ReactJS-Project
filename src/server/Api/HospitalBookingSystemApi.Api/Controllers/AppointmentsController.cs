@@ -2,9 +2,10 @@
 {
     using System.Threading.Tasks;
 
+    using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
     using HospitalBookingSystemApi.Api.Models.Appointments;
     using HospitalBookingSystemApi.Services.Data;
-    using Infrastructure.Extensions;
+
     using Microsoft.AspNetCore.Mvc;
 
     public class AppointmentsController : BaseController

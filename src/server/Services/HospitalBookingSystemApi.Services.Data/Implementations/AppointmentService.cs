@@ -1,6 +1,7 @@
 ﻿namespace HospitalBookingSystemApi.Services.Data.Implementations
 {
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using HospitalBookingSystemApi.Common;

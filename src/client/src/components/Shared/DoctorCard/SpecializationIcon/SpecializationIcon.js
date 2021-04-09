@@ -2,11 +2,12 @@ import './SpecializationIcon.css';
 
 function SpecializationIcon({
     imageURL,
-    name
+    name,
+    style
 }) {
     return(
         <div className="d-inline-block mr-3">
-            <img src={imageURL} className="img-fluid" alt="Speciality" />
+            <img style={style} src={imageURL} className="img-fluid" alt="Speciality" />
             {name}
         </div>
     );

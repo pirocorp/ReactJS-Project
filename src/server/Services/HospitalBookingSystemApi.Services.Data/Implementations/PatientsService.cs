@@ -73,6 +73,7 @@
         public async Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id)
             => await this.dbContext.Appointments
                 .Where(a => a.Patient.Id.Equals(id))
+                .OrderByDescending(a => a.Shift.Date)
                 .To<T>()
                 .ToListAsync();
 

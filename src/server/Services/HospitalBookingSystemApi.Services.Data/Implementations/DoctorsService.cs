@@ -140,6 +140,7 @@
             => await this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))
                 .SelectMany(d => d.Appointments)
+                .Where(a => a.Status.Name != GlobalConstants.IgnoredAppointments)
                 .To<T>()
                 .ToListAsync();
 
