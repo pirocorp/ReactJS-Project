@@ -6,7 +6,14 @@ Repository for ReactJS course project.
 
 The backend uses ASP.NET 5.0 and is in [src/server](https://github.com/pirocorp/ReactJS-Project/tree/main/src/server)
 
+Start backend and wait for database initialization.
+
 The frontend uses React and is in [src/client](https://github.com/pirocorp/ReactJS-Project/tree/main/src/client)
+
+In client directory run 
+```npm
+  npm start
+```
 
 ## Project Descriotion
 
