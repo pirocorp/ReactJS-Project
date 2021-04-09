@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import Alert from '../Shared/Alert';
 import PatientPage from '../Shared/PatientPage';
@@ -8,11 +8,13 @@ import patientsService from '../../services/patientService';
 
 import './PatientProfile.css';
 
-function PatientProfile() {
+function PatientProfile({
+    history
+}) {
 
     const [imageState, setImageState] = useState();
     const [imageInputName, setImageInputName] = useState('');
-    const patientProfile = useContext(PatientContext);
+    const patientProfile = useContext(PatientContext);    
 
     const [error, setError] = useState({
         title: '',
@@ -23,6 +25,18 @@ function PatientProfile() {
         title: '',
         text: ''
     })
+
+    const formPath = history.location.state?.from;  
+
+    useEffect(() => {
+        if(formPath) {
+            setError({
+                title: 'Missing patient profile',
+                text: 'patient must have profile in order to use most of site functionalities',
+            }) 
+        }
+    }, []);
+    
 
     const imageElement = patientProfile?.imageUrl 
         ? <img src={patientProfile?.imageUrl} alt="User Image" />
@@ -96,14 +110,19 @@ function PatientProfile() {
             return;
         }
 
-        if(patientProfile?.id){
+        if(patientProfile?.id) {
             patientsService
                 .updatePatientProfile(payload, patientProfile.id)
                 .then(res => notifications(res));
         } else {
             patientsService
                 .createPatientProfile(payload)
-                .then(res => console.log(res));
+                .then(res => notifications(res))
+                .then(() => {
+                    if(formPath) {
+                        history.push(formPath);
+                    }
+                });
         }
     }
 

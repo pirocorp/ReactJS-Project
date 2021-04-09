@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import authService from '../../services/authService';
 import doctorService from '../../services/doctorsService';
@@ -21,7 +22,8 @@ function Book({
 
     const { user } = useContext(UserContext);
     const [ doctor, setDoctor ] = useState({});
-    const [ patientId, setPatientId ] = useState(''); 
+    const [ patientId, setPatientId ] = useState(); 
+    const [ redirectTo, setRedirectTo ] = useState();
 
     const [ payload, setPayload ] = useState({});
 
@@ -34,11 +36,28 @@ function Book({
 
         usersService
             .getProfileId(userId)
-            .then(res => setPatientId(res.profileId));
+            .then(res => {
+                if(!res.profileId) {
+                    setRedirectTo(true);                    
+                    return;
+                }
 
-    }, [doctorId]);
+                setRedirectTo(false);
+                setPatientId(res.profileId);
+            });
+    }, [doctorId]);    
 
-    
+    if( redirectTo ) {
+
+        const to = {
+            pathname: "/patients/profile",
+            state: {
+                from: history.location.pathname
+            }
+        };
+
+        return <Redirect to={ to } />
+    }
 
     const createAppointment = () => {
         patientsService.createAppointment(patientId, payload)
@@ -46,29 +65,31 @@ function Book({
             .catch(res => console.log(res));
     }
 
-    return (
-        <>
-            <BreadCrumbs homeLink="/patients/search" homeName="Search" active="Book Doctor" title="Book Doctor" />
+    return redirectTo === false 
+        ?   (
+                <>
+                    <BreadCrumbs homeLink="/patients/search" homeName="Search" active="Book Doctor" title="Book Doctor" />
 
-            <div className="content">
-                <div className="container">
+                    <div className="content">
+                        <div className="container">
 
-                    <div className="row">
-                        <div className="col-12">
-                            <DoctorBookCard { ... doctor }/>
+                            <div className="row">
+                                <div className="col-12">
+                                    <DoctorBookCard { ... doctor }/>
 
-                            <DoctorBookSchedule doctorId={ doctorId } payload={ payload } setPayload={ setPayload }/>
+                                    <DoctorBookSchedule doctorId={ doctorId } payload={ payload } setPayload={ setPayload }/>
 
-                            <div class="submit-section proceed-btn text-right">
-								<button onClick={ createAppointment } class="btn btn-primary submit-btn">Make Appointment</button>
-							</div>
-                        </div>
+                                    <div className="submit-section proceed-btn text-right">
+                                        <button onClick={ createAppointment } className="btn btn-primary submit-btn">Make Appointment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+
                     </div>
-                </div>                
-
-            </div>
-        </>
-    );
+                </>
+            )
+        :   '';
 }
 
 export default Book;

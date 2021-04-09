@@ -14,6 +14,8 @@ function DoctorProfile({
     const [doctor, setDoctor] = useState({});
     const doctorId = match.params.doctorId;
 
+    console.log(match);
+
     useEffect(() => {
         doctorService
             .get(doctorId)
