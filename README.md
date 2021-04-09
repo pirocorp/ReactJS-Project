@@ -23,9 +23,9 @@ There will be three roles Admin, Doctor, and Patient.
 
 Admin can create Doctors and can see all Patient and Doctors and all appointments registered in the system. (Not implemented yet)
 
-A doctor can take shifts and accept or cancel patient appointments. Once accepted appointment can't cancel the appointment. (Not implemented yet)
+A doctor can take shifts and accept or cancel patient appointments. Once accepted appointment can't cancel the appointment. (Implemented)
 
-A patient can make an appointment with a given doctor. The patient sees all his appointments and their statuses. (Not implemented yet)
+A patient can make an appointment with a given doctor. The patient sees all his appointments and their statuses. (Implemented)
 
 Anonymous users can see all doctors in the clinic/hospital. Search for a doctor by name, specialization, or date. (Implemented)
 
