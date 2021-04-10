@@ -36,12 +36,6 @@ function DoctorMenu({
             <div className="dashboard-widget">
                 <nav className="dashboard-menu">
                     <ul>
-                        <li className={ isActive('dashboard') }>
-                            <Link to="/doctors/dashboard">
-                                <i className="fas fa-columns"></i>
-                                <span>Dashboard</span>
-                            </Link>
-                        </li>
                         <li className={ isActive('appointments') }>
                             <Link to="/doctors/appointments">
                                 <i className="fas fa-calendar-check"></i>

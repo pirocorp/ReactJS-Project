@@ -6,6 +6,8 @@
 
     public class AppointmentListingModel : IMapFrom<Appointment>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         public AppointmentPatient Patient { get; set; }
 
         public AppointmentSlot Slot { get; set; }

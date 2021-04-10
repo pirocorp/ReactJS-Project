@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import patientsService from '../../../services/patientService';
 
-import patientService from '../../../services/patientService';
+import patientsService from '../../../services/patientService';
+import { convertDate, statusClass } from '../../../common/helpers';
 
 import SpecializationIcon from '../../Shared/DoctorCard/SpecializationIcon';
 
@@ -13,21 +13,8 @@ function PatientAppointment({
     patientId
 }) {
     const doctorFullName = `Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}`;
-    const date = appointment.date.split('T')[0].replaceAll('-', ' ').split(' ').reverse().join(' / ');
-    const bookDate = appointment.createdOn.split('T')[0].replaceAll('-', ' ').split(' ').reverse().join(' / ');
-    
-    const statusClass = (statusName) => {
-        switch(statusName) {
-            case "Confirmed":
-                return 'bg-success-light';
-            case "Canceled":
-                return 'bg-danger-light';
-            case "Pending":
-                return 'bg-warning-light';
-            case "Completed":
-                return 'bg-primary-light';
-        }
-    };
+    const date = convertDate(appointment.date);
+    const bookDate = convertDate(appointment.createdOn);
 
     const onAppointmentCancelClickHandler = (appointmentId) => {
         patientsService

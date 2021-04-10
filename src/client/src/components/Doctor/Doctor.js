@@ -6,7 +6,7 @@ import usersService from '../../services/usersService';
 import doctorService from '../../services/doctorsService';
 import patientService from '../../services/patientService';
 
-import DoctorDashboard from '../DoctorDashboard';
+import DoctorAppointments from '../DoctorAppointments';
 import DoctorSchedule from '../DoctorSchedule';
 import UserContext from '../../contexts/UserContext';
 
@@ -33,7 +33,7 @@ function Doctor() {
 
     return(
         <Switch>
-            <Route path="/doctors/dashboard" exact render={ props => <DoctorDashboard {...props} doctorProfile={ doctorProfile } /> } />
+            <Route path="/doctors/appointments" exact render={ props => <DoctorAppointments {...props} doctorProfile={ doctorProfile } /> } />
             <Route path="/doctors/shifts" exact render={ props => <DoctorSchedule {...props} doctorProfile={ doctorProfile } /> } />
         </Switch>
     );

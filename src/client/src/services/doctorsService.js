@@ -22,7 +22,16 @@ const postShift = (id, data) => requesterService.post(`${endpoint}/${id}${shifts
 
 const deleteShift = (doctorId, shiftId) => requesterService.del(`${endpoint}/${doctorId}${shifts}/${shiftId}`);
 
-const getAppointments = (doctorId) => requesterService.get(`${endpoint}/${doctorId}${appointments}`);
+const getAppointments = (doctorId, type) => {
+
+    let query = '';
+
+    if(type) {
+        query = `?type=${type}`
+    }
+
+    return requesterService.get(`${endpoint}/${doctorId}${appointments}${query}`)
+};
 
 const doctorsService = {
     getAll,

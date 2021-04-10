@@ -211,14 +211,14 @@
         }
 
         [HttpGet(ApiConstants.WithId + ApiConstants.DoctorsEndpoints.Appointments)]
-        public async Task<IActionResult> GetAppointments(string id)
+        public async Task<IActionResult> GetAppointments(string id, [FromQuery]string type = "")
         {
             if (!await this.doctorsService.ExistsAsync(id))
             {
                 return this.NotFound();
             }
 
-            return this.OkOrNotFound(await this.doctorsService.GetAppointmentsAsync<AppointmentListingModel>(id));
+            return this.OkOrNotFound(await this.doctorsService.GetAppointmentsAsync<AppointmentListingModel>(id, type));
         }
 
         [HttpPost]

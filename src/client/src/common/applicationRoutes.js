@@ -9,7 +9,6 @@ const routes = {
     doctors: [
         { path: "/doctors/appointments", title: "Appointments" },
         { path: "/login", title: "Login" },
-        { path: "/doctors/dashboard", title: "Doctor Dashboard" }
     ],
     admin: [
         

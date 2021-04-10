@@ -136,13 +136,41 @@
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id)
-            => await this.dbContext.Doctors
+        public async Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id, string type)
+        {
+            var query = this.dbContext.Doctors
                 .Where(d => d.Id.Equals(id))
                 .SelectMany(d => d.Appointments)
-                .Where(a => a.Status.Name != GlobalConstants.IgnoredAppointments)
+                .Where(a => a.Status.Name != GlobalConstants.IgnoredAppointments);
+
+            var result = Enum.TryParse<AppointmentType>(type, true, out var appointmentType);
+
+            if (result)
+            {
+                var today = DateTime.UtcNow.Date;
+
+                switch (appointmentType)
+                {
+                    case AppointmentType.Upcoming:
+                        query = query
+                            .Where(a => a.Shift.Date >= today);
+                        break;
+                    case AppointmentType.Today:
+                        query = query
+                            .Where(a => a.Shift.Date == today);
+                        break;
+                    case AppointmentType.Past:
+                        query = query
+                            .Where(a => a.Shift.Date < today);
+                        break;
+                }
+            }
+
+            return await query
+                .OrderBy(a => a.Shift.Date)
                 .To<T>()
                 .ToListAsync();
+        }
 
         public async Task<string> CreateDoctorAsync(CreateDoctorModel model)
         {

@@ -39,7 +39,7 @@
 
         Task RemoveShiftAsync(string doctorId, string shiftId);
 
-        Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id);
+        Task<IEnumerable<T>> GetAppointmentsAsync<T>(string id, string type);
 
         Task<string> CreateDoctorAsync(CreateDoctorModel model);
 
