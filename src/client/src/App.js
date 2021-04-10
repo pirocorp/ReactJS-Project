@@ -17,6 +17,8 @@ import Doctor from './components/Doctor';
 import Patient from './components/Patient';
 import BookingSuccess from './components/BookingSuccess';
 
+import CustomErrorBoundary from './components/CustomErrorBoundary';
+
 import './App.css';
 import TestComponent from './components/TestComponents';
 
@@ -35,27 +37,29 @@ function App() {
     };
 
     return (
-        <div className={ openMenu ? "menu-opened" : '' }>
-            <UserContext.Provider value={ userContext }>
-                <MobileMenuContext.Provider value={ mobileMenuContext }>
-                    <Header />
-                </MobileMenuContext.Provider>
-                <Switch>
-                    <Route path="/test" exact component={ TestComponent } />
-                    <Route path="/" exact component={ Home } />
-                    <Route path="/patients/search" exact component={ Search } />
-                    <Route path="/login" exact component={ Login } />
-                    <Route path="/register" exact component={ Register } />
-                    <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
-                    <Route path="/doctors/profile/:doctorId" exact component={ DoctorProfile } />
-                    <Route path="/doctors/book/:doctorId" exact component={ Book } />
-                    <Route path="/booking-success/:appointmentId" exact component={ BookingSuccess } />
-                    <Route path="/doctors" component={ Doctor } />
-                    <Route path="/patients" component={ Patient } />
-                </Switch>
-                <Footer />
-            </UserContext.Provider>
-        </div>
+        <CustomErrorBoundary>
+            <div className={ openMenu ? "menu-opened" : '' }>
+                <UserContext.Provider value={ userContext }>
+                    <MobileMenuContext.Provider value={ mobileMenuContext }>
+                        <Header />
+                    </MobileMenuContext.Provider>
+                    <Switch>
+                        <Route path="/test" exact component={ TestComponent } />
+                        <Route path="/" exact component={ Home } />
+                        <Route path="/patients/search" exact component={ Search } />
+                        <Route path="/login" exact component={ Login } />
+                        <Route path="/register" exact component={ Register } />
+                        <Route path="/logout" exact render={ () => <Redirect to="/" /> }/>
+                        <Route path="/doctors/profile/:doctorId" exact component={ DoctorProfile } />
+                        <Route path="/doctors/book/:doctorId" exact component={ Book } />
+                        <Route path="/booking-success/:appointmentId" exact component={ BookingSuccess } />
+                        <Route path="/doctors" component={ Doctor } />
+                        <Route path="/patients" component={ Patient } />
+                    </Switch>
+                    <Footer />
+                </UserContext.Provider>
+            </div>
+        </CustomErrorBoundary>
     );
 }
 

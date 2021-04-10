@@ -1,0 +1,50 @@
+.error-page.main-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: unset;
+    padding-top: 150px;    
+    font-family: 'Mada', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-x: hidden;
+    font-weight: 400;
+}
+
+.error-page .error-box {
+    margin: 0 auto;
+    max-width: 480px;
+    padding: 1.875rem 0;
+    text-align: center;
+    width: 100%;
+    color: #1f1f1f;
+}
+
+.error-box h1 {
+    color: #00d0f1;
+    font-size: 10em;
+}
+
+.error-box p {
+    margin-bottom: 1.875rem;
+}
+
+.error-box .btn {
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    min-width: 200px;
+    padding: 10px 20px;
+}
+
+.error-box .btn-primary {
+    background-color: #00d0f1;
+    border: 1px solid #00d0f1;
+}
+
+.btn-primary:active:not(:disabled):not(.disabled), .show > .btn-primary.dropdown-toggle {
+    background-color: #19c1dc;
+    border-color: #19c1dc;
+    color: #fff;
+}

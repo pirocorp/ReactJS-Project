@@ -42,24 +42,24 @@ function DoctorMenu({
                                 <span>Appointments</span>
                             </Link>
                         </li>
-                        <li className={ isActive('my-patients') }>
+                        {/* <li className={ isActive('my-patients') }>
                             <Link to="/doctors/my-patients">
                                 <i className="fas fa-user-injured"></i>
                                 <span>My Patients</span>
                             </Link>
-                        </li>
+                        </li> */}
                         <li className={ isActive('shifts') }>
                             <Link to="/doctors/shifts">
                                 <i className="fas fa-hourglass-start"></i>
                                 <span>Schedule Shifts</span>
                             </Link>
                         </li>
-                        <li className={ isActive('profile') }>
+                        {/* <li className={ isActive('profile') }>
                             <Link to="/doctors/profile">
                                 <i className="fas fa-user-cog"></i>
                                 <span>Profile</span>
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </nav>
             </div>
