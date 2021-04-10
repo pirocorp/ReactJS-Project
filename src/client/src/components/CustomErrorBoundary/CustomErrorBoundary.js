@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
 
 import './CustomErrorBoundary.css';
 
@@ -10,6 +11,16 @@ class CustomErrorBoundary extends React.Component {
         this.state = {
             hasError: false,
         };
+
+        const { history } = this.props;
+
+        history.listen((location, action) => {
+            if (this.state.hasError) {
+                this.setState({
+                    hasError: false,
+                });
+            }
+        });
     }
 
     static getDerivedStateFromError(error) {
@@ -43,4 +54,4 @@ class CustomErrorBoundary extends React.Component {
     };
 }
 
-export default CustomErrorBoundary;
+export default withRouter(CustomErrorBoundary);

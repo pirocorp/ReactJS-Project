@@ -25,7 +25,7 @@ const TestComponent = () => {
             element = <h1>Anonymous</h1>
     }
 
-    console.log(role.asd()); // Test Error Boundary Context
+    console.log(role.asd()); // Test Error Boundary Component
 
     return element;
 }
