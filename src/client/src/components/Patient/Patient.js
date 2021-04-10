@@ -29,22 +29,30 @@ function Patient() {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        let userId = authService.getUserId(user?.token);
-
-        usersService.getProfileId(userId)
-            .then(res => patientsService.getProfile(res?.profileId))
-            .then(res => setPatientProfile(res));            
+        updatePatientProfile();
+          
     }, [user]);
 
     const role = authService.getRole(user.token);
 
+    const updatePatientProfile = () => {
+        let userId = authService.getUserId(user?.token);
+        
+        console.log('update');
+
+        usersService.getProfileId(userId)
+            .then(res => patientsService.getProfile(res?.profileId))
+            .then(res => setPatientProfile(res))
+            .catch(res => console.log(res));  
+    };
+
     if(!user || role != 'Patient'){
         return <Redirect to="/login"/>
-    }
+    }  
 
     return(
         <Switch>
-            <PatientContext.Provider value={ patientProfile }>
+            <PatientContext.Provider value={ {...patientProfile, updatePatientProfile } }>
                 <Route path="/patients/profile" exact component={ PatientProfile } />
                 <Route path="/patients/dashboard" exact component={ PatientDashboard } />
             </PatientContext.Provider>

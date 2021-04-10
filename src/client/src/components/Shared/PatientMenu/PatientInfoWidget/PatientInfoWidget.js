@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import PatientContext from '../../../../contexts/PatientContext';
 
 function PatientInfoWidget() {
-
     const patientProfile = useContext(PatientContext);
 
     if(!patientProfile?.id) {

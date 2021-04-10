@@ -35,8 +35,7 @@ function PatientProfile({
                 text: 'patient must have profile in order to use most of site functionalities',
             }) 
         }
-    }, []);
-    
+    }, [patientProfile]);    
 
     const imageElement = patientProfile?.imageUrl 
         ? <img src={patientProfile?.imageUrl} alt="User Image" />
@@ -113,16 +112,21 @@ function PatientProfile({
         if(patientProfile?.id) {
             patientsService
                 .updatePatientProfile(payload, patientProfile.id)
-                .then(res => notifications(res));
+                .then(res => notifications(res))
+                .then(() => patientProfile.updatePatientProfile())
+                .catch(res => console.log(res));
         } else {
             patientsService
                 .createPatientProfile(payload)
                 .then(res => notifications(res))
-                .then(() => {
+                .then(() => {   
+                    patientProfile.updatePatientProfile();
+
                     if(formPath) {
                         history.push(formPath);
                     }
-                });
+                })
+                .catch(res => console.log(res));
         }
     }
 
