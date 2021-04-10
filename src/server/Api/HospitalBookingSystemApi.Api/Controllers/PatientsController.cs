@@ -146,7 +146,7 @@
                 return this.BadRequest(ApiConstants.Errors.PatientInsufficientPermission);
             }
 
-            await this.appointmentService.CancelAppointment(appointmentId);
+            await this.appointmentService.CancelAppointmentAsync(appointmentId);
             return this.Ok();
         }
 

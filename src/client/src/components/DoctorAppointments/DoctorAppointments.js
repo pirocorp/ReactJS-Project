@@ -27,9 +27,16 @@ function DoctorAppointments({
     }, [])
 
     useEffect(() => {     
+
+        updateAppointments();
+
+    }, [doctorProfile, type]);
+
+    const updateAppointments = () => {
         doctorsService.getAppointments(doctorProfile.id, type)
             .then(res => setAppointments(res ?? []))
-    }, [doctorProfile, type])    
+            .catch(res => console.log(res));
+    };
 
     return (
         <DoctorPage title="Dashboard" doctorProfile={doctorProfile}>
@@ -51,13 +58,17 @@ function DoctorAppointments({
                                                     <thead>
                                                         <tr>
                                                             <th>Patient Name</th>
-                                                            <th>Appt Date</th>
+                                                            <th>Appointment Date</th>
                                                             <th className="text-center">Status</th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        { appointments.map(a => <DoctorAppointment key={a.id} appointment={ a } />) }
+                                                        { appointments.map(a => <DoctorAppointment 
+                                                                                    key={a.id} 
+                                                                                    appointment={ a } 
+                                                                                    updateAppointments={ updateAppointments }
+                                                                                />) }
                                                     </tbody>
                                                 </table>
                                             </div>

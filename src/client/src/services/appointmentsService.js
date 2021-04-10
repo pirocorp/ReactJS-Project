@@ -2,14 +2,13 @@ import requesterService from './requesterService';
 
 const endpoint = '/appointments';
 
-const get = (id) => {
-    const uri = endpoint + '/' + id;   
+const get = (id) => requesterService.get(`${endpoint}/${id}`);
 
-    return requesterService.get(uri);
-}
+const updateStatus = (id, status) => requesterService.patch(`${endpoint}/${id}?status=${status}`);
 
 const appointmentService = {
     get,
+    updateStatus
 }
 
 export default appointmentService;

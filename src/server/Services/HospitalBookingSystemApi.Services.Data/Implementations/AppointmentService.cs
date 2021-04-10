@@ -1,6 +1,7 @@
 ﻿namespace HospitalBookingSystemApi.Services.Data.Implementations
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-        public async Task CancelAppointment(string appointmentId)
+        public async Task CancelAppointmentAsync(string appointmentId)
         {
             var appointment = await this.dbContext.Appointments.FindAsync(appointmentId);
 
@@ -58,6 +59,16 @@
             await this.dbContext.SaveChangesAsync();
 
             return appointment.Id;
+        }
+
+        public async Task ChangeAppointmentStatusAsync(string appointmentId, string statusName)
+        {
+            var appointment = await this.dbContext.Appointments.FindAsync(appointmentId);
+            var statusId = await this.appointmentStatusesService.GetStatusIdAsync(statusName);
+
+            appointment.StatusId = statusId;
+            this.dbContext.Attach(appointment);
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }
