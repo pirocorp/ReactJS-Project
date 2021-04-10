@@ -29,3 +29,6 @@ A patient can make an appointment with a given doctor. The patient sees all his 
 
 Anonymous users can see all doctors in the clinic/hospital. Search for a doctor by name, specialization, or date. (Implemented)
 
+### Class Component
+
+SearchBar
