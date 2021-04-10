@@ -15,7 +15,7 @@ In client directory run
   npm start
 ```
 
-## Project Descriotion
+## Project Description
 
 It is a Clinic / Hospital appointment booking system.
 
