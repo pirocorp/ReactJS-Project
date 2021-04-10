@@ -26,15 +26,22 @@ function BusinessHoursContent() {
                 const lastSlot = res[res.length - 1];
 
                 setTime((state) => {
-                    state.openTime = `${firstSlot?.startHour.toString().padStart(2, "0")}:${firstSlot?.startMin.toString().padStart(2, "0")}`;
-                    state.closeTime = `${lastSlot?.endHour.toString().padStart(2, "0")}:${lastSlot?.endMin.toString().padStart(2, "0")}`;
+                    const openTime = `${firstSlot?.startHour.toString().padStart(2, "0")}:${firstSlot?.startMin.toString().padStart(2, "0")}`;
+                    const closeTime = `${lastSlot?.endHour.toString().padStart(2, "0")}:${lastSlot?.endMin.toString().padStart(2, "0")}`;
 
-                    return state;
+                    const newState = {
+                        openTime,
+                        closeTime,
+                        date: state.date
+                    };
+
+                    return newState;
                 }); 
             });
     }, []);
 
     function isOpen() {
+
         return true;
     }
 
