@@ -10,6 +10,7 @@ function TimeSlots({
     doctorId,
     payload,
     setPayload,
+    shifts
 }) {
 
     const [ slots, setSlots ] = useState([]);
@@ -29,6 +30,10 @@ function TimeSlots({
         
         const onlyDate = date?.toISOString().split('T')[0];
         const sameDateAppointments = appointments.filter(a => a.shift.date.split('T')[0] === onlyDate);
+
+        if(!shifts.some(d => d.date.split('T')[0] === onlyDate)) {
+            return <div className="doctor-not-on-duty">Not on duty</div>
+        }
 
         return slots
             .map(s => (

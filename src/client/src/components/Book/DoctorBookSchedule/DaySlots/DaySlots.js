@@ -25,6 +25,8 @@ function Days({
         }
 
         for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            
+
             dates.push(new Date(d));   
         }
 

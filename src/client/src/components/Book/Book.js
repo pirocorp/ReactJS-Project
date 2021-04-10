@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { convertDate } from '../../common/helpers';
+
 import authService from '../../services/authService';
 import doctorService from '../../services/doctorsService';
 import patientsService from '../../services/patientService';
@@ -25,6 +27,8 @@ function Book({
     const [ patientId, setPatientId ] = useState(); 
     const [ redirectTo, setRedirectTo ] = useState();
 
+    const [ shifts, setShifts ] = useState([]);
+
     const [ payload, setPayload ] = useState({});
 
     useEffect(() => {
@@ -33,6 +37,10 @@ function Book({
             .then(doctor => setDoctor(doctor));
 
         const userId = authService.getUserId(user?.token);
+
+        doctorService.getShifts(doctorId)
+            .then(res => setShifts(res))
+            .catch(res => console.log(res));
 
         usersService
             .getProfileId(userId)
@@ -44,7 +52,8 @@ function Book({
 
                 setRedirectTo(false);
                 setPatientId(res.profileId);
-            });
+            })
+            .catch(res => console.log(res));
     }, [doctorId]);    
 
     if( redirectTo ) {
@@ -77,7 +86,12 @@ function Book({
                                 <div className="col-12">
                                     <DoctorBookCard { ... doctor }/>
 
-                                    <DoctorBookSchedule doctorId={ doctorId } payload={ payload } setPayload={ setPayload }/>
+                                    <DoctorBookSchedule 
+                                        shifts={ shifts } 
+                                        doctorId={ doctorId } 
+                                        payload={ payload } 
+                                        setPayload={ setPayload }
+                                    />
 
                                     <div className="submit-section proceed-btn text-right">
                                         <button onClick={ createAppointment } className="btn btn-primary submit-btn">Make Appointment</button>

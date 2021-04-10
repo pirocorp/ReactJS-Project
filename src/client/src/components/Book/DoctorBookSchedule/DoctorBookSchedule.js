@@ -1,5 +1,7 @@
 import { useState, useEffect} from 'react';
 
+
+
 import DaySlots from './DaySlots';
 import TimeSlots from './TimeSlots';
 
@@ -8,7 +10,8 @@ import './DoctorBookSchedule.css';
 function DoctorBookSchedule({
     doctorId,
     payload,
-    setPayload
+    setPayload,
+    shifts
 }) {
     const [startDate, setStartDate] = useState({ });
     const [dates, setDates] = useState([]);
@@ -18,7 +21,7 @@ function DoctorBookSchedule({
         startDate.setDate(startDate.getDate() + 1);
 
         setStartDate(startDate);
-    }, [])
+    }, []);
 
     return (
         <div className="card booking-schedule schedule-widget">
@@ -31,14 +34,20 @@ function DoctorBookSchedule({
                         startDate={ startDate } 
                         setStartDate={ setStartDate } 
                         dates={ dates }
-                        setDates={ setDates }
+                        setDates={ setDates }                        
                     />
 
                     </div>
                 </div>
             </div>
 
-            <TimeSlots dates={ dates } doctorId={ doctorId } payload={ payload } setPayload={ setPayload } />           
+            <TimeSlots 
+                dates={ dates } 
+                doctorId={ doctorId } 
+                payload={ payload } 
+                setPayload={ setPayload } 
+                shifts={ shifts }
+            />           
 
         </div>
 
