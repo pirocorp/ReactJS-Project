@@ -17,7 +17,9 @@ function DoctorCard({
     workPhone,
     id
 }) {
-    let fullName = firstName ?? '' + ' ' + (lastName ?? '');
+    let fullName = (firstName ?? '') + ' ' + (lastName ?? '');
+
+    console.log(fullName);
 
     let path = useHistory().location.pathname;
 
@@ -27,10 +29,10 @@ function DoctorCard({
             <div className="doctor-widget">
                 <div className="doc-info-left">
                     <div className="doctor-img">
-                        {imageUrl ? <img src={imageUrl} className="img-fluid" alt={fullName} /> : <img src="/assets/placeholders/Profile_placeholder.png" className="img-fluid" alt="Profile image placeholder" />}
+                        {imageUrl ? <img src={imageUrl} className="img-fluid" alt={ fullName } /> : <img src="/assets/placeholders/Profile_placeholder.png" className="img-fluid" alt="Profile image placeholder" />}
                     </div>
                     <div className="doc-info-cont">
-                        <h4 className="doc-name"><a to="doctor-profile.html">Dr. {fullName}</a></h4>
+                        <h4 className="doc-name"><span>{`Dr. ${fullName}`} </span></h4>
                         <p className="doc-speciality">{education}</p>
                         <h5 className="doc-department">
                             {specializations?.map(s => <SpecializationIcon key={s.id} {...s} />)}

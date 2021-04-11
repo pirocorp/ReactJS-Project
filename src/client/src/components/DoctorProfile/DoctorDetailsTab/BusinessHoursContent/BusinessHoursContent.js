@@ -42,7 +42,7 @@ function BusinessHoursContent() {
 
     function isOpen() {
 
-        return true;
+        return false;
     }
 
     return (
