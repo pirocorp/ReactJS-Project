@@ -19,8 +19,6 @@ function DoctorCard({
 }) {
     let fullName = (firstName ?? '') + ' ' + (lastName ?? '');
 
-    console.log(fullName);
-
     let path = useHistory().location.pathname;
 
     return(
