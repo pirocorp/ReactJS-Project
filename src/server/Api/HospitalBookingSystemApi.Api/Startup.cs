@@ -1,7 +1,6 @@
 ﻿namespace HospitalBookingSystemApi.Api
 {
     using HospitalBookingSystemApi.Api.Infrastructure.Extensions;
-    using HospitalBookingSystemApi.Common;
     using HospitalBookingSystemApi.Data;
     using HospitalBookingSystemApi.Data.Common;
     using HospitalBookingSystemApi.Data.Models;
@@ -27,7 +26,7 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(); // Add Corse Service
+            services.AddCors(); // Add Cors Service
             services.AddDbContext<HospitalBookingSystemDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
