@@ -54,7 +54,7 @@
         }
 
         /// <summary>
-        /// Add AutoMapper in IServiceCollection (DI Container).
+        /// Add AutoMapper in IServiceCollection (DI Container) as Singleton.
         /// </summary>
         /// <param name="services">IServiceCollection (DI Container).</param>
         /// <returns>IServiceCollection (DI Container) with added AutoMapper.</returns>
