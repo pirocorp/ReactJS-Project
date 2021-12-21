@@ -1,8 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { convertDate } from '../../common/helpers';
-
 import authService from '../../services/authService';
 import doctorService from '../../services/doctorsService';
 import patientsService from '../../services/patientService';
